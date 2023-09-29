@@ -13,6 +13,12 @@ classDiagram
 
   Review --> Rating
 
+  User --> Bookshelf
+  
+  Bookshelf --* BookshelfBook
+
+  BookshelfBook --> ReadingStatus
+
 
   class Book {
     BookId Id
@@ -67,7 +73,7 @@ classDiagram
     Rating Rating
     string Comment
     UserId Reviewer
-    Consider adding likes & comments??
+    Consider adding likes (or upvotes / downvotes) & comments??
   }
 
   class Rating {
@@ -77,13 +83,35 @@ classDiagram
   class User {
     UserId Id
     string FulName
+    string Bio
+    BookshelfId[] Bookshelves
   }
 
+  class Bookshelf {
+    BookshelfId Id
+    string Name
+    UserId Owner
+    bool IsPublic
+    BookshelfBook[] Books
+  }
+
+  class BookshelfBook {
+    BookId Book
+    ReadingStatus Status
+  }
+
+  class ReadingStatus {
+    WantToRead
+    CurrentlyReading
+    Read
+  }
 
   class Author {
     AuthorId Id
     string FullName
-    
+    string Bio
+    BookId[] Books
+    Is Author a User?
   }
 
   class Publisher {
