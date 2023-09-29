@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eudaimonia.Application.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eudaimonia.Api", "src\Eudaimonia.Api\Eudaimonia.Api.csproj", "{5D38AB71-6F4E-4DB7-A537-27EB29F7CA9E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{591B7124-A87F-4F14-8862-7C0A1F50F9BE}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose\docker-compose.dcproj", "{591B7124-A87F-4F14-8862-7C0A1F50F9BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
