@@ -2,6 +2,15 @@
 
 ```mermaid
 classDiagram
+  Year --|> ValueObject 
+  Percentage --|> ValueObject 
+  Image --|> ValueObject 
+  
+  BookId --|> ValueObject 
+  UserId --|> ValueObject
+  PublisherId --|> ValueObject 
+  BookshelfId --|> ValueObject 
+
   Book --> BookEdition
   Book --> Genre
   Book --> Author
@@ -9,22 +18,25 @@ classDiagram
   Book --* Review
   Book --> ReviewSummary
 
+  Author --|> User 
+
   BookEdition --> BookFormat
 
   Review --> Rating
 
-  User --> Bookshelf
+  Bookshelf --> User
   
   Bookshelf --* BookshelfBook
 
   BookshelfBook --> ReadingStatus
-
+  BookshelfBook --> Book
 
   class Book {
     BookId Id
     string Title
     string Description
-    AuthorId AuthorId -- Consider Many
+    Language Language
+    AuthorId AuthorId
     Genres[] Genres
     ReviewSummary ReviewSummary
     Review[] Reviews
@@ -32,18 +44,18 @@ classDiagram
   }
 
   class BookEdition {
-    Language Language
     int NumberOfPages
+    Image FrontCover
     BookFormat Format
     PublisherId PublisherId
-    Year PublishYear
+    Year PublicationYear
   }
   
   class BookFormat {
     Hardcover
     Paperback
     Audiobook
-    Kindle
+    Ebook
   }
 
   class Genre {
@@ -73,7 +85,7 @@ classDiagram
     Rating Rating
     string Comment
     UserId Reviewer
-    Consider adding likes (or upvotes / downvotes) & comments??
+    Consider adding likes or upvotes / downvotes & comments??
   }
 
   class Rating {
@@ -84,7 +96,8 @@ classDiagram
     UserId Id
     string FulName
     string Bio
-    BookshelfId[] Bookshelves
+    UserId[] Followers
+    UserId[] Following
   }
 
   class Bookshelf {
@@ -107,15 +120,12 @@ classDiagram
   }
 
   class Author {
-    AuthorId Id
-    string FullName
-    string Bio
     BookId[] Books
-    Is Author a User?
   }
 
   class Publisher {
     PublisherId Id
     string Name
+    BookId[] Books
   }
 ```
