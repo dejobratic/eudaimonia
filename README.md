@@ -2,10 +2,6 @@
 
 ```mermaid
 classDiagram
-    %% note "If a Book has AuthorId property - Should we call it Author or AuthorId in terms of DDD?"
-    %% note for Review "Consider adding likes or upvotes / downvotes & comments??"
-    %% note for Genre "If this is not a finite list, we can use enumeration class."
-
     Year --|> ValueObject 
     Percentage --|> ValueObject 
     Image --|> ValueObject 
