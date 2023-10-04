@@ -1,3 +1,3 @@
 # Eudaimonia
 
-![Mermaid Class Diagram](./MeermaidClassDiagram.svg)
+![Mermaid Class Diagram](./MermaidClassDiagram.svg)
