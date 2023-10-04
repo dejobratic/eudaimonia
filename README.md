@@ -2,130 +2,136 @@
 
 ```mermaid
 classDiagram
-  Year --|> ValueObject 
-  Percentage --|> ValueObject 
-  Image --|> ValueObject 
+    %% note "If a Book has AuthorId property - Should we call it Author or AuthorId in terms of DDD?"
+    %% note for Review "Consider adding likes or upvotes / downvotes & comments??"
+    %% note for Genre "If this is not a finite list, we can use enumeration class."
+
+    Year --|> ValueObject 
+    Percentage --|> ValueObject 
+    Image --|> ValueObject 
+    Text --|> ValueObject
+    Rating --|> ValueObject
+    
+    Book --* Edition
+    Book --> Genre
+    Book --> Author
+    Book --> Publisher
+    Book --* Reviews
+
+    Review --> Book
+
+    Author --|> User 
+
+    Edition --> BookFormat
+
+    Bookshelf --> User
+    
+    Bookshelf --* BookshelfBook
+
+    BookshelfBook --> ReadingStatus
+    BookshelfBook --> Book
+
+    namespace Books {
+        class Book {
+            BookId Id
+            Text Title
+            Text Description
+            Language Language
+            AuthorId AuthorId
+            Genre[] Genres
+            Reviews Reviews
+            Edition Edition
+        }
+
+        class Edition {
+            int NumberOfPages
+            Image FrontCover
+            BookFormat Format
+            PublisherId PublisherId
+            Year PublicationYear
+        }
   
-  BookId --|> ValueObject 
-  UserId --|> ValueObject
-  PublisherId --|> ValueObject 
-  BookshelfId --|> ValueObject 
-
-  Book --> BookEdition
-  Book --> Genre
-  Book --> Author
-  Book --> Publisher
-  Book --* Review
-  Book --> ReviewSummary
-
-  Author --|> User 
-
-  BookEdition --> BookFormat
-
-  Review --> Rating
-
-  Bookshelf --> User
+        class BookFormat {
+            <<enumeration>>
+            Hardcover
+            Paperback
+            Audiobook
+            Ebook
+        }
   
-  Bookshelf --* BookshelfBook
+        class Genre {
+            <<enumeration>>
+            Nonfiction
+            SelfHelp
+            Productivity
+            Business
+            Psychology
+            PersonalDevelopment
+            Leadership
+            Management
+            Philosophy
+            Etc
+        }
 
-  BookshelfBook --> ReadingStatus
-  BookshelfBook --> Book
+        class Reviews {
+            int TotalReviews
+            int TotalRatings
+            int NumberOf5StarRatings
+            int NumberOf4StarRatings
+            int NumberOf3StarRatings
+            int NumberOf2StarRatings
+            int NumberOf1StarRatings
+        }
 
-  class Book {
-    BookId Id
-    string Title
-    string Description
-    Language Language
-    AuthorId AuthorId
-    Genres[] Genres
-    ReviewSummary ReviewSummary
-    Review[] Reviews
-    BookEdition Edition
-  }
+        class Author {
+            BookId[] BookIds
+        }
 
-  class BookEdition {
-    int NumberOfPages
-    Image FrontCover
-    BookFormat Format
-    PublisherId PublisherId
-    Year PublicationYear
-  }
-  
-  class BookFormat {
-    Hardcover
-    Paperback
-    Audiobook
-    Ebook
-  }
+        class Publisher {
+            PublisherId Id
+            Text Name
+            BookId[] BookIds
+        }        
+    }
+ 
+    namespace BookReviews {
+        class Review {
+            ReviewId Id
+            BookId BookId
+            UserId ReviewerId
+            Rating Rating
+            Text Comment
+        }
+    }
 
-  class Genre {
-    Nonfiction
-    SelfHelp
-    Productivity
-    Business
-    Psychology
-    PersonalDevelopment
-    Leadership
-    Management
-    Philosophy
-    Etc
-  }
+    namespace Bookshelves {
+        class Bookshelf {
+            BookshelfId Id
+            Text Name
+            UserId OwnerId
+            UserId[] ContributorIds
+            bool IsPublic
+            BookshelfBook[] BookIds
+        }
 
-  class ReviewSummary {
-    int NumberOfReviews
-    int NumberOfRatings
-    int NumberOf5StarRatings
-    int NumberOf4StarRatings
-    int NumberOf3StarRatings
-    int NumberOf2StarRatings
-    int NumberOf1StarRatings
-  }
+        class BookshelfBook {
+            BookId Book
+            ReadingStatus Status
+        }
 
-  class Review {
-    Rating Rating
-    string Comment
-    UserId Reviewer
-    Consider adding likes or upvotes / downvotes & comments??
-  }
-
-  class Rating {
-    double Value -- has logic for rounding
-  }
+        class ReadingStatus {
+            <<enumeration>>
+            WantToRead
+            CurrentlyReading
+            Read
+        }
+    }
 
   class User {
     UserId Id
-    string FulName
-    string Bio
-    UserId[] Followers
-    UserId[] Following
-  }
-
-  class Bookshelf {
-    BookshelfId Id
-    string Name
-    UserId Owner
-    bool IsPublic
-    BookshelfBook[] Books
-  }
-
-  class BookshelfBook {
-    BookId Book
-    ReadingStatus Status
-  }
-
-  class ReadingStatus {
-    WantToRead
-    CurrentlyReading
-    Read
-  }
-
-  class Author {
-    BookId[] Books
-  }
-
-  class Publisher {
-    PublisherId Id
-    string Name
-    BookId[] Books
+    Text FulName
+    Text Bio
+    UserId[] FollowerIds
+    UserId[] FollowingIds
   }
 ```
