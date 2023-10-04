@@ -27,7 +27,6 @@ classDiagram
     BookshelfBook --> ReadingStatus
     BookshelfBook --> Book
 
-    namespace Books {
         class Book {
             BookId Id
             Text Title
@@ -88,9 +87,7 @@ classDiagram
             Text Name
             BookId[] BookIds
         }        
-    }
  
-    namespace BookReviews {
         class Review {
             ReviewId Id
             BookId BookId
@@ -98,9 +95,7 @@ classDiagram
             Rating Rating
             Text Comment
         }
-    }
 
-    namespace Bookshelves {
         class Bookshelf {
             BookshelfId Id
             Text Name
@@ -121,7 +116,6 @@ classDiagram
             CurrentlyReading
             Read
         }
-    }
 
   class User {
     UserId Id
