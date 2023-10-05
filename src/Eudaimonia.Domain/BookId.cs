@@ -1,13 +1,3 @@
-﻿using Eudaimonia.Domain.Kernel;
+﻿namespace Eudaimonia.Domain;
 
-namespace Eudaimonia.Domain;
-
-public sealed class BookId : ValueObject<BookId>
-{
-    public Guid Value { get; }
-
-    public BookId()
-    {
-        Value = Guid.NewGuid();
-    }
-}
+public sealed class BookId : GuidId { }
