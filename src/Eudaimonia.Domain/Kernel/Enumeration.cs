@@ -3,8 +3,8 @@
 namespace Eudaimonia.Domain.Kernel;
 
 /// <summary>
-/// Represents an abstract object-oriented enumeration. 
-/// Enumeration elements should be declared as static readonly fields or properties.
+/// Represents an abstract object-oriented enumeration. Enumeration elements should be declared as
+/// static readonly fields or properties.
 /// </summary>
 /// <typeparam name="TValue">Underlying enmumeration type.</typeparam>
 public abstract class Enumeration<TValue>
@@ -103,6 +103,6 @@ public abstract class Enumeration<TValue>
         where T : Enumeration<TValue>
     {
         if (matchingItem is null)
-            throw new ArgumentException($"'{value}' is not a valid name/value in {typeof(T)} enumeration.");
+            throw new ArgumentException($"'{value}' is not a valid name/value in {typeof(T).Name} enumeration.");
     }
 }

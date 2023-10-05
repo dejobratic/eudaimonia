@@ -1,18 +1,17 @@
-﻿using FluentAssertions;
-
-namespace Eudaimonia.Domain.Tests.Unit;
+﻿namespace Eudaimonia.Domain.Tests.Unit;
 
 public class GuidIdTests
 {
-    private class EntityId : GuidId { }
+    private class EntityId : GuidId
+    { }
 
     [Fact]
     public void Constructor_Default_CreatesInstance()
     {
         var id = new EntityId();
 
-        id.Should().NotBeNull();
-        id.Value.Should().NotBeEmpty();
+        Assert.NotNull(id);
+        Assert.NotEqual(Guid.Empty, id.Value);
     }
 
     [Fact]
@@ -21,6 +20,7 @@ public class GuidIdTests
         var id1 = new EntityId();
         var id2 = new EntityId();
 
-        id1.Should().NotBeEquivalentTo(id2);
+        Assert.NotEqual(id1, id2);
+        Assert.NotEqual(id1.Value, id2.Value);
     }
 }

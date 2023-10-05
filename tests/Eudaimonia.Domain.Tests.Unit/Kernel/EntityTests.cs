@@ -1,6 +1,4 @@
 ﻿using Eudaimonia.Domain.Kernel;
-using FluentAssertions;
-using FluentAssertions.Execution;
 
 namespace Eudaimonia.Domain.Tests.Unit.Kernel
 {
@@ -19,9 +17,10 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
         [Fact]
         public void Constructor_WithDefaultValueId_ThrowsException()
         {
-            var action = () => new Entity(0, "a");
+            static Entity action() => new(0, "a");
 
-            action.Should().Throw<ArgumentException>();
+            var exception = Assert.Throws<ArgumentException>(action);
+            Assert.Equal("A default value cannot be used as Entity Id. (Parameter 'id')", exception.Message);
         }
 
         [Fact]
@@ -65,7 +64,7 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
             var a = new Entity(1, "a");
             var b = new Entity(1, "b");
 
-            a.GetHashCode().Should().Be(b.GetHashCode());
+            Assert.Equal(a.GetHashCode(), b.GetHashCode());
         }
 
         [Fact]
@@ -74,35 +73,31 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
             var a = new Entity(1, "a");
             var b = new Entity(2, "a");
 
-            a.GetHashCode().Should().NotBe(b.GetHashCode());
+            Assert.NotEqual(a.GetHashCode(), b.GetHashCode());
         }
 
         private static void AssertAreEqual(Entity? a, Entity? b)
         {
-            using var scope = new AssertionScope();
+            Assert.Equal(a, b);
+            Assert.Equal(b, a);
 
-            a.Should().Be(b);
-            b.Should().Be(a);
+            Assert.True(a == b);
+            Assert.True(b == a);
 
-            (a == b).Should().BeTrue();
-            (b == a).Should().BeTrue();
-
-            (a != b).Should().BeFalse();
-            (b != a).Should().BeFalse();
+            Assert.False(a != b);
+            Assert.False(b != a);
         }
 
         private static void AssertAreNotEqual(Entity? a, Entity? b)
         {
-            using var scope = new AssertionScope();
+            Assert.NotEqual(a, b);
+            Assert.NotEqual(b, a);
 
-            a.Should().NotBe(b);
-            b.Should().NotBe(a);
+            Assert.False(a == b);
+            Assert.False(b == a);
 
-            (a == b).Should().BeFalse();
-            (b == a).Should().BeFalse();
-
-            (a != b).Should().BeTrue();
-            (b != a).Should().BeTrue();
+            Assert.True(a != b);
+            Assert.True(b != a);
         }
     }
 }

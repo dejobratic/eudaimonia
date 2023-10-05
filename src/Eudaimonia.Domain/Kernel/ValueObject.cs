@@ -3,8 +3,8 @@
 namespace Eudaimonia.Domain.Kernel;
 
 /// <summary>
-/// Represents an abstract value object in domain-driven design.
-/// Value objects are distinguished by the data that they hold.
+/// Represents an abstract value object in domain-driven design. Value objects are distinguished by
+/// the data that they hold.
 /// </summary>
 /// <typeparam name="T">The underlying value object's type.</typeparam>
 public abstract class ValueObject<T> : IEquatable<T>
@@ -12,7 +12,7 @@ public abstract class ValueObject<T> : IEquatable<T>
 {
     private static readonly object _lock = new();
 
-    private static readonly IDictionary<Type, IEqualityComparer> _comparers = 
+    private static readonly IDictionary<Type, IEqualityComparer> _comparers =
         new Dictionary<Type, IEqualityComparer> { [typeof(T)] = CreateEqualityComparer(typeof(T)) };
 
     public override bool Equals(object? obj)

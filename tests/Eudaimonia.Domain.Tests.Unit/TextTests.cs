@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Domain.Validation;
-using FluentAssertions;
 
 namespace Eudaimonia.Domain.Tests.Unit;
 
@@ -12,8 +11,8 @@ public class TextTests
 
         var text = new Text(value);
 
-        text.Should().NotBeNull();
-        text.Value.Should().Be(value);
+        Assert.NotNull(text);
+        Assert.Equal(value, text.Value);
     }
 
     [Theory]
@@ -21,14 +20,11 @@ public class TextTests
     [InlineData("")]
     public void Constructor_WhenProvidedInvalidValue_ThrowsException(string value)
     {
-        var action = () => new Text(value);
+        Text action() => new(value);
 
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Validation failed for Text with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationError("Value", "Value cannot be null or empty."),
-            });
+        var exception = Assert.Throws<ValidationException>(action);
+        Assert.Equal("Validation failed for Text with 1 error(s).", exception.Message);
+        Assert.Equivalent(new[] { new ValidationError("Value", "Value cannot be null or empty.") }, exception.Errors);
     }
 
     [Fact]
@@ -37,6 +33,6 @@ public class TextTests
         var value = "The Hobbit";
         var text = new Text(value);
 
-        text.ToString().Should().Be(value);
+        Assert.Equal(value, text.ToString());
     }
 }

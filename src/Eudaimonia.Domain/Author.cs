@@ -1,13 +1,21 @@
 ﻿namespace Eudaimonia.Domain;
 
-public sealed class Author : User
+public sealed class Author : User<Author>
 {
-    private readonly List<BookId> _bookIds;
-    public IReadOnlyList<BookId> BookIds => _bookIds.AsReadOnly();
+    private readonly HashSet<BookId> _authoredBookIds;
+    public IReadOnlySet<BookId> AuthoredBookIds => _authoredBookIds;
 
     public Author(Text fullName, Text? bio, IEnumerable<BookId> bookIds)
         : base(fullName, bio)
     {
-        _bookIds = bookIds.ToList();
+        _authoredBookIds = bookIds?.ToHashSet() ?? new HashSet<BookId>();
+
+        ThrowIfInvalid();
+    }
+
+    protected override void ThrowIfInvalid()
+    {
+        base.ThrowIfInvalid();
+        if (!AuthoredBookIds.Any()) ThrowValidationException(nameof(AuthoredBookIds), $"At least one {nameof(BookId)} must be specified.");
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Domain.Kernel;
-using FluentAssertions;
 
 namespace Eudaimonia.Domain.Tests.Unit.Kernel;
 
@@ -58,51 +57,52 @@ public class EnumerationTest
     [Fact]
     public void Constructor_WhenNameIsNotNull_DoesNotThrowException()
     {
-        Size.Small.Should().NotBeNull();
-        MathConstant.Pi.Should().NotBeNull();
+        Assert.NotNull(Size.Small);
+        Assert.NotNull(MathConstant.Pi);
     }
 
     [Fact]
     public void Constructor_WhenNameIsNotNull_CreatesInstanceWithProvidedName()
     {
-        Size.Small.Name.Should().Be("Small");
-        MathConstant.Pi.Name.Should().Be("Pi");
+        Assert.Equal("Small", Size.Small.Name);
+        Assert.Equal("Pi", MathConstant.Pi.Name);
     }
 
     [Fact]
     public void Constructor_WhenNameIsNull_ThrowsException()
     {
-        var action = () => StringConstant.Invalid;
+        static StringConstant action() => StringConstant.Invalid;
 
-        action.Should().Throw<ArgumentNullException>();
+        var exception = Assert.Throws<ArgumentNullException>((Func<StringConstant>)action);
+        Assert.Equal("Value cannot be null. (Parameter 'name')", exception.Message);
     }
 
     [Fact]
     public void Constructor_WhenValueIsNotNull_CreatesInstanceWithProvidedValue()
     {
-        Size.Small.Value.Should().Be(1);
-        MathConstant.Pi.Value.Should().Be(Math.PI);
+        Assert.Equal(1, Size.Small.Value);
+        Assert.Equal(Math.PI, MathConstant.Pi.Value);
     }
 
     [Fact]
     public void Constructor_WhenValueIsNull_DoesNotThrowException()
     {
-        StringConstant.NullObject.Should().NotBeNull();
-        StringConstant.NullObject.Value.Should().BeNull();
+        Assert.NotNull(StringConstant.NullObject);
+        Assert.Null(StringConstant.NullObject.Value);
     }
 
     [Fact]
     public void Equality_WhenComparingSameEnums_AreEqual()
     {
-        Size.Small.Should().BeEquivalentTo(Size.Small);
-        MathConstant.Pi.Should().BeEquivalentTo(MathConstant.Pi);
+        Assert.Equal(Size.Small, Size.Small);
+        Assert.Equal(MathConstant.Pi, MathConstant.Pi);
     }
 
     [Fact]
     public void ToString_Always_ReturnsName()
     {
-        Size.Small.ToString().Should().Be("Small");
-        MathConstant.Pi.ToString().Should().Be("Pi");
+        Assert.Equal("Small", Size.Small.ToString());
+        Assert.Equal("Pi", MathConstant.Pi.ToString());
     }
 
     [Fact]
@@ -110,7 +110,7 @@ public class EnumerationTest
     {
         int small = Size.Small;
 
-        Size.Small.Value.Should().Be(small);
+        Assert.Equal(small, Size.Small.Value);
     }
 
     [Fact]
@@ -118,12 +118,7 @@ public class EnumerationTest
     {
         var items = Size.GetAll<Size>();
 
-        items.Should().BeEquivalentTo(new[]
-        {
-            Size.Small,
-            Size.Medium,
-            Size.Large,
-        });
+        Assert.Equivalent(new[] { Size.Small, Size.Medium, Size.Large }, items);
     }
 
     [Fact]
@@ -131,11 +126,9 @@ public class EnumerationTest
     {
         var items = MathConstant.GetAll<MathConstant>();
 
-        items.Should().BeEquivalentTo(new[]
-        {
-            MathConstant.Pi,
-            MathConstant.E,
-        });
+        Assert.Equal(2, items.Count());
+        Assert.Contains(MathConstant.Pi, items);
+        Assert.Contains(MathConstant.E, items);
     }
 
     [Fact]
@@ -143,7 +136,7 @@ public class EnumerationTest
     {
         Size instance = Size.FromValue<Size>(1);
 
-        Size.Small.Should().Be(instance);
+        Assert.Equal(Size.Small, instance);
     }
 
     [Fact]
@@ -151,31 +144,34 @@ public class EnumerationTest
     {
         MathConstant instance = MathConstant.FromValue<MathConstant>(Math.PI);
 
-        MathConstant.Pi.Should().Be(instance);
+        Assert.Equal(MathConstant.Pi, instance);
     }
 
     [Fact]
     public void FromValue_WhenNonexistentMemberValueIsProvided_ThrowsException()
     {
-        var action = () => Size.FromValue<Size>(0);
+        static Size action() => Size.FromValue<Size>(0);
 
-        action.Should().Throw<ArgumentException>();
+        var exception = Assert.Throws<ArgumentException>(action);
+        Assert.Equal("'0' is not a valid name/value in Size enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromValue_WhenNonexistentPropertyValueIsProvided_ThrowsException()
     {
-        var action = () => MathConstant.FromValue<MathConstant>(2);
+        static MathConstant action() => MathConstant.FromValue<MathConstant>(2);
 
-        action.Should().Throw<ArgumentException>();
+        var exception = Assert.Throws<ArgumentException>(action);
+        Assert.Equal("'2' is not a valid name/value in MathConstant enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromName_WhenNullNameIsProvided_ThrowsException()
     {
-        var action = () => Size.FromName<Size>(null!);
+        static Size action() => Size.FromName<Size>(null!);
 
-        action.Should().Throw<ArgumentNullException>();
+        var exception = Assert.Throws<ArgumentNullException>(action);
+        Assert.Equal("Value cannot be null. (Parameter 'name')", exception.Message);
     }
 
     [Fact]
@@ -183,7 +179,7 @@ public class EnumerationTest
     {
         Size instance = Size.FromName<Size>("Small");
 
-        instance.Should().BeEquivalentTo(Size.Small);
+        Assert.Equal(Size.Small, instance);
     }
 
     [Fact]
@@ -191,22 +187,24 @@ public class EnumerationTest
     {
         MathConstant instance = MathConstant.FromName<MathConstant>("Pi");
 
-        instance.Should().BeEquivalentTo(MathConstant.Pi);
+        Assert.Equal(MathConstant.Pi, instance);
     }
 
     [Fact]
     public void FromName_WhenNonexistentMemberNameIsProvided_ThrowsException()
     {
-        var action = () => Size.FromName<Size>("ExtraSmall");
+        static Size action() => Size.FromName<Size>("ExtraSmall");
 
-        action.Should().Throw<ArgumentException>();
+        var exception = Assert.Throws<ArgumentException>(action);
+        Assert.Equal("'ExtraSmall' is not a valid name/value in Size enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromName_WhenNonexistentPropertyNameIsProvided_ThrowsException()
     {
-        var action = () => MathConstant.FromName<MathConstant>("i");
+        static MathConstant action() => MathConstant.FromName<MathConstant>("i");
 
-        action.Should().Throw<ArgumentException>();
+        var exception = Assert.Throws<ArgumentException>(action);
+        Assert.Equal("'i' is not a valid name/value in MathConstant enumeration.", exception.Message);
     }
 }

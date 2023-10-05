@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Domain.Kernel;
-using FluentAssertions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Eudaimonia.Domain.Tests.Unit.Kernel;
@@ -106,7 +105,7 @@ public class ValueObjectTest
         var a = new ValueObject(1, true, "a");
         var b = new ValueObject(1, true, "a");
 
-        a.GetHashCode().Should().Be(b.GetHashCode());
+        Assert.Equal(a.GetHashCode(), b.GetHashCode());
     }
 
     [Fact]
@@ -115,7 +114,7 @@ public class ValueObjectTest
         var a = new ValueObject(1, true, "a");
         var b = new ValueObject(2, true, "a");
 
-        a.GetHashCode().Should().NotBe(b.GetHashCode());
+        Assert.NotEqual(a.GetHashCode(), b.GetHashCode());
     }
 
     [Fact]
@@ -159,7 +158,7 @@ public class ValueObjectTest
     {
         var a = new ValueObject(1, true, "a");
 
-        a.Should().NotBe("");
+        Assert.NotEqual((object)"", a);
     }
 
     [Fact]
@@ -183,18 +182,26 @@ public class ValueObjectTest
     private static void AssertAreEqual<T>(ValueObject<T>? a, ValueObject<T>? b)
         where T : ValueObject<T>
     {
-        a.Should().Be(b);
-        b.Should().Be(a);
-        (a == b).Should().BeTrue();
-        (a != b).Should().BeFalse();
+        Assert.Equal(a, b);
+        Assert.Equal(b, a);
+
+        Assert.True(a == b);
+        Assert.True(b == a);
+
+        Assert.False(a != b);
+        Assert.False(b != a);
     }
 
     private static void AssertAreNotEqual<T>(ValueObject<T>? a, ValueObject<T>? b)
         where T : ValueObject<T>
     {
-        a.Should().NotBe(b);
-        b.Should().NotBe(a);
-        (a == b).Should().BeFalse();
-        (a != b).Should().BeTrue();
+        Assert.NotEqual(a, b);
+        Assert.NotEqual(b, a);
+
+        Assert.False(a == b);
+        Assert.False(b == a);
+
+        Assert.True(a != b);
+        Assert.True(b != a);
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Eudaimonia.Domain.Kernel;
 
 /// <summary>
-/// Represents an abstract entity object in domain-driven design.
-/// Entities are distinguished by their id property.
+/// Represents an abstract entity object in domain-driven design. Entities are distinguished by
+/// their id property.
 /// </summary>
 /// <typeparam name="TId">Entity ID's type.</typeparam>
 public abstract class Entity<TId> : IEquatable<Entity<TId>>

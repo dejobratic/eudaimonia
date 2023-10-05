@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Domain.Validation;
-using FluentAssertions;
 
 namespace Eudaimonia.Domain.Tests.Unit;
 
@@ -7,68 +6,68 @@ public class BookTests
 {
     private static readonly Text HobbitTitle = new("The Hobbit");
     private static readonly Text HobbitDescription = new("The Hobbit");
-    private static readonly Genre[] HobbitGenres = new[] {Genre.Fantasy }; 
+    private static readonly Genre[] HobbitGenres = new[] { Genre.Fantasy };
 
     [Fact]
-    public void Constructor_WhenProvidingAllRequiredParameters_CreatesInstance()
+    public void Constructor_WhenAllRequiredParametersAreProvided_CreatesInstance()
     {
         var book = new Book(HobbitTitle, HobbitDescription, HobbitGenres);
 
-        book.Id.Should().NotBeNull();
-        book.Title.Should().Be(HobbitTitle);
-        book.Description.Should().Be(HobbitDescription);
-        book.Genres.Should().BeEquivalentTo(HobbitGenres);
+        Assert.NotNull(book.Id);
+        Assert.Equal(HobbitTitle, book.Title);
+        Assert.Equal(HobbitDescription, book.Description);
+        Assert.Equivalent(book.Genres, HobbitGenres);
     }
 
     [Fact]
     public void Constructor_WhenTitleIsNull_ThrowsException()
     {
-        var action = () => new Book(null!, HobbitDescription, HobbitGenres);
+        static Book action() => new(null!, HobbitDescription, HobbitGenres);
 
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Validation failed for Book with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationError("Title", "Title must be specified."),
-            });
+        var exception = Assert.Throws<ValidationException>(action);
+        Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
+        Assert.Equivalent(new[] { new ValidationError("Title", "Title must be specified.") }, exception.Errors);
     }
 
     [Fact]
     public void Constructor_WhenDescriptionIsNull_ThrowsException()
     {
-        var action = () => new Book(HobbitTitle, null!, HobbitGenres);
+        static Book action() => new(HobbitTitle, null!, HobbitGenres);
 
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Validation failed for Book with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationError("Description", "Description must be specified."),
-            });
+        var exception = Assert.Throws<ValidationException>(action);
+        Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
+        Assert.Equivalent(new[] { new ValidationError("Description", "Description must be specified.") }, exception.Errors);
     }
 
     [Fact]
     public void Constructor_WhenGenreIsNull_ThrowsException()
     {
-        var action = () => new Book(HobbitTitle, HobbitDescription, null!);
+        static Book action() => new(HobbitTitle, HobbitDescription, null!);
 
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Validation failed for Book with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationError("Genres", "At least one Genre must be specified."),
-            });
+        var exception = Assert.Throws<ValidationException>(action);
+        Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
+        Assert.Equivalent(new[] { new ValidationError("Genres", "At least one Genre must be specified.") }, exception.Errors);
     }
 
     [Fact]
     public void Constructor_WhenAtLeastOneGenreIsNotProvided_ThrowsException()
     {
-        var action = () => new Book(HobbitTitle, HobbitDescription, Array.Empty<Genre>());
+        static Book action() => new(HobbitTitle, HobbitDescription, Array.Empty<Genre>());
 
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Validation failed for Book with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationError("Genres", "At least one Genre must be specified."),
-            });
+        var exception = Assert.Throws<ValidationException>(action);
+        Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
+        Assert.Equivalent(new[] { new ValidationError("Genres", "At least one Genre must be specified.") }, exception.Errors);
+    }
+
+    [Fact]
+    public void Constructor_WhenWhenMultipleSameGenresAreProvided_CreatesInstanceWithUniqueGenres()
+    {
+        var book = new Book(HobbitTitle, HobbitDescription, new[] { Genre.Fantasy, Genre.Fantasy });
+
+        Assert.NotNull(book.Id);
+        Assert.Equal(HobbitTitle, book.Title);
+        Assert.Equal(HobbitDescription, book.Description);
+        Assert.Single(HobbitGenres);
+        Assert.Equivalent(book.Genres, HobbitGenres);
     }
 }
