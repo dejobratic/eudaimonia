@@ -1,13 +1,34 @@
-﻿using Eudaimonia.Domain.Kernel;
+﻿namespace Eudaimonia.Domain;
 
-namespace Eudaimonia.Domain;
-
-public sealed class Genre : Enumeration<string>
+public enum Genre
 {
-    public static readonly Genre Fantasy = new("Fantasy", "Fantasy");
-    public static readonly Genre ScienceFiction = new("Science Fiction", "Science Fiction");
-
-    private Genre(string name, string value) : base(name, value)
-    {
-    }
+    ActionandAdventure,
+    Classic,
+    ContemporaryFiction,
+    Dystopian,
+    Fantasy,
+    GraphicNovel,
+    Historical,
+    Horror,
+    Mystery,
+    Romance,
+    Satire,
+    ScienceFiction,
+    ShortStory,
+    Thriller,
+    Utopian,
+    Western,
+    ArtAndPhotography,
+    Biography,
+    Cookbooks,
+    HowtoandDIY,
+    Humor,
+    Parenting,
+    Autobiography,
+    Philosophy,
+    Religion,
+    Spirituality,
+    SelfHelp,
+    Travel,
+    TrueCrime,
 }

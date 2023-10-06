@@ -2,8 +2,8 @@
 
 public enum BookFormat
 {
+    Hardcover = 1,
     Paperback,
-    Hardcover,
     Ebook,
     Audiobook
 }
