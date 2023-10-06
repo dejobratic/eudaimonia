@@ -3,6 +3,7 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
+// Consider adding upvotes / downvotes for comments.
 public class Comment : ValueObject<Comment>
 {
     public UserId CommenterId { get; }

@@ -1,14 +1,33 @@
 ```mermaid
 classDiagram
-    %% note "If a Book has AuthorId property - Should we call it Author or AuthorId in terms of DDD?"
-    %% note for Review "Consider adding likes or upvotes / downvotes & comments??"
-    %% note for Genre "If this is not a finite list, we can use enumeration class."
-
     Year --|> ValueObject 
-    Percentage --|> ValueObject 
     Image --|> ValueObject 
     Text --|> ValueObject
     Rating --|> ValueObject
+
+    class Year {
+        int Value
+    }
+
+    class Image {
+        Text Name
+        string Url
+        byte[] Data
+        HasData => Data.Any()
+    }
+
+    class Rating {
+        <<enumeration>>
+        OneStar,
+        TwoStar,
+        ThreeStar,
+        FourStar
+        FiveStar
+    }
+
+    class Text {
+        string Value
+    }
     
     Book --* Edition
     Book --> Genre
@@ -19,6 +38,7 @@ classDiagram
     Review --> Book
 
     Author --|> User 
+    Member --|> User
 
     Edition --> BookFormat
 
@@ -37,14 +57,14 @@ classDiagram
             Text Title
             Text Description
             Language Language
-            AuthorId AuthorId
+            UserId AuthorId
             Genre[] Genres
             Reviews Reviews
             Edition Edition
         }
 
         class Edition {
-            int NumberOfPages
+            uint PageCount
             Image FrontCover
             BookFormat Format
             PublisherId PublisherId
@@ -61,36 +81,32 @@ classDiagram
   
         class Genre {
             <<enumeration>>
-            Nonfiction
-            SelfHelp
-            Productivity
-            Business
-            Psychology
-            PersonalDevelopment
-            Leadership
-            Management
-            Philosophy
-            Etc
+            ActionandAdventure,
+            Classic,
+            ContemporaryFiction,
+            Dystopian,
+            Fantasy,
+            etc.
         }
 
         class Reviews {
-            int TotalReviews
-            int TotalRatings
-            int NumberOf5StarRatings
-            int NumberOf4StarRatings
-            int NumberOf3StarRatings
-            int NumberOf2StarRatings
-            int NumberOf1StarRatings
+            uint ReviewCount
+            uint RatingCount
+            uint FiveStarRatingCount
+            uint FourStarRatingCount
+            uint ThreeStarRatingCount
+            uint TwoStarRatingCount
+            uint OneStarRatingCount
         }
 
         class Author {
-            BookId[] BookIds
+            BookId[] AuthoredBookIds
         }
 
         class Publisher {
             PublisherId Id
             Text Name
-            BookId[] BookIds
+            BookId[] PublishedBookIds
         }        
     }
  
@@ -135,6 +151,63 @@ classDiagram
             DateTime RentedAt
             Comments[] Comments
         }
+    }
+
+    class Member {
+    }
+
+    class User {
+        UserId Id
+        Text FulName
+        Text Bio
+        UserId[] FollowerIds
+        UserId[] FollowingIds
+    }
+
+    class Comment {
+        Text Text
+        DateTime CreatedAt
+        UserId CommenterId
+        Comments[] Comments
+    }   Rating Rating
+            Comment Comment
+        }
+    }
+
+    namespace Bookshelves {
+        class Bookshelf {
+            BookshelfId Id
+            Text Name
+            Text Description
+            UserId OwnerId
+            bool IsPublic
+            BookshelfBook[] BookIds
+        }
+
+        class BookshelfBook {
+            BookshelfBookId Id
+            BookId BookId
+            ReadingStatus Status
+        }
+
+        class ReadingStatus {
+            <<enumeration>>
+            WantToRead
+            CurrentlyReading
+            Read
+        }
+    }
+
+    namespace BookRentals {
+        class Rental {
+            RentalId Id
+            BookshelfBookId BookshelfBookId
+            DateTime RentedAt
+            Comments[] Comments
+        }
+    }
+
+    class Member {
     }
 
     class User {
