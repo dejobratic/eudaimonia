@@ -66,7 +66,7 @@ public class AuthorTests
         Assert.NotNull(author.Id);
         Assert.Equal(AuthorFullName, author.FullName);
         Assert.Equal(AuthorBio, author.Bio);
-        Assert.Equal(2, author.AuthoredBookIds.Count);
+        Assert.Equal(2, author.AuthoredBookIds.Count());
         Assert.Equivalent(AuthoredBookIds, author.AuthoredBookIds);
     }
 }

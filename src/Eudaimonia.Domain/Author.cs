@@ -3,7 +3,7 @@
 public sealed class Author : User<Author>
 {
     private readonly HashSet<BookId> _authoredBookIds;
-    public IReadOnlySet<BookId> AuthoredBookIds => _authoredBookIds;
+    public IEnumerable<BookId> AuthoredBookIds => _authoredBookIds;
 
     public Author(Text fullName, Text? bio, IEnumerable<BookId> bookIds)
         : base(fullName, bio)

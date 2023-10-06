@@ -3,6 +3,9 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
+public sealed class UserId : GuidId
+{ }
+
 public abstract class User<T> : Entity<UserId>
     where T : User<T>
 {

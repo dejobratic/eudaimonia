@@ -3,13 +3,16 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
+public sealed class PublisherId : GuidId
+{ }
+
 public sealed class Publisher : Entity<PublisherId>
 {
     public Text FullName { get; }
     public Text? Bio { get; }
 
     private readonly HashSet<BookId> _publishedBookIds;
-    public IReadOnlySet<BookId> PublishedBookIds => _publishedBookIds;
+    public IEnumerable<BookId> PublishedBookIds => _publishedBookIds;
 
     public Publisher(Text fullName, Text? bio, IEnumerable<BookId> publishedBookIds)
         : base(new PublisherId())

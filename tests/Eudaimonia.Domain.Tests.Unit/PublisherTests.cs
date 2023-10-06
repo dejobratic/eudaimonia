@@ -66,7 +66,7 @@ public class PublisherTests
         Assert.NotNull(publisher.Id);
         Assert.Equal(PublisherFullName, publisher.FullName);
         Assert.Equal(PublisherBio, publisher.Bio);
-        Assert.Equal(2, publisher.PublishedBookIds.Count);
+        Assert.Equal(2, publisher.PublishedBookIds.Count());
         Assert.Equivalent(PublishedBookIds, publisher.PublishedBookIds);
     }
 }
