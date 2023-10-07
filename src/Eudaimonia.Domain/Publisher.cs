@@ -4,7 +4,13 @@ using Eudaimonia.Domain.Validation;
 namespace Eudaimonia.Domain;
 
 public sealed class PublisherId : GuidId
-{ }
+{
+    public PublisherId() { }
+
+    public PublisherId(string value) : base(value) { }
+
+    public PublisherId(Guid value) : base(value) { }
+}
 
 public sealed class Publisher : Entity<PublisherId>
 {

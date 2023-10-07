@@ -3,8 +3,7 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public class ReviewId : GuidId
-{ }
+public class ReviewId : GuidId { }
 
 public class Review : Entity<ReviewId>
 {

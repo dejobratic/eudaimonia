@@ -3,8 +3,7 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public sealed class BookId : GuidId
-{ }
+public sealed class BookId : GuidId { }
 
 public sealed class Book : Entity<BookId>
 {
@@ -32,8 +31,8 @@ public sealed class Book : Entity<BookId>
         ReviewSummary = new ReviewSummary();
         _genres = genres?.ToHashSet() ?? new HashSet<Genre>();
 
-        // How to validate the whole entity, with value objects and raise a single exception? Same
-        // as in FluentValidation, but without 3rd party libraries.
+        // TODO: How to validate the whole entity, with value objects and raise a single exception?
+        // Same as in FluentValidation, but without 3rd party libraries.
         ThrowIfInvalid();
     }
 

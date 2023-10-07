@@ -4,7 +4,13 @@ using Eudaimonia.Domain.Validation;
 namespace Eudaimonia.Domain;
 
 public sealed class UserId : GuidId
-{ }
+{
+    public UserId() { }
+
+    public UserId(string value) : base(value) { }
+
+    public UserId(Guid value) : base(value) { }
+}
 
 public abstract class User<T> : Entity<UserId>
     where T : User<T>
