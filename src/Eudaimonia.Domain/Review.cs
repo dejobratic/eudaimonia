@@ -3,7 +3,14 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public class ReviewId : GuidId { }
+public class ReviewId : GuidId
+{
+    public ReviewId() { }
+
+    public ReviewId(string value) : base(value) { }
+
+    public ReviewId(Guid value) : base(value) { }
+}
 
 public class Review : Entity<ReviewId>
 {

@@ -5,7 +5,7 @@ namespace Eudaimonia.Domain;
 
 public abstract class GuidId : ValueObject<GuidId>
 {
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
 
     protected GuidId() : this(Guid.NewGuid())
     {
@@ -27,6 +27,6 @@ public abstract class GuidId : ValueObject<GuidId>
     public void ThrowIfInvalid()
     {
         if (Value == Guid.Empty)
-            throw new ValidationException(nameof(GuidId), new ValidationError(nameof(Value), "Value must be a valid non-empty Guid or Guid string."));
+            throw new ValidationException(GetType().Name, new ValidationError(nameof(Value), "Value must be a valid non-empty Guid or Guid string."));
     }
 }

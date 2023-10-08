@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}eudaimoniaapi
+    depends_on:
+      - migrationrunner
+    build:
+      context: .
+      dockerfile: src/Eudaimonia.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseOptions__Provider=Postgres
+      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;Username=postgres;Password=postgres
+
+  migrationrunner:
+    image: ${DOCKER_REGISTRY-}eudaimoniamigrationrunner
+    restart: "no"
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: src/Eudaimonia.MigrationRunner/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseOptions__Provider=Postgres
+      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;Username=postgres;Password=postgres
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=Eudaimonia
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
+    driver: local

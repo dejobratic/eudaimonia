@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Eudaimonia.MigrationRunner": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

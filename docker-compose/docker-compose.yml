@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  eudaimonia.api:
-    image: ${DOCKER_REGISTRY-}eudaimoniaapi
-    build:
-      context: .
-      dockerfile: src/Eudaimonia.Api/Dockerfile

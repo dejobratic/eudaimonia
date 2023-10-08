@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Eudaimonia.Domain\Eudaimonia.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

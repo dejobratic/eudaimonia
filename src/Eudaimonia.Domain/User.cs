@@ -12,8 +12,7 @@ public sealed class UserId : GuidId
     public UserId(Guid value) : base(value) { }
 }
 
-public abstract class User<T> : Entity<UserId>
-    where T : User<T>
+public abstract class User : Entity<UserId>
 {
     public Text FullName { get; }
     public Text? Bio { get; }
@@ -31,5 +30,5 @@ public abstract class User<T> : Entity<UserId>
     }
 
     protected void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(typeof(T).Name, new ValidationError(propertyName, errorMessage));
+        => throw new ValidationException(GetType().Name, new ValidationError(propertyName, errorMessage));
 }

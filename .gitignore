@@ -363,4 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # ASP.NET Core default setup configuration
-appsettings.Development.json
+*/appsettings.Development.json
+/src/Eudaimonia.Api/appsettings.Development.json

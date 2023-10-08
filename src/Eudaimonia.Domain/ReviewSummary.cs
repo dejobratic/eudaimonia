@@ -13,7 +13,7 @@ public class ReviewSummary : ValueObject<ReviewSummary>
     public uint TwoStarRatingCount { get; }
     public uint OneStarRatingCount { get; }
 
-    public double AverageRating { get; private set; }
+    public double AverageRating { get; }
 
     public ReviewSummary()
         : this(0, 0, 0, 0, 0, 0, 0)

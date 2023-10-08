@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>591b7124-a87f-4f14-8862-7c0a1f50f9be</ProjectGuid>
+    <ProjectGuid>bbd41236-8bf3-4261-8636-7faaed537de8</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>eudaimonia.api</DockerServiceName>

@@ -3,7 +3,14 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public sealed class BookId : GuidId { }
+public sealed class BookId : GuidId 
+{
+    public BookId() { }
+
+    public BookId(string value) : base(value) { }
+
+    public BookId(Guid value) : base(value) { }
+}
 
 public sealed class Book : Entity<BookId>
 {

@@ -1,9 +1,10 @@
 ﻿namespace Eudaimonia.Domain;
 
-public sealed class Author : User<Author>
+public sealed class Author : User
 {
     private readonly HashSet<BookId> _authoredBookIds;
     public IEnumerable<BookId> AuthoredBookIds => _authoredBookIds;
+
 
     public Author(Text fullName, Text? bio, IEnumerable<BookId> bookIds)
         : base(fullName, bio)
