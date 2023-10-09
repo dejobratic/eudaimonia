@@ -11,7 +11,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseOptions__Provider=Postgres
-      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;Username=postgres;Password=postgres
+      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;User ID=postgres;Password=postgres;
 
   migrationrunner:
     image: ${DOCKER_REGISTRY-}eudaimoniamigrationrunner
@@ -24,10 +24,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseOptions__Provider=Postgres
-      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;Username=postgres;Password=postgres
+      - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;User ID=postgres;Password=postgres;
 
   postgres:
-    image: postgres:14-alpine
+    image: postgres:14.1-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres

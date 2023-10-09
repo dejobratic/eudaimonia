@@ -28,8 +28,8 @@ public static class BookExtensions
         };
 
     private static ImageDto ToDto(this Image image)
-        => new() 
-        { 
+        => new()
+        {
             Name = image.Name.Value,
             Url = image.Url
         };

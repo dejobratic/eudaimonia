@@ -20,12 +20,12 @@ public sealed class Publisher : Entity<PublisherId>
     private readonly HashSet<BookId> _publishedBookIds;
     public IEnumerable<BookId> PublishedBookIds => _publishedBookIds;
 
-    public Publisher(Text fullName, Text? bio, IEnumerable<BookId> publishedBookIds)
+    public Publisher(Text fullName, Text? bio)
         : base(new PublisherId())
     {
         FullName = fullName;
         Bio = bio;
-        _publishedBookIds = publishedBookIds?.ToHashSet() ?? new HashSet<BookId>();
+        _publishedBookIds = new HashSet<BookId>();
 
         ThrowIfInvalid();
     }
@@ -33,7 +33,6 @@ public sealed class Publisher : Entity<PublisherId>
     private void ThrowIfInvalid()
     {
         if (FullName is null) ThrowValidationException(nameof(FullName), $"{nameof(FullName)} must be specified.");
-        if (!PublishedBookIds.Any()) ThrowValidationException(nameof(PublishedBookIds), $"At least one {nameof(BookId)} must be specified.");
     }
 
     private static void ThrowValidationException(string propertyName, string errorMessage)

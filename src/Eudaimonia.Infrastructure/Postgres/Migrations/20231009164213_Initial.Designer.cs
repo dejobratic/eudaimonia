@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Eudaimonia.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20231008220953_Initial")]
+    [Migration("20231009164213_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,6 +68,24 @@ namespace Eudaimonia.Infrastructure.Postgres.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("Eudaimonia.Application.Dtos.PublisherDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("Eudaimonia.Application.Dtos.BookDto", b =>

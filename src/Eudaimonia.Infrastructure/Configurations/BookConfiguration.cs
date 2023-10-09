@@ -13,7 +13,6 @@ public class BookConfiguration : IEntityTypeConfiguration<BookDto>
         public GenresConversion()
             : base(genres => string.Join(",", genres), value => value.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(g => g))
         {
-
         }
     }
 
@@ -22,7 +21,6 @@ public class BookConfiguration : IEntityTypeConfiguration<BookDto>
         public GenresValueComparer()
             : base((c1, c2) => c1!.SequenceEqual(c2!), c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), c => c.ToList())
         {
-
         }
     }
 

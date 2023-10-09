@@ -6,17 +6,11 @@ public sealed class Author : User
     public IEnumerable<BookId> AuthoredBookIds => _authoredBookIds;
 
 
-    public Author(Text fullName, Text? bio, IEnumerable<BookId> bookIds)
+    public Author(Text fullName, Text? bio)
         : base(fullName, bio)
     {
-        _authoredBookIds = bookIds?.ToHashSet() ?? new HashSet<BookId>();
+        _authoredBookIds = new HashSet<BookId>();
 
         ThrowIfInvalid();
-    }
-
-    protected override void ThrowIfInvalid()
-    {
-        base.ThrowIfInvalid();
-        if (!AuthoredBookIds.Any()) ThrowValidationException(nameof(AuthoredBookIds), $"At least one {nameof(BookId)} must be specified.");
     }
 }

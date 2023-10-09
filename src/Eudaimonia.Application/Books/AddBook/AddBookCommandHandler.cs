@@ -1,6 +1,4 @@
-﻿using Eudaimonia.Application.Dtos;
-
-namespace Eudaimonia.Application.Books.AddBook;
+﻿namespace Eudaimonia.Application.Books.AddBook;
 
 public class AddBookCommandHandler : ICommandHandler<AddBookCommand>
 {

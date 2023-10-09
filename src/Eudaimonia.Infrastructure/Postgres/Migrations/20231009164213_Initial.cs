@@ -25,6 +25,19 @@ namespace Eudaimonia.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Publishers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Bio = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Publishers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -70,6 +83,9 @@ namespace Eudaimonia.Infrastructure.Postgres.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Publishers");
 
             migrationBuilder.DropTable(
                 name: "Authors");

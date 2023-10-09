@@ -2,9 +2,10 @@
 
 public enum Genre
 {
-    ActionandAdventure,
+    Action = 1,
+    Adventure,
     Classic,
-    ContemporaryFiction,
+    Contemporary,
     Dystopian,
     Fantasy,
     GraphicNovel,

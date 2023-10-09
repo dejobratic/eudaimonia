@@ -1,6 +1,6 @@
 ﻿using Eudaimonia.Domain;
 
-namespace Eudaimonia.Application.Dtos;
+namespace Eudaimonia.Application.Books;
 
 public interface IBookFactory<in T>
     where T : ICommand

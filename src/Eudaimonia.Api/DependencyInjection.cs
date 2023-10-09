@@ -1,10 +1,11 @@
 ﻿using Eudaimonia.Application;
+using Eudaimonia.Application.Books;
+using Eudaimonia.Application.Books.AddAuthor;
 using Eudaimonia.Application.Books.AddBook;
+using Eudaimonia.Application.Books.AddPublisher;
 using Eudaimonia.Application.Books.GetAllBooks;
 using Eudaimonia.Application.Dtos;
-using Eudaimonia.Infrastructure.Postgres;
-using Eudaimonia.Infrastructure.Postgres.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Eudaimonia.Infrastructure;
 
 namespace Eudaimonia.Api;
 
@@ -24,31 +25,12 @@ public static class DependencyInjection
     {
         services.AddScoped<ICommandHandler<AddBookCommand>, AddBookCommandHandler>();
         services.AddScoped<IBookFactory<AddBookCommand>, AddBookCommandBookFactory>();
+        services.AddScoped<IQueryHandler<GetAllBooksQuery, IEnumerable<BookDto>>, GetAllBooksQueryHandler>();
 
-        services.AddTransient<IQueryHandler<GetAllBooksQuery, IEnumerable<BookDto>>, GetAllBooksQueryHandler>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddInfrastructureDependencies(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddDatabase(configuration);
-        services.AddScoped<IAddBookRepository, BookCommandRepository>();
-        services.AddScoped<IGetAllBooksRepository, BookQueryRepository>();
-        return services;
-    }
-
-    public static IServiceCollection AddDatabase(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        var connectionString = configuration["DatabaseOptions:PostgresOptions:ConnectionString"];
-        var migrationsAssembly = typeof(PostgresDbContext).Assembly.FullName;
-
-        services.AddDbContext<DbContext, PostgresDbContext>(
-            o => o.UseNpgsql(connectionString, b => b.MigrationsAssembly(migrationsAssembly)));
+        services.AddScoped<ICommandHandler<AddAuthorCommand>, AddAuthorCommandHandler>();
+        services.AddScoped<IAuthorFactory<AddAuthorCommand>, AddAuthorCommandAuthorFactory>();
+        services.AddScoped<ICommandHandler<AddPublisherCommand>, AddPublisherCommandHandler>();
+        services.AddScoped<IPublisherFactory<AddPublisherCommand>, AddPublisherCommandPublisherFactory>();
 
         return services;
     }
