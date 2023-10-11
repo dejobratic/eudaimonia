@@ -4,9 +4,15 @@ using Eudaimonia.Infrastructure.Postgres.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-public class AuthorCommandRepositoryTests : TestBase
+[Collection("Postgres")]
+public class AuthorCommandRepositoryTests : RepositoryTestBase
 {
     private AuthorCommandRepository Sut => new(DbContext);
+
+    public AuthorCommandRepositoryTests(PostgresFixture fixture)
+        : base(fixture)
+    {
+    }
 
     [Fact]
     public async Task AddAuthorAsync_ShouldAddAuthor()

@@ -4,9 +4,15 @@ using Eudaimonia.Infrastructure.Postgres.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-public class BookCommandRepositoryTests : TestBase
+[Collection("Postgres")]
+public class BookCommandRepositoryTests : RepositoryTestBase
 {
     private BookCommandRepository Sut => new(DbContext);
+
+    public BookCommandRepositoryTests(PostgresFixture fixture)
+        : base(fixture)
+    {
+    }
 
     [Fact]
     public async Task AddBookAsync_ShouldAddBook()

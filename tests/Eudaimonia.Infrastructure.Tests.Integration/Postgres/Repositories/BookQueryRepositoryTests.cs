@@ -3,9 +3,15 @@ using Eudaimonia.Infrastructure.Postgres.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-public class BookQueryRepositoryTests : TestBase
+[Collection("Postgres")]
+public class BookQueryRepositoryTests : RepositoryTestBase
 {
     private BookQueryRepository Sut => new(DbContext);
+
+    public BookQueryRepositoryTests(PostgresFixture fixture)
+        : base(fixture)
+    {
+    }
 
     [Fact]
     public async Task GetAllBooks_()

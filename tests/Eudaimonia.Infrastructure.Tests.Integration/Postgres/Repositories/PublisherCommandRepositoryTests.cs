@@ -4,9 +4,15 @@ using Eudaimonia.Infrastructure.Postgres.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-public class PublisherCommandRepositoryTests : TestBase
+[Collection("Postgres")]
+public class PublisherCommandRepositoryTests : RepositoryTestBase
 {
     private PublisherCommandRepository Sut => new(DbContext);
+
+    public PublisherCommandRepositoryTests(PostgresFixture fixture)
+        : base(fixture)
+    {
+    }
 
     [Fact]
     public async Task AddPublisherAsync_ShouldAddPublisher()
