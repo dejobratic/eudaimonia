@@ -1,9 +1,8 @@
 ﻿using Eudaimonia.Application.Dtos;
-using Eudaimonia.Infrastructure.Postgres.Repositories;
+using Eudaimonia.Infrastructure.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-[Collection("Postgres")]
 public class BookQueryRepositoryTests : RepositoryTestBase
 {
     private BookQueryRepository Sut => new(DbContext);

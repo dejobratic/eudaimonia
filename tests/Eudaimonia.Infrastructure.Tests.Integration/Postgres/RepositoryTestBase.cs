@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
+[Collection("Postgres")]
 public abstract class RepositoryTestBase
 {
     private readonly PostgresFixture _dbFixture;

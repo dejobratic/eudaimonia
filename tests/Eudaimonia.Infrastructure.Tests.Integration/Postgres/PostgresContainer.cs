@@ -2,7 +2,7 @@
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres;
 
-public class PostgresContainer : IAsyncLifetime
+public class PostgresContainer : IDatabaseContainer
 {
     private readonly PostgreSqlContainer _container;
 

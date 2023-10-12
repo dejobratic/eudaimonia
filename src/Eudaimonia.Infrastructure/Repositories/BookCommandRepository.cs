@@ -3,7 +3,7 @@ using Eudaimonia.Domain;
 using Eudaimonia.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Eudaimonia.Infrastructure.Postgres.Repositories;
+namespace Eudaimonia.Infrastructure.Repositories;
 
 public class BookCommandRepository :
     IAddBookRepository
@@ -17,7 +17,7 @@ public class BookCommandRepository :
 
     public async Task AddAsync(Book book, CancellationToken cancellationToken = default)
     {
-        await _dbContext.AddAsync(book.ToDto(), cancellationToken);
+        await _dbContext.AddAsync(book, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

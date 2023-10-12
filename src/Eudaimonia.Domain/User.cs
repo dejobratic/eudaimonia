@@ -3,7 +3,7 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public sealed class UserId : GuidId
+public class UserId : GuidId
 {
     public UserId() { }
 
@@ -12,13 +12,14 @@ public sealed class UserId : GuidId
     public UserId(Guid value) : base(value) { }
 }
 
-public abstract class User : Entity<UserId>
+public abstract class User<TId> : Entity<TId>
+    where TId : GuidId, new()
 {
     public Text FullName { get; }
     public Text? Bio { get; }
 
     protected User(Text fullName, Text? bio)
-        : base(new UserId())
+        : base(new TId())
     {
         FullName = fullName;
         Bio = bio;

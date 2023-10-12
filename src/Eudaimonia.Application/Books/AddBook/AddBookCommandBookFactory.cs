@@ -10,7 +10,7 @@ public class AddBookCommandBookFactory : IBookFactory<AddBookCommand>
         return new(
             new Text(command.Title!),
             new Text(command.Description!),
-            new UserId(command.AuthorId.GetValueOrDefault()),
+            new AuthorId(command.AuthorId.GetValueOrDefault()),
             CreateEdition(command.Edition)!,
             CreateGenres(command.Genres));
     }
@@ -28,11 +28,5 @@ public class AddBookCommandBookFactory : IBookFactory<AddBookCommand>
     }
 
     private static IEnumerable<Genre> CreateGenres(IEnumerable<string> genres)
-        => genres.Select(CreateGenre);
-
-    private static Genre CreateGenre(string genre)
-    {
-        _ = Enum.TryParse<Genre>(genre, out var genreEnum);
-        return genreEnum;
-    }
+        => genres.Select(g => Genre.FromName<Genre>(g));
 }

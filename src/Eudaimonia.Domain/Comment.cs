@@ -3,12 +3,23 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
+public class CommentId : GuidId
+{
+    public CommentId() { }
+
+    public CommentId(string value) : base(value) { }
+
+    public CommentId(Guid value) : base(value) { }
+}
+
 // Consider adding upvotes / downvotes for comments.
-public class Comment : ValueObject<Comment>
+public class Comment : Entity<CommentId>
 {
     public UserId CommenterId { get; }
     public Text Text { get; }
     public DateTime CreatedAt { get; }
+
+    private Comment() { } // Required by EF core.
 
     public Comment(UserId commenterId, Text text, DateTime createdAt)
     {

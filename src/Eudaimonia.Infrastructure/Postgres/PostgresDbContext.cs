@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Eudaimonia.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eudaimonia.Infrastructure.Postgres;
 
@@ -14,5 +15,7 @@ public class PostgresDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(PostgresDbContext).Assembly);
+
+        //modelBuilder.Entity<BookId>().HasNoKey();
     }
 }

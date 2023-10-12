@@ -18,20 +18,27 @@ public class Review : Entity<ReviewId>
     public UserId ReviewerId { get; }
     public Rating Rating { get; }
     public Comment? Comment { get; }
+    public DateTime CreatedAt { get; }
+
+    private Review() : base() { } // Required by EF Core.
 
     public Review(
         BookId bookId,
         UserId reviewerId,
         Rating rating,
-        Comment? comment) // Should Review be an aggregate root for Comment?
+        Text? comment,
+        DateTime createdAt)
         : base(new ReviewId())
     {
         BookId = bookId;
         ReviewerId = reviewerId;
         Rating = rating;
-        Comment = comment;
+        CreatedAt = createdAt;
 
         ThrowIfInvalid();
+
+        if (comment is not null)
+            Comment = new Comment(reviewerId, comment, createdAt);
     }
 
     private void ThrowIfInvalid()
@@ -39,6 +46,7 @@ public class Review : Entity<ReviewId>
         if (BookId is null) ThrowValidationException(nameof(BookId), $"{nameof(BookId)} must be specified.");
         if (ReviewerId is null) ThrowValidationException(nameof(ReviewerId), $"{nameof(ReviewerId)} must be specified.");
         if (Rating is null) ThrowValidationException(nameof(Rating), $"{nameof(Rating)} must be specified.");
+        if (CreatedAt == default) ThrowValidationException(nameof(CreatedAt), $"{nameof(CreatedAt)} must be specified.");
     }
 
     private void ThrowValidationException(string propertyName, string errorMessage)

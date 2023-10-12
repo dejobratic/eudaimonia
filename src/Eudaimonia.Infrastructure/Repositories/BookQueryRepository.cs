@@ -2,7 +2,7 @@
 using Eudaimonia.Application.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace Eudaimonia.Infrastructure.Postgres.Repositories;
+namespace Eudaimonia.Infrastructure.Repositories;
 
 public class BookQueryRepository :
     IGetAllBooksRepository

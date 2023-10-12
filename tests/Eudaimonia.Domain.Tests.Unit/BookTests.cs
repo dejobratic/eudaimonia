@@ -8,7 +8,7 @@ public class BookTests
     {
         public static readonly Text Title = new("The Hobbit");
         public static readonly Text Description = new("Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.");
-        public static readonly UserId AuthorId = new();
+        public static readonly AuthorId AuthorId = new();
         public static readonly IEnumerable<Genre> Genres = new[] { Genre.Fantasy };
         public static readonly Edition Edition = new(310, new Image(new Text("Cover.jpg"), "https://pictures.abebooks.com/inventory/31499487055.jpg"), BookFormat.Hardcover, new PublisherId(), new Year(1937));
         public static readonly ReviewSummary ReviewSummary = new();
@@ -18,7 +18,7 @@ public class BookTests
     {
         private Text _title = BookDefaults.Title;
         private Text _description = BookDefaults.Description;
-        private UserId _authorId = BookDefaults.AuthorId;
+        private AuthorId _authorId = BookDefaults.AuthorId;
         private IEnumerable<Genre> _genres = BookDefaults.Genres;
         private Edition _edition = BookDefaults.Edition;
 
@@ -42,7 +42,7 @@ public class BookTests
             return this;
         }
 
-        public BookBuilder WithAuthorId(UserId? authorId)
+        public BookBuilder WithAuthorId(AuthorId? authorId)
         {
             _authorId = authorId!;
             return this;

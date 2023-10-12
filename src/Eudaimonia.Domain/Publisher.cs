@@ -17,15 +17,13 @@ public sealed class Publisher : Entity<PublisherId>
     public Text FullName { get; }
     public Text? Bio { get; }
 
-    private readonly HashSet<BookId> _publishedBookIds;
-    public IEnumerable<BookId> PublishedBookIds => _publishedBookIds;
+    private Publisher() : base() { } // Required by EF Core.
 
     public Publisher(Text fullName, Text? bio)
         : base(new PublisherId())
     {
         FullName = fullName;
         Bio = bio;
-        _publishedBookIds = new HashSet<BookId>();
 
         ThrowIfInvalid();
     }

@@ -1,10 +1,9 @@
 ﻿using Eudaimonia.Application.Dtos;
 using Eudaimonia.Domain;
-using Eudaimonia.Infrastructure.Postgres.Repositories;
+using Eudaimonia.Infrastructure.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-[Collection("Postgres")]
 public class PublisherCommandRepositoryTests : RepositoryTestBase
 {
     private PublisherCommandRepository Sut => new(DbContext);
@@ -26,15 +25,8 @@ public class PublisherCommandRepositoryTests : RepositoryTestBase
         await Sut.AddAsync(publisher);
 
         // Assert
-        var actual = await FindAsync<PublisherDto>(a => a.Id == publisher.Id.Value);
+        var actual = await FindAsync<Publisher>(p => p.Id == publisher.Id);
 
-        var expected = new PublisherDto
-        {
-            Id = publisher.Id.Value,
-            FullName = "HarperCollins",
-            Bio = "HarperCollins Publishers LLC is one of the world's largest publishing companies.",
-        };
-
-        Assert.Equivalent(expected, actual);
+        Assert.Equivalent(publisher, actual);
     }
 }

@@ -12,6 +12,8 @@ public class Edition : ValueObject<Edition>
     public PublisherId PublisherId { get; }
     public Year PublicationYear { get; }
 
+    private Edition() { } // Required by EF Core.
+
     public Edition(
         uint pageCount,
         Image frontCover,

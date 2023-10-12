@@ -3,7 +3,7 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-public sealed class BookId : GuidId 
+public sealed class BookId : GuidId
 {
     public BookId() { }
 
@@ -16,17 +16,19 @@ public sealed class Book : Entity<BookId>
 {
     public Text Title { get; }
     public Text Description { get; }
-    public UserId AuthorId { get; }
+    public AuthorId AuthorId { get; }
     public Edition Edition { get; }
     public ReviewSummary ReviewSummary { get; private set; }
 
     private readonly HashSet<Genre> _genres;
-    public IEnumerable<Genre> Genres => _genres;
+    public IReadOnlySet<Genre> Genres => _genres;
+
+    private Book() : base() { } // Required by EF Core.
 
     public Book(
         Text title,
         Text description,
-        UserId authorId,
+        AuthorId authorId,
         Edition edition,
         IEnumerable<Genre> genres)
         : base(new BookId())

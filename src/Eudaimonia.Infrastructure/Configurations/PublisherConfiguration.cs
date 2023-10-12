@@ -1,17 +1,18 @@
-﻿using Eudaimonia.Application.Dtos;
+﻿using Eudaimonia.Domain;
+using Eudaimonia.Infrastructure.Configurations.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Eudaimonia.Infrastructure.Configurations;
 
-public class PublisherConfiguration : IEntityTypeConfiguration<PublisherDto>
+public sealed class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 {
-    public void Configure(EntityTypeBuilder<PublisherDto> builder)
+    public void Configure(EntityTypeBuilder<Publisher> builder)
     {
         builder.ToTable("Publishers");
         builder.HasKey(p => p.Id);
-        builder.Property(p => p.FullName).IsRequired();
-        builder.Property(p => p.Bio);
-        builder.Ignore(p => p.PublishedBookIds); //TODO: Link to books.
+        builder.Property(p => p.Id).HasConversion<PublisherIdConverter>().IsRequired();
+        builder.Property(p => p.FullName).HasConversion<TextConverter>().IsRequired();
+        builder.Property(p => p.Bio).HasConversion<TextConverter>();
     }
 }

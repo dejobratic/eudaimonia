@@ -1,12 +1,12 @@
 ﻿using Eudaimonia.Application.Books.AddBook;
 using Eudaimonia.Application.Books.GetAllBooks;
-using Eudaimonia.Infrastructure.Postgres.Repositories;
 using Eudaimonia.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Eudaimonia.Application.Books.AddAuthor;
 using Eudaimonia.Application.Books.AddPublisher;
+using Eudaimonia.Infrastructure.Repositories;
 
 namespace Eudaimonia.Infrastructure;
 

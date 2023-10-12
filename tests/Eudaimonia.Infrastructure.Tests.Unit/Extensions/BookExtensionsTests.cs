@@ -10,7 +10,7 @@ public class BookExtensionsTests
     public void ToDto_GivenBook_ReturnsBookDto()
     {
         // Arrange
-        var authorId = new UserId();
+        var authorId = new AuthorId();
         var publisherId = new PublisherId();
 
         var book = new Book(

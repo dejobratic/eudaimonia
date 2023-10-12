@@ -1,10 +1,9 @@
 ﻿using Eudaimonia.Application.Dtos;
 using Eudaimonia.Domain;
-using Eudaimonia.Infrastructure.Postgres.Repositories;
+using Eudaimonia.Infrastructure.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Postgres.Repositories;
 
-[Collection("Postgres")]
 public class AuthorCommandRepositoryTests : RepositoryTestBase
 {
     private AuthorCommandRepository Sut => new(DbContext);
@@ -26,15 +25,8 @@ public class AuthorCommandRepositoryTests : RepositoryTestBase
         await Sut.AddAsync(author);
 
         // Assert
-        var actual = await FindAsync<AuthorDto>(a => a.Id == author.Id.Value);
+        var actual = await FindAsync<Author>(a => a.Id == author.Id);
 
-        var expected = new AuthorDto
-        {
-            Id = author.Id.Value,
-            FullName = "J.R.R. Tolkien",
-            Bio = "John Ronald Reuel Tolkien was an English writer, poet, philologist, and academic.",
-        };
-
-        Assert.Equivalent(expected, actual);
+        Assert.Equivalent(author, actual);
     }
 }
