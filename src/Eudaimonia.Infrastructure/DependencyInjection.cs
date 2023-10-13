@@ -1,17 +1,23 @@
-﻿using Eudaimonia.Application.Books.AddBook;
-using Eudaimonia.Application.Books.GetAllBooks;
-using Eudaimonia.Infrastructure.Postgres;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Eudaimonia.Application.Books.AddAuthor;
-using Eudaimonia.Application.Books.AddPublisher;
-using Eudaimonia.Infrastructure.Repositories;
+using Eudaimonia.Application.Features.Books.AddAuthor;
+using Eudaimonia.Application.Features.Books.AddBook;
+using Eudaimonia.Application.Features.Books.AddPublisher;
+using Eudaimonia.Application.Features.Books.GetAllBooks;
+using Eudaimonia.Infrastructure.Persistence.Repositories;
+using Eudaimonia.Infrastructure.Persistence.Postgres;
 
 namespace Eudaimonia.Infrastructure;
 
 public static class DependencyInjection
 {
+    static class DatabaseConstants
+    {
+        public const string DatabaseProvider = "DatabaseOptions:Provider";
+        public const string PostgresConnectionString = "DatabaseOptions:PostgresOptions:ConnectionString";
+    }
+
     public static IServiceCollection AddInfrastructureDependencies(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -28,11 +34,16 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration["DatabaseOptions:PostgresOptions:ConnectionString"];
-        var migrationsAssembly = typeof(PostgresDbContext).Assembly.FullName;
+        var databaseProvider = configuration[DatabaseConstants.DatabaseProvider]?.ToLowerInvariant();
 
-        services.AddDbContext<DbContext, PostgresDbContext>(
-            o => o.UseNpgsql(connectionString, b => b.MigrationsAssembly(migrationsAssembly)));
+        switch (databaseProvider)
+        {
+            default:
+                services.AddDbContext<DbContext, PostgresDbContext>(
+                    o => o.UseNpgsql(configuration[DatabaseConstants.PostgresConnectionString],
+                    b => b.MigrationsAssembly(typeof(PostgresDbContext).Assembly.FullName)));
+                break;
+        }
 
         return services;
     }

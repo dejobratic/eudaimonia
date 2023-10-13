@@ -22,4 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Eudaimonia.Application\Eudaimonia.Application.csproj" />
+    <ProjectReference Include="..\..\src\Eudaimonia.Domain\Eudaimonia.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

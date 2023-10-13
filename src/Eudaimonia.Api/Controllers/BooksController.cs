@@ -1,7 +1,7 @@
-﻿using Eudaimonia.Application;
-using Eudaimonia.Application.Books.AddBook;
-using Eudaimonia.Application.Books.GetAllBooks;
-using Eudaimonia.Application.Dtos;
+﻿using Eudaimonia.Application.Features.Books.AddBook;
+using Eudaimonia.Application.Features.Books.GetAllBooks;
+using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eudaimonia.Api.Controllers;

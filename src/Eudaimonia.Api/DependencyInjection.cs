@@ -1,10 +1,10 @@
-﻿using Eudaimonia.Application;
-using Eudaimonia.Application.Books;
-using Eudaimonia.Application.Books.AddAuthor;
-using Eudaimonia.Application.Books.AddBook;
-using Eudaimonia.Application.Books.AddPublisher;
-using Eudaimonia.Application.Books.GetAllBooks;
-using Eudaimonia.Application.Dtos;
+﻿using Eudaimonia.Application.Features.Books;
+using Eudaimonia.Application.Features.Books.AddAuthor;
+using Eudaimonia.Application.Features.Books.AddBook;
+using Eudaimonia.Application.Features.Books.AddPublisher;
+using Eudaimonia.Application.Features.Books.GetAllBooks;
+using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Infrastructure;
 
 namespace Eudaimonia.Api;
