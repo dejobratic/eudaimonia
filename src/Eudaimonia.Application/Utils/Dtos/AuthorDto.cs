@@ -2,6 +2,5 @@
 
 public class AuthorDto : UserDto
 {
-    private readonly List<Guid> _authoredBookIds = new();
-    public IReadOnlyList<Guid> AuthoredBookIds => _authoredBookIds;
+    public virtual List<BookDto> Books { get; set; } = new();
 }

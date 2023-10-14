@@ -14,7 +14,7 @@ public static class BookExtensions
             AuthorId = book.AuthorId.Value,
             Edition = book.Edition.ToDto(),
             ReviewSummary = book.ReviewSummary.ToDto(),
-            Genres = book.Genres.Select(g => g.ToString()),
+            Genres = book.Genres.Select(g => g.Name).ToList(),
         };
 
     private static EditionDto ToDto(this Edition edition)
@@ -45,5 +45,12 @@ public static class BookExtensions
             TwoStarRatingCount = (int)reviewSummary.TwoStarRatingCount,
             OneStarRatingCount = (int)reviewSummary.OneStarRatingCount,
             AverageRating = reviewSummary.AverageRating,
+        };
+
+    private static GenreDto ToDto(this Genre genre)
+        => new()
+        {
+            Name = genre.Name,
+            Value = genre.Value,
         };
 }

@@ -20,8 +20,12 @@ public sealed class Book : Entity<BookId>
     public Edition Edition { get; }
     public ReviewSummary ReviewSummary { get; private set; }
 
-    private readonly HashSet<Genre> _genres;
-    public IReadOnlySet<Genre> Genres => _genres;
+    private HashSet<Genre> _genres = new();
+    public IEnumerable<Genre> Genres
+    {
+        get => _genres;
+        private set { _genres = value.ToHashSet(); }
+    }
 
     private Book() : base() { } // Required by EF Core.
 
@@ -38,7 +42,7 @@ public sealed class Book : Entity<BookId>
         AuthorId = authorId;
         Edition = edition;
         ReviewSummary = new ReviewSummary();
-        _genres = genres?.ToHashSet() ?? new HashSet<Genre>();
+        Genres = genres?.ToHashSet() ?? new HashSet<Genre>();
 
         // TODO: How to validate the whole entity, with value objects and raise a single exception?
         // Same as in FluentValidation, but without 3rd party libraries.

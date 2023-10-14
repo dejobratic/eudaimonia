@@ -1,4 +1,5 @@
 ﻿using Eudaimonia.Infrastructure;
+using Eudaimonia.Infrastructure.Persistence.Commands;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,11 +12,11 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var services = new ServiceCollection()
-    .AddInfrastructureDependencies(configuration)
+    .AddDatabase(configuration)
     .BuildServiceProvider();
 
 var scopeFactory = services.GetRequiredService<IServiceScopeFactory>();
 using var scope = scopeFactory.CreateScope();
 
-var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+var context = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
 await context.Database.MigrateAsync();

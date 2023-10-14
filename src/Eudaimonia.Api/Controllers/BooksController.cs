@@ -22,11 +22,10 @@ public class BooksController : ControllerBase
         _getAllBooksQueryHandler = getAllBooksQueryHandler;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateBookAsync(AddBookCommand command)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
-        var result = await _addBookCommandHandler.HandleAsync(command);
-        return Ok(result.Data);
+        return Ok();
     }
 
     [HttpGet]
@@ -36,5 +35,12 @@ public class BooksController : ControllerBase
         var books = await _getAllBooksQueryHandler.HandleAsync(query);
 
         return Ok(books);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateBookAsync(AddBookCommand command)
+    {
+        var result = await _addBookCommandHandler.HandleAsync(command);
+        return CreatedAtAction(nameof(GetById), result.Data);
     }
 }

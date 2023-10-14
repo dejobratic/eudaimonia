@@ -2,6 +2,7 @@
 using Eudaimonia.Application.Features.Books.AddAuthor;
 using Eudaimonia.Application.Features.Books.AddBook;
 using Eudaimonia.Application.Features.Books.AddPublisher;
+using Eudaimonia.Application.Features.Books.GetAllAuthors;
 using Eudaimonia.Application.Features.Books.GetAllBooks;
 using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
@@ -29,6 +30,8 @@ public static class DependencyInjection
 
         services.AddScoped<ICommandHandler<AddAuthorCommand>, AddAuthorCommandHandler>();
         services.AddScoped<IAuthorFactory<AddAuthorCommand>, AddAuthorCommandAuthorFactory>();
+        services.AddScoped<IQueryHandler<GetAllAuthorsQuery, IEnumerable<AuthorDto>>, GetAllAuthorsQueryHandler>();
+
         services.AddScoped<ICommandHandler<AddPublisherCommand>, AddPublisherCommandHandler>();
         services.AddScoped<IPublisherFactory<AddPublisherCommand>, AddPublisherCommandPublisherFactory>();
 

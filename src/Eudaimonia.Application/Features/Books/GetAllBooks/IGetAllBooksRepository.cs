@@ -1,8 +1,8 @@
-﻿using Eudaimonia.Domain;
+﻿using Eudaimonia.Application.Utils.Dtos;
 
 namespace Eudaimonia.Application.Features.Books.GetAllBooks;
 
 public interface IGetAllBooksRepository
 {
-    Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<BookDto>> GetAllAsync(CancellationToken cancellationToken = default);
 }

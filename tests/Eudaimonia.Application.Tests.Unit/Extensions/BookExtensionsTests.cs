@@ -42,8 +42,18 @@ public class BookExtensionsTests
                 PublisherId = publisherId.Value,
                 PublicationYear = 1937,
             },
-            ReviewSummary = new ReviewSummaryDto(),
-            Genres = new[] { "Fantasy" },
+            ReviewSummary = new ReviewSummaryDto
+            {
+                ReviewCount = 0,
+                RatingCount = 0,
+                FiveStarRatingCount = 0,
+                FourStarRatingCount = 0,
+                ThreeStarRatingCount = 0,
+                TwoStarRatingCount = 0,
+                OneStarRatingCount = 0,
+                AverageRating = 0,
+            },
+            Genres = new List<string> { "Fantasy" },
         };
 
         Assert.Equivalent(expected, actual);
