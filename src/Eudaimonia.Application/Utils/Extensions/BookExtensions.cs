@@ -46,11 +46,4 @@ public static class BookExtensions
             OneStarRatingCount = (int)reviewSummary.OneStarRatingCount,
             AverageRating = reviewSummary.AverageRating,
         };
-
-    private static GenreDto ToDto(this Genre genre)
-        => new()
-        {
-            Name = genre.Name,
-            Value = genre.Value,
-        };
 }

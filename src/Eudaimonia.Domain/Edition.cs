@@ -3,8 +3,8 @@ using Eudaimonia.Domain.Validation;
 
 namespace Eudaimonia.Domain;
 
-// This should be a way to link multiple editions of a same book.
-public class Edition : ValueObject<Edition>
+//TODO: This should be a way to link multiple editions of a same book.
+public sealed class Edition : ValueObject<Edition>
 {
     public uint PageCount { get; }
     public Image FrontCover { get; }
@@ -12,7 +12,9 @@ public class Edition : ValueObject<Edition>
     public PublisherId PublisherId { get; }
     public Year PublicationYear { get; }
 
-    private Edition() { } // Required by EF Core.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private Edition() : base() { } // Required by EF Core.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Edition(
         uint pageCount,

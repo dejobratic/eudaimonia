@@ -27,7 +27,9 @@ public sealed class Book : Entity<BookId>
         private set { _genres = value.ToHashSet(); }
     }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Book() : base() { } // Required by EF Core.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Book(
         Text title,

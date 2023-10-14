@@ -9,7 +9,9 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
 {
     public TId Id { get; protected set; }
 
-    protected Entity() { } // Required by EF Core.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    protected Entity() : base() { } // Required by EF Core.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     protected Entity(TId id)
     {

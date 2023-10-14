@@ -12,14 +12,16 @@ public class CommentId : GuidId
     public CommentId(Guid value) : base(value) { }
 }
 
-// Consider adding upvotes / downvotes for comments.
+//TODO: Consider adding upvotes / downvotes for comments.
 public class Comment : Entity<CommentId>
 {
     public UserId CommenterId { get; }
     public Text Text { get; }
     public DateTime CreatedAt { get; }
 
-    private Comment() { } // Required by EF core.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private Comment() : base() { } // Required by EF Core.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Comment(UserId commenterId, Text text, DateTime createdAt)
     {
