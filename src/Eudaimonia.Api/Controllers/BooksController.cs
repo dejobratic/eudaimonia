@@ -1,7 +1,8 @@
 ﻿using Eudaimonia.Application.Features.Books.AddBook;
 using Eudaimonia.Application.Features.Books.GetAllBooks;
-using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Commands;
 using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -11,16 +12,15 @@ namespace Eudaimonia.Api.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    // TODO: Add some form of command/query dispatcher
-    private readonly ICommandHandler<AddBookCommand> _addBookCommandHandler;
-    private readonly IQueryHandler<GetAllBooksQuery, IEnumerable<BookDto>> _getAllBooksQueryHandler;
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IQueryDispatcher _queryDispatcher;
 
     public BooksController(
-        ICommandHandler<AddBookCommand> addBookCommandHandler,
-        IQueryHandler<GetAllBooksQuery, IEnumerable<BookDto>> getAllBooksQueryHandler)
+        ICommandDispatcher commandDispatcher,
+        IQueryDispatcher queryDispatcher)
     {
-        _addBookCommandHandler = addBookCommandHandler;
-        _getAllBooksQueryHandler = getAllBooksQueryHandler;
+        _commandDispatcher = commandDispatcher;
+        _queryDispatcher = queryDispatcher;
     }
 
     [HttpGet("{id}")]
@@ -35,7 +35,7 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> GetAllBooksAsync()
     {
         var query = new GetAllBooksQuery();
-        var books = await _getAllBooksQueryHandler.HandleAsync(query);
+        var books = await _queryDispatcher.DispatchAsync<IEnumerable<BookDto>>(query);
 
         return Ok(books);
     }
@@ -43,7 +43,7 @@ public class BooksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateBookAsync(AddBookCommand command)
     {
-        var result = await _addBookCommandHandler.HandleAsync(command);
-        return CreatedAtAction(nameof(GetById), result.Data);
+        var result = await _commandDispatcher.DispatchAsync(command);
+        return Ok(result.Data);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils;
+﻿using Eudaimonia.Application.Utils.Queries;
 
 namespace Eudaimonia.Application.Features.Books.GetAllAuthors;
 

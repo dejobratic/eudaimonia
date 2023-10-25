@@ -1,6 +1,5 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
-using System.Text.Json;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Repositories;
 

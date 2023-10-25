@@ -1,7 +1,7 @@
 ﻿using Eudaimonia.Application.Features.Books.GetAllPublishers;
-using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Application.Utils.Extensions;
+using Eudaimonia.Application.Utils.Queries;
 
 namespace Eudaimonia.Application.Features.Books.GetAllPublishers;
 

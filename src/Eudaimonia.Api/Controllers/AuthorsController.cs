@@ -1,8 +1,8 @@
 ﻿using Eudaimonia.Application.Features.Books.AddAuthor;
 using Eudaimonia.Application.Features.Books.GetAllAuthors;
-using Eudaimonia.Application.Features.Books.GetAllBooks;
-using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Commands;
 using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -12,16 +12,15 @@ namespace Eudaimonia.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthorsController : ControllerBase
 {
-    // TODO: Add some form of command/query dispatcher
-    private readonly IQueryHandler<GetAllAuthorsQuery, IEnumerable<AuthorDto>> _getAllAuthorsQueryHandler;
-    private readonly ICommandHandler<AddAuthorCommand> _addAuthorCommandHandler;
-
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IQueryDispatcher _queryDispatcher;
+   
     public AuthorsController(
-        IQueryHandler<GetAllAuthorsQuery, IEnumerable<AuthorDto>> getAllAuthorsQueryHandler,
-        ICommandHandler<AddAuthorCommand> addAuthorCommandHandler)
+        ICommandDispatcher commandDispatcher,
+        IQueryDispatcher queryDispatcher)
     {
-        _getAllAuthorsQueryHandler = getAllAuthorsQueryHandler;
-        _addAuthorCommandHandler = addAuthorCommandHandler;
+        _commandDispatcher = commandDispatcher;
+        _queryDispatcher = queryDispatcher;
     }
 
     [HttpGet]
@@ -29,7 +28,7 @@ public class AuthorsController : ControllerBase
     public async Task<IActionResult> GetAllAuthorsAsync()
     {
         var query = new GetAllAuthorsQuery();
-        var authors = await _getAllAuthorsQueryHandler.HandleAsync(query);
+        var authors = await _queryDispatcher.DispatchAsync<IEnumerable<AuthorDto>>(query);
 
         return Ok(authors);
     }
@@ -37,7 +36,7 @@ public class AuthorsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateAuthorAsync(AddAuthorCommand command)
     {
-        var result = await _addAuthorCommandHandler.HandleAsync(command);
+        var result = await _commandDispatcher.DispatchAsync(command);
         return Ok(result.Data);
     }
 }

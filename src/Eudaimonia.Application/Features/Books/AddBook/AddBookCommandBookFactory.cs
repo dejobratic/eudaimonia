@@ -1,9 +1,10 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.AddBook;
 
-public class AddBookCommandBookFactory : IBookFactory<AddBookCommand>
+public class AddBookCommandBookFactory : IFactory<AddBookCommand, Book>
 {
     public Book CreateFrom(AddBookCommand command)
     {

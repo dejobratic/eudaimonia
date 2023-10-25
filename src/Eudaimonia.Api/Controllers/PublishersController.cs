@@ -1,10 +1,11 @@
 ﻿using Eudaimonia.Application.Features.Books.AddPublisher;
 using Eudaimonia.Application.Features.Books.GetAllPublishers;
 using Eudaimonia.Application.Features.Books.GetAllBooks;
-using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Eudaimonia.Application.Utils.Commands;
+using Eudaimonia.Application.Utils.Queries;
 
 namespace Eudaimonia.Api.Controllers;
 
@@ -12,16 +13,15 @@ namespace Eudaimonia.Api.Controllers;
 [Route("api/[controller]")]
 public class PublishersController : ControllerBase
 {
-    // TODO: Add some form of command/query dispatcher
-    private readonly IQueryHandler<GetAllPublishersQuery, IEnumerable<PublisherDto>> _getAllPublishersQueryHandler;
-    private readonly ICommandHandler<AddPublisherCommand> _addPublisherCommandHandler;
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IQueryDispatcher _queryDispatcher;
 
     public PublishersController(
-        IQueryHandler<GetAllPublishersQuery, IEnumerable<PublisherDto>> getAllPublishersQueryHandler,
-        ICommandHandler<AddPublisherCommand> addPublisherCommandHandler)
+        ICommandDispatcher commandDispatcher,
+        IQueryDispatcher queryDispatcher)
     {
-        _getAllPublishersQueryHandler = getAllPublishersQueryHandler;
-        _addPublisherCommandHandler = addPublisherCommandHandler;
+        _commandDispatcher = commandDispatcher;
+        _queryDispatcher = queryDispatcher;
     }
 
     [HttpGet]
@@ -29,7 +29,7 @@ public class PublishersController : ControllerBase
     public async Task<IActionResult> GetAllPublishersAsync()
     {
         var query = new GetAllPublishersQuery();
-        var authors = await _getAllPublishersQueryHandler.HandleAsync(query);
+        var authors = await _queryDispatcher.DispatchAsync<IEnumerable<PublisherDto>>(query);
 
         return Ok(authors);
     }
@@ -37,7 +37,7 @@ public class PublishersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatePublisherAsync(AddPublisherCommand command)
     {
-        var result = await _addPublisherCommandHandler.HandleAsync(command);
+        var result = await _commandDispatcher.DispatchAsync(command);
         return Ok(result.Data);
     }
 }

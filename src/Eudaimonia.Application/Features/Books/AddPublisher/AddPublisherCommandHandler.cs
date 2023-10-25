@@ -1,15 +1,17 @@
 ﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Commands;
+using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.AddPublisher;
 
 public class AddPublisherCommandHandler : ICommandHandler<AddPublisherCommand>
 {
-    private readonly IPublisherFactory<AddPublisherCommand> _publisherFactory;
+    private readonly IFactory<AddPublisherCommand, Publisher> _publisherFactory;
     private readonly IAddPublisherRepository _publisherRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddPublisherCommandHandler(
-        IPublisherFactory<AddPublisherCommand> publisherFactory,
+        IFactory<AddPublisherCommand, Publisher> publisherFactory,
         IAddPublisherRepository publisherRepository,
         IUnitOfWork unitOfWork)
     {

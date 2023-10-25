@@ -1,15 +1,17 @@
 ﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Commands;
+using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.AddAuthor;
 
 public class AddAuthorCommandHandler : ICommandHandler<AddAuthorCommand>
 {
-    private readonly IAuthorFactory<AddAuthorCommand> _authorFactory;
+    private readonly IFactory<AddAuthorCommand, Author> _authorFactory;
     private readonly IAddAuthorRepository _authorRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddAuthorCommandHandler(
-        IAuthorFactory<AddAuthorCommand> authorFactory,
+        IFactory<AddAuthorCommand, Author> authorFactory,
         IAddAuthorRepository authorRepository,
         IUnitOfWork unitOfWork)
     {

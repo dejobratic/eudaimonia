@@ -1,8 +1,9 @@
-﻿using Eudaimonia.Domain;
+﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.AddAuthor;
 
-public class AddAuthorCommandAuthorFactory : IAuthorFactory<AddAuthorCommand>
+public class AddAuthorCommandAuthorFactory : IFactory<AddAuthorCommand, Author>
 {
     public Author CreateFrom(AddAuthorCommand command)
         => new(

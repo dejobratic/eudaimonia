@@ -1,12 +1,7 @@
-﻿using Eudaimonia.Application.Features.Books;
-using Eudaimonia.Application.Features.Books.AddAuthor;
-using Eudaimonia.Application.Features.Books.AddBook;
-using Eudaimonia.Application.Features.Books.AddPublisher;
-using Eudaimonia.Application.Features.Books.GetAllAuthors;
-using Eudaimonia.Application.Features.Books.GetAllBooks;
-using Eudaimonia.Application.Features.Books.GetAllPublishers;
-using Eudaimonia.Application.Utils;
+﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Application.Utils.Commands;
 using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Application.Utils.Queries;
 using Eudaimonia.Infrastructure;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
@@ -51,18 +46,24 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationDependencies(
         this IServiceCollection services)
     {
-        services.AddScoped<ICommandHandler<AddBookCommand>, AddBookCommandHandler>();
-        services.AddScoped<IBookFactory<AddBookCommand>, AddBookCommandBookFactory>();
-        services.AddScoped<IQueryHandler<GetAllBooksQuery, IEnumerable<BookDto>>, GetAllBooksQueryHandler>();
+        services.AddAllAsTransient(typeof(ICommandHandler<>));
+        services.AddAllAsTransient(typeof(IQueryHandler<,>));
+        services.AddAllAsTransient(typeof(IFactory<,>));
 
-        services.AddScoped<ICommandHandler<AddAuthorCommand>, AddAuthorCommandHandler>();
-        services.AddScoped<IAuthorFactory<AddAuthorCommand>, AddAuthorCommandAuthorFactory>();
-        services.AddScoped<IQueryHandler<GetAllAuthorsQuery, IEnumerable<AuthorDto>>, GetAllAuthorsQueryHandler>();
-
-        services.AddScoped<ICommandHandler<AddPublisherCommand>, AddPublisherCommandHandler>();
-        services.AddScoped<IPublisherFactory<AddPublisherCommand>, AddPublisherCommandPublisherFactory>();
-        services.AddScoped<IQueryHandler<GetAllPublishersQuery, IEnumerable<PublisherDto>>, GetAllPublishersQueryHandler>();
+        services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+        services.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
         return services;
+    }
+
+    private static IServiceCollection AddAllAsTransient(
+        this IServiceCollection services,
+        Type type)
+    {
+        return services.Scan(scan => scan
+            .FromAssembliesOf(type)
+            .AddClasses(classes => classes.AssignableTo(type))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
     }
 }

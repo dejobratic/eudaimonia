@@ -1,8 +1,9 @@
-﻿using Eudaimonia.Domain;
+﻿using Eudaimonia.Application.Utils;
+using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.AddPublisher;
 
-public class AddPublisherCommandPublisherFactory : IPublisherFactory<AddPublisherCommand>
+public class AddPublisherCommandPublisherFactory : IFactory<AddPublisherCommand, Publisher>
 {
     public Publisher CreateFrom(AddPublisherCommand command)
         => new(
