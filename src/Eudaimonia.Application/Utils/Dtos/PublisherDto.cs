@@ -6,7 +6,5 @@ public class PublisherDto
     public string FullName { get; set; } = null!;
     public string? Bio { get; set; }
 
-    private readonly List<Guid> _publishedBookIds = new();
-
-    public IReadOnlyList<Guid> PublishedBookIds => _publishedBookIds;
+    public virtual List<BookDto> PublishedBooks { get; set; } = new();
 }

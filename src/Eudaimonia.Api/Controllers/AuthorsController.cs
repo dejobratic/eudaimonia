@@ -4,6 +4,7 @@ using Eudaimonia.Application.Features.Books.GetAllBooks;
 using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace Eudaimonia.Api.Controllers;
 
@@ -24,6 +25,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet]
+    [EnableQuery]
     public async Task<IActionResult> GetAllAuthorsAsync()
     {
         var query = new GetAllAuthorsQuery();

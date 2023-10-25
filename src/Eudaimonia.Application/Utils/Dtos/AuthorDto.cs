@@ -2,5 +2,5 @@
 
 public class AuthorDto : UserDto
 {
-    public virtual List<BookDto> Books { get; set; } = new();
+    public virtual List<BookDto> AuthoredBooks { get; set; } = new();
 }

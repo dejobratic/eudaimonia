@@ -9,7 +9,7 @@ public sealed class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 {
     public void Configure(EntityTypeBuilder<Publisher> builder)
     {
-        builder.ToTable("Publishers");
+        builder.ToTable(DbTableNames.Publishers);
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Id).HasConversion<PublisherIdConverter>().IsRequired();
         builder.Property(p => p.FullName).HasConversion<TextConverter>().IsRequired();

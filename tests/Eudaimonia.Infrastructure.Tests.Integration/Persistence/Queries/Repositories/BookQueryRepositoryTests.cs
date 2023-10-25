@@ -1,9 +1,10 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
+using System.Text.Json;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Repositories;
 
-public class BookQueryRepositoryTests : QueryDbTestsBase, IAsyncLifetime
+public class BookQueryRepositoryTests : QueryDbTestsBase
 {
     private BookQueryRepository Sut => new(DbContext);
 
@@ -11,14 +12,6 @@ public class BookQueryRepositoryTests : QueryDbTestsBase, IAsyncLifetime
         : base(fixture)
     {
     }
-
-    // TODO: check if we need to place this in base class
-    public async Task InitializeAsync() 
-        => await DbContext.Database.BeginTransactionAsync();
-
-
-    public async Task DisposeAsync()
-        => await DbContext.Database.RollbackTransactionAsync();
 
     [Fact]
     public async Task GetAll_WhenNoBooksExist_ReturnsEmptyCollection()

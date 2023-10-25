@@ -1,7 +1,5 @@
-﻿using Eudaimonia.Application.Features.Books.GetAllAuthors;
-using Eudaimonia.Application.Utils;
+﻿using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
-using Eudaimonia.Application.Utils.Extensions;
 
 namespace Eudaimonia.Application.Features.Books.GetAllAuthors;
 

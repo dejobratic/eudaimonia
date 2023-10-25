@@ -8,10 +8,9 @@ public class CommandDbFixture : DbFixture<CommandDbContext>
     protected override CommandDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<CommandDbContext>()
-            .UseNpgsql(GetConnectionString(), b => b.MigrationsAssembly(typeof(CommandDbContext).Assembly.FullName))
             .Options;
 
-        var dbContext = new CommandDbContext(options);
+        var dbContext = new CommandDbContext(options, _configuration);
         dbContext.Database.Migrate();
 
         return dbContext;

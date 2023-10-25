@@ -13,6 +13,7 @@ var configuration = new ConfigurationBuilder()
 
 var services = new ServiceCollection()
     .AddDatabase(configuration)
+    .AddSingleton<IConfiguration>(configuration)
     .BuildServiceProvider();
 
 var scopeFactory = services.GetRequiredService<IServiceScopeFactory>();

@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
-using Eudaimonia.Domain;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Repositories;

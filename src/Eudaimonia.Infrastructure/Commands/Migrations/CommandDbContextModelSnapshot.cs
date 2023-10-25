@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
+namespace Eudaimonia.Infrastructure.Commands.Migrations
 {
     [DbContext(typeof(CommandDbContext))]
     partial class CommandDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

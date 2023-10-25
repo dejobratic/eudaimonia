@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
+namespace Eudaimonia.Infrastructure.Commands.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

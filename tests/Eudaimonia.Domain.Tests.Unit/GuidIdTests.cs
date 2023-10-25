@@ -89,4 +89,32 @@ public class GuidIdTests
         Assert.Equal(id1, id2);
         Assert.Equal(id1.Value, id2.Value);
     }
+
+    [Fact]
+    public void ToString_WhenInvoked_ReturnsStringRepresentation()
+    {
+        var id = new EntityId("1d517b07-c14f-4211-be32-7b4cbf1a883a");
+
+        Assert.Equal("1d517b07-c14f-4211-be32-7b4cbf1a883a", id.ToString());
+    }
+
+    [Fact]
+    public void ImplicitOperator_WhenInvoked_ReturnsGuidValue()
+    {
+        var id = new EntityId("1d517b07-c14f-4211-be32-7b4cbf1a883a");
+
+        Guid guid = id;
+
+        Assert.Equal(Guid.Parse("1d517b07-c14f-4211-be32-7b4cbf1a883a"), guid);
+    }
+
+    [Fact]
+    public void ImplicitOperator_WhenInvokedOnNull_ReturnsEmptyGuid()
+    {
+        EntityId? id = null;
+
+        Guid guid = id!;
+
+        Assert.Equal(Guid.Empty, guid);
+    }
 }

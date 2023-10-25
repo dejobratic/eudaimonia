@@ -11,7 +11,7 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
 {
     public void Configure(EntityTypeBuilder<Book> builder)
     {
-        builder.ToTable("Books");
+        builder.ToTable(DbTableNames.Books);
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).HasConversion<BookIdConverter>().IsRequired();
         builder.Property(b => b.Title).HasConversion<TextConverter>().IsRequired();

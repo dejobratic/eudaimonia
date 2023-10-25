@@ -9,7 +9,7 @@ public sealed class AuthorConfiguration : IEntityTypeConfiguration<Author>
 {
     public void Configure(EntityTypeBuilder<Author> builder)
     {
-        builder.ToTable("Authors");
+        builder.ToTable(DbTableNames.Authors);
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Id).HasConversion<AuthorIdConverter>().IsRequired();
         builder.Property(a => a.FullName).HasConversion<TextConverter>().IsRequired();

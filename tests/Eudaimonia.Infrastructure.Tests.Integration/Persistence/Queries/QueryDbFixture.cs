@@ -9,20 +9,18 @@ public class QueryDbFixture : DbFixture<QueryDbContext>
     protected override QueryDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<QueryDbContext>()
-            .UseNpgsql(GetConnectionString())
             .Options;
 
         MigrateDatabase();
-        return new QueryDbContext(options);
+        return new QueryDbContext(options, _configuration);
     }
 
     private void MigrateDatabase()
     {
         var options = new DbContextOptionsBuilder<CommandDbContext>()
-            .UseNpgsql(GetConnectionString(), b => b.MigrationsAssembly(typeof(CommandDbContext).Assembly.FullName))
             .Options;
 
-        using var dbContext = new CommandDbContext(options);
+        using var dbContext = new CommandDbContext(options, _configuration);
         dbContext.Database.Migrate();
     }
 }

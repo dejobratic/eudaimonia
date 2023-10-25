@@ -3,6 +3,7 @@ using Eudaimonia.Application.Features.Books.GetAllBooks;
 using Eudaimonia.Application.Utils;
 using Eudaimonia.Application.Utils.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace Eudaimonia.Api.Controllers;
 
@@ -23,12 +24,14 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [EnableQuery]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         return Ok();
     }
 
     [HttpGet]
+    [EnableQuery]
     public async Task<IActionResult> GetAllBooksAsync()
     {
         var query = new GetAllBooksQuery();

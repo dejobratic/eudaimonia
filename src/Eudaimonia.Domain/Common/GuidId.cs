@@ -29,4 +29,10 @@ public abstract class GuidId : ValueObject<GuidId>
         if (Value == Guid.Empty)
             throw new ValidationException(GetType().Name, new ValidationError(nameof(Value), "Value must be a valid non-empty Guid or Guid string."));
     }
+
+    public override string ToString() 
+        => Value.ToString();
+
+    public static implicit operator Guid(GuidId id) 
+        => id is null ? Guid.Empty : id.Value;
 }

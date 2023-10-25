@@ -1,5 +1,4 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
-using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Features.Books.GetAllAuthors;
 
