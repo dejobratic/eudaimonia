@@ -5,11 +5,16 @@ namespace Eudaimonia.Domain;
 
 public class UserId : GuidId
 {
-    public UserId() { }
+    public UserId()
+    { }
 
-    public UserId(string value) : base(value) { }
+    public UserId(string value) : base(value)
+    {
+    }
 
-    public UserId(Guid value) : base(value) { }
+    public UserId(Guid value) : base(value)
+    {
+    }
 }
 
 public abstract class User<TId> : Entity<TId>
@@ -25,11 +30,12 @@ public abstract class User<TId> : Entity<TId>
         Bio = bio;
     }
 
-    protected virtual void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (FullName is null) ThrowValidationException(nameof(FullName), $"{nameof(FullName)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    protected void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(GetType().Name, new ValidationError(propertyName, errorMessage));
+        if (FullName is null) AddError(errors, nameof(FullName), "FullName must be specified.");
+
+        return errors;
+    }
 }

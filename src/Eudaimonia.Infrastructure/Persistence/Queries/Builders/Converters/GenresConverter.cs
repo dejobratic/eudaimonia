@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Eudaimonia.Infrastructure.Persistence.Queries.Configurations.Converters;
+namespace Eudaimonia.Infrastructure.Persistence.Queries.Builders.Converters;
 
 public class GenresConverter : ValueConverter<List<string>, string>
 {

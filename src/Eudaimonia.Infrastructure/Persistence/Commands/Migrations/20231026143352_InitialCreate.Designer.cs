@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Eudaimonia.Infrastructure.Commands.Migrations
+namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
 {
     [DbContext(typeof(CommandDbContext))]
-    [Migration("20231025155225_InitialCreate")]
+    [Migration("20231026143352_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -113,6 +113,9 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
         var actual = await Sut.GetAllAsync();
 
         // Assert
+        book1.Author = null!;
+        book2.Author = null!;
+
         var expected = new[] { book1, book2 };
 
         Assert.Equivalent(expected, actual);

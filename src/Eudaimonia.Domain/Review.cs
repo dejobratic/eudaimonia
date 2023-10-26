@@ -5,11 +5,16 @@ namespace Eudaimonia.Domain;
 
 public class ReviewId : GuidId
 {
-    public ReviewId() { }
+    public ReviewId()
+    { }
 
-    public ReviewId(string value) : base(value) { }
+    public ReviewId(string value) : base(value)
+    {
+    }
 
-    public ReviewId(Guid value) : base(value) { }
+    public ReviewId(Guid value) : base(value)
+    {
+    }
 }
 
 public class Review : Entity<ReviewId>
@@ -21,7 +26,11 @@ public class Review : Entity<ReviewId>
     public DateTime CreatedAt { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Review() : base() { } // Required by EF Core.
+
+    private Review() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Review(
@@ -43,14 +52,15 @@ public class Review : Entity<ReviewId>
             Comment = new Comment(reviewerId, comment, createdAt);
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (BookId is null) ThrowValidationException(nameof(BookId), $"{nameof(BookId)} must be specified.");
-        if (ReviewerId is null) ThrowValidationException(nameof(ReviewerId), $"{nameof(ReviewerId)} must be specified.");
-        if (Rating is null) ThrowValidationException(nameof(Rating), $"{nameof(Rating)} must be specified.");
-        if (CreatedAt == default) ThrowValidationException(nameof(CreatedAt), $"{nameof(CreatedAt)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    private void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(nameof(Review), new ValidationError(propertyName, errorMessage));
+        if (BookId is null) AddError(errors, nameof(BookId), $"{nameof(BookId)} must be specified.");
+        if (ReviewerId is null) AddError(errors, nameof(ReviewerId), $"{nameof(ReviewerId)} must be specified.");
+        if (Rating is null) AddError(errors, nameof(Rating), $"{nameof(Rating)} must be specified.");
+        if (CreatedAt == default) AddError(errors, nameof(CreatedAt), $"{nameof(CreatedAt)} must be specified.");
+
+        return errors;
+    }
 }

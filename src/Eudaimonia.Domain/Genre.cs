@@ -35,7 +35,7 @@ public sealed class Genre : Enumeration<string>
     public static readonly Genre Travel = new("Travel", "Travel");
     public static readonly Genre TrueCrime = new("TrueCrime", "True Crime");
 
-    private Genre(string name, string value) 
+    private Genre(string name, string value)
         : base(name, value)
     {
     }

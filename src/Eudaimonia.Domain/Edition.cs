@@ -13,7 +13,11 @@ public sealed class Edition : ValueObject<Edition>
     public Year PublicationYear { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Edition() : base() { } // Required by EF Core.
+
+    private Edition() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Edition(
@@ -32,15 +36,16 @@ public sealed class Edition : ValueObject<Edition>
         ThrowIfInvalid();
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (PageCount == default) ThrowValidationException(nameof(PageCount), $"{nameof(PageCount)} must be specified.");
-        if (FrontCover is null) ThrowValidationException(nameof(FrontCover), $"{nameof(FrontCover)} must be specified.");
-        if (Format == default) ThrowValidationException(nameof(Format), $"{nameof(Format)} must be specified.");
-        if (PublisherId is null) ThrowValidationException(nameof(PublisherId), $"{nameof(PublisherId)} must be specified.");
-        if (PublicationYear is null) ThrowValidationException(nameof(PublicationYear), $"{nameof(PublicationYear)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    private void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(nameof(Edition), new ValidationError(propertyName, errorMessage));
+        if (PageCount == default) AddError(errors, nameof(PageCount), $"{nameof(PageCount)} must be specified.");
+        if (FrontCover is null) AddError(errors, nameof(FrontCover), $"{nameof(FrontCover)} must be specified.");
+        if (Format == default) AddError(errors, nameof(Format), $"{nameof(Format)} must be specified.");
+        if (PublisherId is null) AddError(errors, nameof(PublisherId), $"{nameof(PublisherId)} must be specified.");
+        if (PublicationYear is null) AddError(errors, nameof(PublicationYear), $"{nameof(PublicationYear)} must be specified.");
+
+        return errors;
+    }
 }

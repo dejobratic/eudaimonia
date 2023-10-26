@@ -24,15 +24,18 @@ public abstract class GuidId : ValueObject<GuidId>
         ThrowIfInvalid();
     }
 
-    public void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (Value == Guid.Empty)
-            throw new ValidationException(GetType().Name, new ValidationError(nameof(Value), "Value must be a valid non-empty Guid or Guid string."));
+        var errors = base.Validate();
+
+        if (Value == Guid.Empty) AddError(errors, nameof(Value), $"{nameof(Value)} must be a valid non-empty Guid or Guid string.");
+
+        return errors;
     }
 
-    public override string ToString() 
+    public override string ToString()
         => Value.ToString();
 
-    public static implicit operator Guid(GuidId id) 
+    public static implicit operator Guid(GuidId id)
         => id is null ? Guid.Empty : id.Value;
 }

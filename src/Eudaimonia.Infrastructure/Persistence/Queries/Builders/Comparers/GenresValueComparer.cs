@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Eudaimonia.Infrastructure.Persistence.Queries.Configurations.Comparers;
+namespace Eudaimonia.Infrastructure.Persistence.Queries.Builders.Comparers;
 
 public class GenresValueComparer : ValueComparer<List<string>>
 {

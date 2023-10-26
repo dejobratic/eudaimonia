@@ -46,9 +46,9 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationDependencies(
         this IServiceCollection services)
     {
-        services.AddAllAsTransient(typeof(ICommandHandler<>));
-        services.AddAllAsTransient(typeof(IQueryHandler<,>));
-        services.AddAllAsTransient(typeof(IFactory<,>));
+        services.AddAll(typeof(ICommandHandler<>), ServiceLifetime.Transient);
+        services.AddAll(typeof(IQueryHandler<,>), ServiceLifetime.Transient);
+        services.AddAll(typeof(IFactory<,>), ServiceLifetime.Transient);
 
         services.AddTransient<ICommandDispatcher, CommandDispatcher>();
         services.AddTransient<IQueryDispatcher, QueryDispatcher>();
@@ -56,14 +56,15 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAllAsTransient(
+    private static IServiceCollection AddAll(
         this IServiceCollection services,
-        Type type)
+        Type type,
+        ServiceLifetime lifetime)
     {
         return services.Scan(scan => scan
             .FromAssembliesOf(type)
             .AddClasses(classes => classes.AssignableTo(type))
             .AsImplementedInterfaces()
-            .WithTransientLifetime());
+            .WithLifetime(lifetime));
     }
 }

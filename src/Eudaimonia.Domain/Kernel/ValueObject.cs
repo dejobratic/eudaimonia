@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Eudaimonia.Domain.Validation;
+using System.Collections;
 
 namespace Eudaimonia.Domain.Kernel;
 
@@ -7,7 +8,7 @@ namespace Eudaimonia.Domain.Kernel;
 /// the data that they hold.
 /// </summary>
 /// <typeparam name="T">The underlying value object's type.</typeparam>
-public abstract class ValueObject<T> : IEquatable<T>
+public abstract class ValueObject<T> : Validatable, IEquatable<T>
     where T : ValueObject<T>
 {
     private static readonly object _lock = new();

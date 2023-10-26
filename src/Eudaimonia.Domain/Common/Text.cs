@@ -13,10 +13,13 @@ public sealed class Text : ValueObject<Text>
         ThrowIfInvalid();
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (string.IsNullOrEmpty(Value))
-            throw new ValidationException(nameof(Text), new ValidationError(nameof(Value), "Value cannot be null or empty."));
+        var errors = base.Validate();
+
+        if (string.IsNullOrEmpty(Value)) AddError(errors, nameof(Value), $"{nameof(Value)} cannot be null or empty.");
+
+        return errors;
     }
 
     public override string ToString() => Value;

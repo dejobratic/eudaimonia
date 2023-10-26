@@ -5,11 +5,16 @@ namespace Eudaimonia.Domain;
 
 public class CommentId : GuidId
 {
-    public CommentId() { }
+    public CommentId()
+    { }
 
-    public CommentId(string value) : base(value) { }
+    public CommentId(string value) : base(value)
+    {
+    }
 
-    public CommentId(Guid value) : base(value) { }
+    public CommentId(Guid value) : base(value)
+    {
+    }
 }
 
 //TODO: Consider adding upvotes / downvotes for comments.
@@ -20,7 +25,11 @@ public class Comment : Entity<CommentId>
     public DateTime CreatedAt { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Comment() : base() { } // Required by EF Core.
+
+    private Comment() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Comment(UserId commenterId, Text text, DateTime createdAt)
@@ -32,13 +41,14 @@ public class Comment : Entity<CommentId>
         ThrowIfInvalid();
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (CommenterId is null) ThrowValidationException(nameof(CommenterId), $"{nameof(CommenterId)} must be specified.");
-        if (Text is null) ThrowValidationException(nameof(Text), $"{nameof(Text)} must be specified.");
-        if (CreatedAt == default) ThrowValidationException(nameof(CreatedAt), $"{nameof(CreatedAt)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    private void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(nameof(Comment), new ValidationError(propertyName, errorMessage));
+        if (CommenterId is null) AddError(errors, nameof(CommenterId), $"{nameof(CommenterId)} must be specified.");
+        if (Text is null) AddError(errors, nameof(Text), $"{nameof(Text)} must be specified.");
+        if (CreatedAt == default) AddError(errors, nameof(CreatedAt), $"{nameof(CreatedAt)} must be specified.");
+
+        return errors;
+    }
 }

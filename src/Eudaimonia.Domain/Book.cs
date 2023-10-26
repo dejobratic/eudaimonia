@@ -5,11 +5,16 @@ namespace Eudaimonia.Domain;
 
 public sealed class BookId : GuidId
 {
-    public BookId() { }
+    public BookId()
+    { }
 
-    public BookId(string value) : base(value) { }
+    public BookId(string value) : base(value)
+    {
+    }
 
-    public BookId(Guid value) : base(value) { }
+    public BookId(Guid value) : base(value)
+    {
+    }
 }
 
 public sealed class Book : Entity<BookId>
@@ -21,6 +26,7 @@ public sealed class Book : Entity<BookId>
     public ReviewSummary ReviewSummary { get; private set; }
 
     private HashSet<Genre> _genres = new();
+
     public IEnumerable<Genre> Genres
     {
         get => _genres;
@@ -28,7 +34,11 @@ public sealed class Book : Entity<BookId>
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Book() : base() { } // Required by EF Core.
+
+    private Book() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Book(
@@ -46,8 +56,6 @@ public sealed class Book : Entity<BookId>
         ReviewSummary = new ReviewSummary();
         Genres = genres?.ToHashSet() ?? new HashSet<Genre>();
 
-        // TODO: How to validate the whole entity, with value objects and raise a single exception?
-        // Same as in FluentValidation, but without 3rd party libraries.
         ThrowIfInvalid();
     }
 
@@ -57,15 +65,16 @@ public sealed class Book : Entity<BookId>
             .AddReview(review.Rating, review.Comment);
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (Title is null) ThrowValidationException(nameof(Title), $"{nameof(Title)} must be specified.");
-        if (Description is null) ThrowValidationException(nameof(Description), $"{nameof(Description)} must be specified.");
-        if (AuthorId is null) ThrowValidationException(nameof(AuthorId), $"{nameof(AuthorId)} must be specified.");
-        if (!Genres.Any()) ThrowValidationException(nameof(Genres), $"At least one {nameof(Genre)} must be specified.");
-        if (Edition is null) ThrowValidationException(nameof(Edition), $"{nameof(Edition)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    private void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(nameof(Book), new ValidationError(propertyName, errorMessage));
+        if (Title is null) AddError(errors, nameof(Title), $"{nameof(Title)} must be specified.");
+        if (Description is null) AddError(errors, nameof(Description), $"{nameof(Description)} must be specified.");
+        if (AuthorId is null) AddError(errors, nameof(AuthorId), $"{nameof(AuthorId)} must be specified.");
+        if (!Genres.Any()) AddError(errors, nameof(Genres), $"At least one {nameof(Genre)} must be specified.");
+        if (Edition is null) AddError(errors, nameof(Edition), $"{nameof(Edition)} must be specified.");
+
+        return errors;
+    }
 }

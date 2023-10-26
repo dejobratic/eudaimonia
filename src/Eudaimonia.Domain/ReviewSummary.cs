@@ -66,12 +66,13 @@ public class ReviewSummary : ValueObject<ReviewSummary>
     private static uint IncrementIfTrue(uint count, bool condition)
         => count + (condition ? 1u : 0u);
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (RatingCount != FiveStarRatingCount + FourStarRatingCount + ThreeStarRatingCount + TwoStarRatingCount + OneStarRatingCount)
-            ThrowValidationException(nameof(RatingCount), $"{nameof(RatingCount)} must be the same as the sum of star ratings.");
-    }
+        var errors = base.Validate();
 
-    private void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(nameof(ReviewSummary), new ValidationError(propertyName, errorMessage));
+        if (RatingCount != FiveStarRatingCount + FourStarRatingCount + ThreeStarRatingCount + TwoStarRatingCount + OneStarRatingCount)
+            AddError(errors, nameof(RatingCount), $"{nameof(RatingCount)} must be the same as the sum of star ratings.");
+
+        return errors;
+    }
 }

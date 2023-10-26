@@ -5,11 +5,16 @@ namespace Eudaimonia.Domain;
 
 public sealed class PublisherId : GuidId
 {
-    public PublisherId() { }
+    public PublisherId()
+    { }
 
-    public PublisherId(string value) : base(value) { }
+    public PublisherId(string value) : base(value)
+    {
+    }
 
-    public PublisherId(Guid value) : base(value) { }
+    public PublisherId(Guid value) : base(value)
+    {
+    }
 }
 
 public sealed class Publisher : Entity<PublisherId>
@@ -18,7 +23,11 @@ public sealed class Publisher : Entity<PublisherId>
     public Text? Bio { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Publisher() : base() { } // Required by EF Core.
+
+    private Publisher() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public Publisher(Text fullName, Text? bio)
@@ -30,11 +39,12 @@ public sealed class Publisher : Entity<PublisherId>
         ThrowIfInvalid();
     }
 
-    private void ThrowIfInvalid()
+    protected override List<ValidationError> Validate()
     {
-        if (FullName is null) ThrowValidationException(nameof(FullName), $"{nameof(FullName)} must be specified.");
-    }
+        var errors = base.Validate();
 
-    private static void ThrowValidationException(string propertyName, string errorMessage)
-        => throw new ValidationException(typeof(Publisher).Name, new ValidationError(propertyName, errorMessage));
+        if (FullName is null) AddError(errors, nameof(FullName), $"{nameof(FullName)} must be specified.");
+
+        return errors;
+    }
 }

@@ -1,16 +1,22 @@
-﻿namespace Eudaimonia.Domain.Kernel;
+﻿using Eudaimonia.Domain.Validation;
+
+namespace Eudaimonia.Domain.Kernel;
 
 /// <summary>
 /// Represents an abstract entity object in domain-driven design. Entities are distinguished by
 /// their id property.
 /// </summary>
 /// <typeparam name="TId">Entity ID's type.</typeparam>
-public abstract class Entity<TId> : IEquatable<Entity<TId>>
+public abstract class Entity<TId> : Validatable, IEquatable<Entity<TId>>
 {
     public TId Id { get; protected set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    protected Entity() : base() { } // Required by EF Core.
+
+    protected Entity() : base()
+    {
+    } // Required by EF Core.
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     protected Entity(TId id)

@@ -7,8 +7,8 @@ public class ValidationException : Exception
 {
     public IEnumerable<ValidationError> Errors { get; } = Array.Empty<ValidationError>();
 
-    public ValidationException(string name, params ValidationError[] errors)
-        : base($"Validation failed for {name} with {errors.Length} error(s).")
+    public ValidationException(string name, IEnumerable<ValidationError> errors)
+        : base($"Validation failed for {name} with {errors.Count()} error(s).")
     {
         Errors = errors;
     }

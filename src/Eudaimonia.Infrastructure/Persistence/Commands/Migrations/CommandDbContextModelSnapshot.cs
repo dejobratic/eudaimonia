@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Eudaimonia.Infrastructure.Commands.Migrations
+namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
 {
     [DbContext(typeof(CommandDbContext))]
     partial class CommandDbContextModelSnapshot : ModelSnapshot
