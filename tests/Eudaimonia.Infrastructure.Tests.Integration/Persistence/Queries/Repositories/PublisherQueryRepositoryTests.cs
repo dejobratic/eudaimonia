@@ -17,7 +17,7 @@ public class PublisherQueryRepositoryTests : QueryDbTestsBase
     {
         // Arrange
         // Act
-        var actual = await Sut.GetAllAsync();
+        var actual = await Sut.GetAsync();
 
         // Assert
         Assert.Empty(actual);
@@ -46,7 +46,7 @@ public class PublisherQueryRepositoryTests : QueryDbTestsBase
         await SaveChangesAsync();
 
         // Act
-        var actual = await Sut.GetAllAsync();
+        var actual = await Sut.GetAsync();
 
         // Assert
         var expected = new[] { publisher1, publisher2 };

@@ -1,11 +1,10 @@
-﻿using Eudaimonia.Application.Features.Books.GetAllPublishers;
+﻿using Eudaimonia.Application.Features.Books.GetPublishers;
 using Eudaimonia.Application.Utils.Dtos;
-using Microsoft.EntityFrameworkCore;
 
 namespace Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
 
 public class PublisherQueryRepository :
-    IGetAllPublishersRepository
+    IGetPublishersRepository
 {
     private readonly QueryDbContext _dbContext;
 
@@ -14,6 +13,6 @@ public class PublisherQueryRepository :
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<PublisherDto>> GetAllAsync(CancellationToken cancellationToken = default)
-        => await _dbContext.Set<PublisherDto>().ToListAsync(cancellationToken);
+    public async Task<IEnumerable<PublisherDto>> GetAsync(CancellationToken cancellationToken = default)
+        => await Task.FromResult(_dbContext.Set<PublisherDto>());
 }

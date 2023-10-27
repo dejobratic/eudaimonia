@@ -1,11 +1,10 @@
-﻿using Eudaimonia.Application.Features.Books.GetAllAuthors;
+﻿using Eudaimonia.Application.Features.Books.GetAuthors;
 using Eudaimonia.Application.Utils.Dtos;
-using Microsoft.EntityFrameworkCore;
 
 namespace Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
 
 public class AuthorQueryRepository :
-    IGetAllAuthorsRepository
+    IGetAuthorsRepository
 {
     private readonly QueryDbContext _dbContext;
 
@@ -14,6 +13,6 @@ public class AuthorQueryRepository :
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<AuthorDto>> GetAllAsync(CancellationToken cancellationToken = default)
-        => await _dbContext.Set<AuthorDto>().ToListAsync(cancellationToken);
+    public async Task<IEnumerable<AuthorDto>> GetAsync(CancellationToken cancellationToken = default)
+        => await Task.FromResult(_dbContext.Set<AuthorDto>());
 }

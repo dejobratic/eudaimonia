@@ -1,17 +1,17 @@
 ﻿using Eudaimonia.Application.Features.Books.AddPublisher;
-using Eudaimonia.Application.Features.Books.GetAllPublishers;
-using Eudaimonia.Application.Features.Books.GetAllBooks;
+using Eudaimonia.Application.Features.Books.GetPublishers;
+using Eudaimonia.Application.Utils.Commands;
 using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Eudaimonia.Application.Utils.Commands;
-using Eudaimonia.Application.Utils.Queries;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Eudaimonia.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PublishersController : ControllerBase
+public class PublishersController : ODataController
 {
     private readonly ICommandDispatcher _commandDispatcher;
     private readonly IQueryDispatcher _queryDispatcher;
@@ -28,7 +28,7 @@ public class PublishersController : ControllerBase
     [EnableQuery]
     public async Task<IActionResult> GetAllPublishersAsync()
     {
-        var query = new GetAllPublishersQuery();
+        var query = new GetPublishersQuery();
         var authors = await _queryDispatcher.DispatchAsync<IEnumerable<PublisherDto>>(query);
 
         return Ok(authors);

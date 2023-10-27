@@ -1,4 +1,5 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Domain.Exceptions;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Repositories;
@@ -13,10 +14,87 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
     }
 
     [Fact]
+    public async Task GetById_WhenBookDoesNotExist_ThrowsEntityNotFoundException()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+
+        // Act
+        Task action() => Sut.GetById(id);
+
+        // Assert
+        var exception = await Assert.ThrowsAsync<EntityNotFoundException>(action);
+        Assert.Equal($"Book with id {id} not found.", exception.Message);
+    }
+
+    [Fact]
+    public async Task GetById_WhenBookExists_ReturnsExistingBook()
+    {
+        // Arrange
+        var author = new AuthorDto
+        {
+            Id = Guid.NewGuid(),
+            FullName = "J.R.R. Tolkien",
+            Bio = "John Ronald Reuel Tolkien was an English writer, poet, philologist, and academic.",
+        };
+
+        var publisher = new PublisherDto
+        {
+            FullName = "HarperCollins",
+            Bio = "HarperCollins Publishers LLC is one of the world's largest publishing companies.",
+        };
+
+        var book = new BookDto
+        {
+            Id = Guid.NewGuid(),
+            Title = "The Hobbit",
+            Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
+            AuthorId = author.Id,
+            Edition = new EditionDto
+            {
+                PageCount = 310,
+                FrontCover = new ImageDto
+                {
+                    Name = "Cover.jpg",
+                    Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
+                },
+                Format = "Hardcover",
+                PublisherId = publisher.Id,
+                PublicationYear = 1937
+            },
+            ReviewSummary = new ReviewSummaryDto
+            {
+                ReviewCount = 0,
+                RatingCount = 0,
+                FiveStarRatingCount = 0,
+                FourStarRatingCount = 0,
+                ThreeStarRatingCount = 0,
+                TwoStarRatingCount = 0,
+                OneStarRatingCount = 0,
+                AverageRating = 0,
+            },
+            Genres = new List<string> { "Fantasy" },
+        };
+
+        await AddAsync(author);
+        await AddAsync(publisher);
+        await AddAsync(book);
+        await SaveChangesAsync();
+
+        // Act
+        var actual = await Sut.GetById(book.Id);
+
+        // Assert
+        book.Author = null!;
+
+        Assert.Equivalent(book, actual);
+    }
+
+    [Fact]
     public async Task GetAll_WhenNoBooksExist_ReturnsEmptyCollection()
     {
         // Arrange Act
-        var actual = await Sut.GetAllAsync();
+        var actual = await Sut.GetAsync();
 
         // Assert
         Assert.Empty(actual);
@@ -110,7 +188,7 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
         await SaveChangesAsync();
 
         // Act
-        var actual = await Sut.GetAllAsync();
+        var actual = await Sut.GetAsync();
 
         // Assert
         book1.Author = null!;
