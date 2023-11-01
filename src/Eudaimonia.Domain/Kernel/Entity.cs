@@ -9,15 +9,11 @@ namespace Eudaimonia.Domain.Kernel;
 /// <typeparam name="TId">Entity ID's type.</typeparam>
 public abstract class Entity<TId> : Validatable, IEquatable<Entity<TId>>
 {
-    public TId Id { get; protected set; }
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public TId Id { get; protected set; } = default!;
 
     protected Entity() : base()
     {
     } // Required by EF Core.
-
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     protected Entity(TId id)
     {

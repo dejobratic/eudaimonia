@@ -17,22 +17,25 @@ public class CommentId : GuidId
     }
 }
 
-//TODO: Consider adding upvotes / downvotes for comments.
+// TODO: Consider adding upvotes / downvotes for comments.
+// TODO: Comment should be value object. Review can have comments and they can be ReviewComment, entity that contains comment value object???
+// What about edited comments etc.??
 public class Comment : Entity<CommentId>
 {
-    public UserId CommenterId { get; }
-    public Text Text { get; }
+    public UserId CommenterId { get; } = null!;
+    public Text Text { get; } = null!;
     public DateTime CreatedAt { get; }
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     private Comment() : base()
     {
     } // Required by EF Core.
 
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-    public Comment(UserId commenterId, Text text, DateTime createdAt)
+    public Comment(
+        CommentId id,
+        UserId commenterId,
+        Text text,
+        DateTime createdAt)
+        : base(id)
     {
         CommenterId = commenterId;
         Text = text;

@@ -24,7 +24,7 @@ public sealed class Genre : Enumeration<string>
     public static readonly Genre ArtAndPhotography = new("ArtAndPhotography", "Art & Photography");
     public static readonly Genre Biography = new("Biography", "Biography");
     public static readonly Genre Cookbooks = new("Cookbooks", "Cookbooks");
-    public static readonly Genre HowtoandDIY = new("HowtoandDIY", "How-to & DIY");
+    public static readonly Genre HowtoandDIY = new("HowtoAndDIY", "How-to & DIY");
     public static readonly Genre Humor = new("Humor", "Humor");
     public static readonly Genre Parenting = new("Parenting", "Parenting");
     public static readonly Genre Autobiography = new("Autobiography", "Autobiography");

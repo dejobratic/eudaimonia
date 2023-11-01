@@ -7,6 +7,7 @@ public class AddAuthorCommandAuthorFactory : IFactory<AddAuthorCommand, Author>
 {
     public Author CreateFrom(AddAuthorCommand command)
         => new(
+            new AuthorId(),
             new Text(command.FullName!),
             string.IsNullOrEmpty(command.Bio) ? null : new Text(command.Bio!));
 }

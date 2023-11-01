@@ -14,10 +14,21 @@ public class BookExtensionsTests
         var publisherId = new PublisherId();
 
         var book = new Book(
+            new BookId(),
             new Text("The Hobbit"),
-            new Text("Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937."),
+            new Language("en"),
             authorId,
-            new Edition(310, new Image(new Text("Cover.jpg"), "https://pictures.abebooks.com/inventory/31499487055.jpg"), BookFormat.Hardcover, publisherId, new Year(1937)),
+            new Edition(
+                new EditionId(),
+                new Text("The Hobbit"),
+                new Text("Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937."),
+                new Language("en"),
+                new EditionSpecs(
+                    310, 
+                    new Image(new Text("Cover.jpg"), "https://pictures.abebooks.com/inventory/31499487055.jpg"), 
+                    BookFormat.Hardcover),
+                publisherId,
+                new Year(1937)),
             new[] { Genre.Fantasy });
 
         // Act
@@ -27,31 +38,28 @@ public class BookExtensionsTests
         var expected = new BookDto
         {
             Id = book.Id.Value,
-            Title = "The Hobbit",
-            Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
+            OriginalTitle = "The Hobbit",
+            OriginalLanguage = "en",
             AuthorId = authorId.Value,
-            Edition = new EditionDto
+            DefaultEditionId = book.DefaultEditionId.Value,
+            DefaultEdition = new EditionDto
             {
-                PageCount = 310,
-                FrontCover = new ImageDto
+                Id = book.Editions.First().Id.Value,
+                Title = "The Hobbit",
+                Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
+                Language = "en",
+                Specs = new EditionSpecsDto
                 {
-                    Name = "Cover.jpg",
-                    Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
+                    PageCount = 310,
+                    FrontCover = new ImageDto
+                    {
+                        Name = "Cover.jpg",
+                        Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
+                    },
+                    Format = "Hardcover",
                 },
-                Format = "Hardcover",
                 PublisherId = publisherId.Value,
                 PublicationYear = 1937,
-            },
-            ReviewSummary = new ReviewSummaryDto
-            {
-                ReviewCount = 0,
-                RatingCount = 0,
-                FiveStarRatingCount = 0,
-                FourStarRatingCount = 0,
-                ThreeStarRatingCount = 0,
-                TwoStarRatingCount = 0,
-                OneStarRatingCount = 0,
-                AverageRating = 0,
             },
             Genres = new List<string> { "Fantasy" },
         };

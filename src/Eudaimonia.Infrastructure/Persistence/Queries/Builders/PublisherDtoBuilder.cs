@@ -16,9 +16,10 @@ public class PublisherDtoBuilder : IModelBuilder
     public void Build()
     {
         _builder.ToTable(DbTableNames.Publishers);
-        _builder.HasKey(a => a.Id);
-        _builder.Property(a => a.FullName).IsRequired();
-        _builder.Property(a => a.Bio);
-        _builder.Ignore(a => a.PublishedBooks); // TODO: add link to books
+        _builder.HasKey(p => p.Id);
+        _builder.Property(p => p.FullName).IsRequired();
+        _builder.Property(p => p.Bio);
+        _builder.Ignore(p => p.PublishedEditions);
+        _builder.HasMany(p => p.PublishedEditions).WithOne(e => e.Publisher).HasForeignKey(b => b.PublisherId).IsRequired();
     }
 }

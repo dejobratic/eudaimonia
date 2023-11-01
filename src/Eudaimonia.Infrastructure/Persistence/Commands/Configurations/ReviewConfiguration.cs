@@ -15,17 +15,6 @@ public sealed class ReviewConfiguration : IEntityTypeConfiguration<Review>
         builder.Property(r => r.BookId).HasConversion<BookIdConverter>().IsRequired();
         builder.Property(r => r.ReviewerId).HasConversion<UserIdConverter>().IsRequired();
         builder.Property(r => r.Rating).HasConversion<RatingConverter>().IsRequired();
-        builder.OwnsOne(r => r.Comment, ConfigureComment);
-    }
-
-    private static void ConfigureComment(OwnedNavigationBuilder<Review, Comment> builder)
-    {
-        builder.WithOwner().HasForeignKey("ReviewId");
-        builder.ToTable(DbTableNames.Comments);
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasConversion<CommentIdConverter>().IsRequired();
-        builder.Property(c => c.CommenterId).HasConversion<UserIdConverter>().IsRequired();
-        builder.Property(c => c.Text).HasConversion<TextConverter>().IsRequired();
-        builder.Property(c => c.CreatedAt).IsRequired();
+        builder.Property(r => r.Comment).HasConversion<TextConverter>();
     }
 }

@@ -17,6 +17,7 @@ public class PublisherCommandRepositoryTests : CommandDbTestsBase
     {
         // Arrange
         var publisher = new Publisher(
+            new PublisherId(),
             new Text("HarperCollins"),
             new Text("HarperCollins Publishers LLC is one of the world's largest publishing companies."));
 

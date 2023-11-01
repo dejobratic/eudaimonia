@@ -4,6 +4,7 @@ namespace Eudaimonia.Domain.Tests.Unit;
 
 public class CommentTests
 {
+    private static readonly CommentId Id = new();
     private static readonly UserId CommenterId = new();
     private static readonly Text Text = new("Great book!");
     private static readonly DateTime CreatedAt = DateTime.UtcNow;
@@ -11,9 +12,10 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenAllRequiredParametersAreProvided_CreatesInstance()
     {
-        var comment = new Comment(CommenterId, Text, CreatedAt);
+        var comment = new Comment(Id, CommenterId, Text, CreatedAt);
 
         Assert.NotNull(comment);
+        Assert.Equal(Id, comment.Id);
         Assert.Equal(CommenterId, comment.CommenterId);
         Assert.Equal(Text, comment.Text);
         Assert.Equal(CreatedAt, comment.CreatedAt);
@@ -22,7 +24,7 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenComenterIdIsNull_ThrowsException()
     {
-        static Comment action() => new(null!, Text, CreatedAt);
+        static Comment action() => new(Id, null!, Text, CreatedAt);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);
@@ -32,7 +34,7 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenTextIsNull_ThrowsException()
     {
-        static Comment action() => new(CommenterId, null!, CreatedAt);
+        static Comment action() => new(Id, CommenterId, null!, CreatedAt);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);
@@ -42,7 +44,7 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenCreatedAtIsDefault_ThrowsException()
     {
-        static Comment action() => new(CommenterId, Text, default);
+        static Comment action() => new(Id, CommenterId, Text, default);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);

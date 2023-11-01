@@ -9,22 +9,32 @@ public static class BookExtensions
         => new()
         {
             Id = book.Id.Value,
-            Title = book.Title.Value,
-            Description = book.Description.Value,
+            OriginalTitle = book.OriginalTitle.Value,
+            OriginalLanguage = book.OriginalLanguage.Code,
             AuthorId = book.AuthorId.Value,
-            Edition = book.Edition.ToDto(),
-            ReviewSummary = book.ReviewSummary.ToDto(),
+            DefaultEditionId = book.DefaultEditionId.Value,
+            DefaultEdition = book.Editions.First(edition => edition.Id == book.DefaultEditionId).ToDto(),
             Genres = book.Genres.Select(g => g.Name).ToList(),
         };
 
     private static EditionDto ToDto(this Edition edition)
         => new()
         {
-            PageCount = (int)edition.PageCount,
-            FrontCover = edition.FrontCover.ToDto(),
-            Format = edition.Format.ToString(),
+            Id = edition.Id.Value,
+            Title = edition.Title.Value,
+            Description = edition.Description.Value,
+            Language = edition.Language.Code,
+            Specs = edition.Specs.ToDto(),
             PublisherId = edition.PublisherId.Value,
             PublicationYear = edition.PublicationYear.Value,
+        };
+
+    private static EditionSpecsDto ToDto(this EditionSpecs specs)
+        => new()
+        {
+            PageCount = specs.PageCount,
+            FrontCover = specs.FrontCover.ToDto(),
+            Format = specs.Format.ToString(),
         };
 
     private static ImageDto ToDto(this Image image)

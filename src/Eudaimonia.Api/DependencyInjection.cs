@@ -18,13 +18,19 @@ public static class DependencyInjection
         modelBuilder.EntityType<AuthorDto>().HasKey(x => x.Id);
         modelBuilder.EntityType<AuthorDto>().ContainsMany(a => a.AuthoredBooks).AutoExpand = true;
 
+        modelBuilder.EntitySet<PublisherDto>("Publishers");
+        modelBuilder.EntityType<PublisherDto>().HasKey(x => x.Id);
+        modelBuilder.EntityType<PublisherDto>().ContainsMany(a => a.PublishedEditions).AutoExpand = true;
+
         modelBuilder.EntitySet<BookDto>("Books");
         modelBuilder.EntityType<BookDto>().HasKey(x => x.Id);
         modelBuilder.EntityType<BookDto>().ContainsRequired(a => a.Author).AutoExpand = true;
+        modelBuilder.EntityType<BookDto>().ContainsRequired(a => a.DefaultEdition).AutoExpand = true;
 
-        modelBuilder.EntitySet<PublisherDto>("Publishers");
-        modelBuilder.EntityType<PublisherDto>().HasKey(x => x.Id);
-        modelBuilder.EntityType<PublisherDto>().ContainsMany(a => a.PublishedBooks).AutoExpand = true;
+        modelBuilder.EntitySet<EditionDto>("Editions");
+        modelBuilder.EntityType<EditionDto>().HasKey(x => x.Id);
+        modelBuilder.EntityType<EditionDto>().ContainsRequired(a => a.Book).AutoExpand = true;
+        modelBuilder.EntityType<EditionDto>().ContainsRequired(a => a.Publisher).AutoExpand = true;
 
         builder.AddOData(opt =>
         {

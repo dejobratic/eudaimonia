@@ -11,6 +11,7 @@ public class AuthorExtensionsTests
     {
         // Arrange
         var author = new Author(
+            new AuthorId(),
             new Text("J.R.R. Tolkien"),
             new Text("John Ronald Reuel Tolkien was an English writer, poet, philologist, and academic."));
 

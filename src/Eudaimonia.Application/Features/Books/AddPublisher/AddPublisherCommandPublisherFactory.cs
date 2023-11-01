@@ -7,6 +7,7 @@ public class AddPublisherCommandPublisherFactory : IFactory<AddPublisherCommand,
 {
     public Publisher CreateFrom(AddPublisherCommand command)
         => new(
+            new PublisherId(),
             new Text(command.FullName!),
             string.IsNullOrEmpty(command.Bio) ? null : new Text(command.Bio!));
 }

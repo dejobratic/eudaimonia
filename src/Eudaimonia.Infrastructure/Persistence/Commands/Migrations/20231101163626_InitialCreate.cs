@@ -44,7 +44,8 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BookId = table.Column<Guid>(type: "uuid", nullable: false),
                     ReviewerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Rating = table.Column<byte>(type: "smallint", nullable: false)
+                    Rating = table.Column<byte>(type: "smallint", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,23 +57,10 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    OriginalTitle = table.Column<string>(type: "text", nullable: false),
+                    OriginalLanguage = table.Column<string>(type: "text", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Edition_PageCount = table.Column<long>(type: "bigint", nullable: false),
-                    Edition_FrontCover_Name = table.Column<string>(type: "text", nullable: false),
-                    Edition_FrontCover_Url = table.Column<string>(type: "text", nullable: false),
-                    Edition_Format = table.Column<string>(type: "text", nullable: false),
-                    Edition_PublisherId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Edition_PublicationYear = table.Column<int>(type: "integer", nullable: false),
-                    ReviewSummary_ReviewCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_RatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_FiveStarRatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_FourStarRatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_ThreeStarRatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_TwoStarRatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_OneStarRatingCount = table.Column<long>(type: "bigint", nullable: false),
-                    ReviewSummary_AverageRating = table.Column<double>(type: "double precision", nullable: false),
+                    DefaultEditionId = table.Column<Guid>(type: "uuid", nullable: false),
                     Genres = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -87,22 +75,34 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "Editions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CommenterId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ReviewId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Language = table.Column<string>(type: "text", nullable: false),
+                    Specs_PageCount = table.Column<int>(type: "integer", nullable: false),
+                    Specs_FrontCover_Name = table.Column<string>(type: "text", nullable: false),
+                    Specs_FrontCover_Url = table.Column<string>(type: "text", nullable: false),
+                    Specs_Format = table.Column<string>(type: "text", nullable: false),
+                    PublisherId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PublicationYear = table.Column<int>(type: "integer", nullable: false),
+                    BookId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_Editions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Reviews_ReviewId",
-                        column: x => x.ReviewId,
-                        principalTable: "Reviews",
+                        name: "FK_Editions_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Editions_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -113,29 +113,33 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ReviewId",
-                table: "Comments",
-                column: "ReviewId",
-                unique: true);
+                name: "IX_Editions_BookId",
+                table: "Editions",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Editions_PublisherId",
+                table: "Editions",
+                column: "PublisherId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Editions");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Publishers");
 
             migrationBuilder.DropTable(
                 name: "Authors");
-
-            migrationBuilder.DropTable(
-                name: "Reviews");
         }
     }
 }

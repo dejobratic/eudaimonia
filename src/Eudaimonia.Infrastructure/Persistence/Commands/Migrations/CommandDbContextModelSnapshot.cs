@@ -47,15 +47,18 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("DefaultEditionId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Genres")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("OriginalLanguage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginalTitle")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -91,6 +94,9 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
                     b.Property<byte>("Rating")
                         .HasColumnType("smallint");
 
@@ -110,17 +116,21 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Eudaimonia.Domain.Edition", "Edition", b1 =>
+                    b.OwnsMany("Eudaimonia.Domain.Edition", "Editions", b1 =>
                         {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
                             b1.Property<Guid>("BookId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<string>("Format")
+                            b1.Property<string>("Description")
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<long>("PageCount")
-                                .HasColumnType("bigint");
+                            b1.Property<string>("Language")
+                                .IsRequired()
+                                .HasColumnType("text");
 
                             b1.Property<int>("PublicationYear")
                                 .HasColumnType("integer");
@@ -128,114 +138,76 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                             b1.Property<Guid>("PublisherId")
                                 .HasColumnType("uuid");
 
-                            b1.HasKey("BookId");
-
-                            b1.ToTable("Books");
-
-                            b1.WithOwner()
-                                .HasForeignKey("BookId");
-
-                            b1.OwnsOne("Eudaimonia.Domain.Image", "FrontCover", b2 =>
-                                {
-                                    b2.Property<Guid>("EditionBookId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasColumnType("text");
-
-                                    b2.Property<string>("Url")
-                                        .IsRequired()
-                                        .HasColumnType("text");
-
-                                    b2.HasKey("EditionBookId");
-
-                                    b2.ToTable("Books");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("EditionBookId");
-                                });
-
-                            b1.Navigation("FrontCover")
-                                .IsRequired();
-                        });
-
-                    b.OwnsOne("Eudaimonia.Domain.ReviewSummary", "ReviewSummary", b1 =>
-                        {
-                            b1.Property<Guid>("BookId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<double>("AverageRating")
-                                .HasColumnType("double precision");
-
-                            b1.Property<long>("FiveStarRatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("FourStarRatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("OneStarRatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("RatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("ReviewCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("ThreeStarRatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.Property<long>("TwoStarRatingCount")
-                                .HasColumnType("bigint");
-
-                            b1.HasKey("BookId");
-
-                            b1.ToTable("Books");
-
-                            b1.WithOwner()
-                                .HasForeignKey("BookId");
-                        });
-
-                    b.Navigation("Edition")
-                        .IsRequired();
-
-                    b.Navigation("ReviewSummary")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Eudaimonia.Domain.Review", b =>
-                {
-                    b.OwnsOne("Eudaimonia.Domain.Comment", "Comment", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("CommenterId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<Guid>("ReviewId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Text")
+                            b1.Property<string>("Title")
                                 .IsRequired()
                                 .HasColumnType("text");
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("ReviewId")
-                                .IsUnique();
+                            b1.HasIndex("BookId");
 
-                            b1.ToTable("Comments", (string)null);
+                            b1.HasIndex("PublisherId");
+
+                            b1.ToTable("Editions", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("ReviewId");
+                                .HasForeignKey("BookId");
+
+                            b1.HasOne("Eudaimonia.Domain.Publisher", null)
+                                .WithMany()
+                                .HasForeignKey("PublisherId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.OwnsOne("Eudaimonia.Domain.EditionSpecs", "Specs", b2 =>
+                                {
+                                    b2.Property<Guid>("EditionId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<string>("Format")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.Property<int>("PageCount")
+                                        .HasColumnType("integer");
+
+                                    b2.HasKey("EditionId");
+
+                                    b2.ToTable("Editions");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("EditionId");
+
+                                    b2.OwnsOne("Eudaimonia.Domain.Image", "FrontCover", b3 =>
+                                        {
+                                            b3.Property<Guid>("EditionSpecsEditionId")
+                                                .HasColumnType("uuid");
+
+                                            b3.Property<string>("Name")
+                                                .IsRequired()
+                                                .HasColumnType("text");
+
+                                            b3.Property<string>("Url")
+                                                .IsRequired()
+                                                .HasColumnType("text");
+
+                                            b3.HasKey("EditionSpecsEditionId");
+
+                                            b3.ToTable("Editions");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("EditionSpecsEditionId");
+                                        });
+
+                                    b2.Navigation("FrontCover")
+                                        .IsRequired();
+                                });
+
+                            b1.Navigation("Specs")
+                                .IsRequired();
                         });
 
-                    b.Navigation("Comment");
+                    b.Navigation("Editions");
                 });
 #pragma warning restore 612, 618
         }

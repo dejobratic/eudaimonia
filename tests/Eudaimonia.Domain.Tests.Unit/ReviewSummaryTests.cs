@@ -110,7 +110,7 @@ public class ReviewSummaryTests
     public void AddReview_WhenAddingReviewWithComment_IncreasesRatingsAndReviews()
     {
         var reviewSummary = new ReviewSummaryBuilder().Build();
-        reviewSummary = reviewSummary.AddReview(Rating.FiveStar, new Comment(new UserId(), new Text("Great book!"), DateTime.UtcNow));
+        reviewSummary = reviewSummary.AddReview(Rating.FiveStar, new Comment(new CommentId(), new UserId(), new Text("Great book!"), DateTime.UtcNow));
 
         Assert.Equal(ReviewSummaryDefaults.ReviewCount + 1, reviewSummary.ReviewCount);
         Assert.Equal(ReviewSummaryDefaults.RatingCount + 1, reviewSummary.RatingCount);

@@ -8,10 +8,15 @@ public class QueryDbFixture : DbFixture<QueryDbContext>
 {
     protected override QueryDbContext CreateDbContext()
     {
+        MigrateDatabase();
+        return CreateQueryDbContext();
+    }
+
+    private QueryDbContext CreateQueryDbContext()
+    {
         var options = new DbContextOptionsBuilder<QueryDbContext>()
             .Options;
 
-        MigrateDatabase();
         return new QueryDbContext(options, _configuration);
     }
 
@@ -20,7 +25,7 @@ public class QueryDbFixture : DbFixture<QueryDbContext>
         var options = new DbContextOptionsBuilder<CommandDbContext>()
             .Options;
 
-        using var dbContext = new CommandDbContext(options, _configuration);
+        using var dbContext =  new CommandDbContext(options, _configuration);
         dbContext.Database.Migrate();
     }
 }

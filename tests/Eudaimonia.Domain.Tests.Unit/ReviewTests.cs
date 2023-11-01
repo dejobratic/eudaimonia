@@ -4,6 +4,7 @@ namespace Eudaimonia.Domain.Tests.Unit;
 
 public class ReviewTests
 {
+    private static readonly ReviewId Id = new();
     private static readonly BookId BookId = new();
     private static readonly UserId ReviewerId = new();
     private static readonly Rating Rating = Rating.FiveStar;
@@ -13,23 +14,20 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenAllRequiredParametersAreProvided_CreatesInstance()
     {
-        var review = new Review(BookId, ReviewerId, Rating, Comment, CreatedAt);
+        var review = new Review(Id, BookId, ReviewerId, Rating, Comment, CreatedAt);
 
         Assert.NotNull(review);
-        Assert.NotNull(review.Id);
-        Assert.Equal(BookId, review.BookId);
+        Assert.Equal(Id, review.Id);
         Assert.Equal(ReviewerId, review.ReviewerId);
         Assert.Equal(Rating, review.Rating);
-        Assert.Equal(ReviewerId, review.Comment!.CommenterId);
-        Assert.Equal(Comment, review.Comment!.Text);
-        Assert.Equal(CreatedAt, review.Comment!.CreatedAt);
+        Assert.Equal(Comment, review.Comment);
         Assert.Equal(CreatedAt, review.CreatedAt);
     }
 
     [Fact]
     public void Constructor_WhenBookIdIsNull_ThrowsException()
     {
-        static Review action() => new(null!, ReviewerId, Rating, Comment, CreatedAt);
+        static Review action() => new(Id, null!, ReviewerId, Rating, Comment, CreatedAt);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
@@ -39,7 +37,7 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenReviewerIdIsNull_ThrowsException()
     {
-        static Review action() => new(BookId, null!, Rating, Comment, CreatedAt);
+        static Review action() => new(Id, BookId, null!, Rating, Comment, CreatedAt);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
@@ -49,7 +47,7 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenRatingIsNull_ThrowsException()
     {
-        static Review action() => new(BookId, ReviewerId, null!, Comment, CreatedAt);
+        static Review action() => new(Id, BookId, ReviewerId, null!, Comment, CreatedAt);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
@@ -59,7 +57,7 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenCreatedAtIsDefault_ThrowsException()
     {
-        static Review action() => new(BookId, ReviewerId, Rating, Comment, default);
+        static Review action() => new(Id, BookId, ReviewerId, Rating, Comment, default);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
@@ -69,14 +67,13 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenCommentIsNull_CreatesInstance()
     {
-        var review = new Review(BookId, ReviewerId, Rating, null, CreatedAt);
+        var review = new Review(Id, BookId, ReviewerId, Rating, null, CreatedAt);
 
         Assert.NotNull(review);
-        Assert.NotNull(review.Id);
-        Assert.Equal(BookId, review.BookId);
+        Assert.Equal(Id, review.Id);
         Assert.Equal(ReviewerId, review.ReviewerId);
         Assert.Equal(Rating, review.Rating);
-        Assert.Equal(CreatedAt, review.CreatedAt);
         Assert.Null(review.Comment);
+        Assert.Equal(CreatedAt, review.CreatedAt);
     }
 }

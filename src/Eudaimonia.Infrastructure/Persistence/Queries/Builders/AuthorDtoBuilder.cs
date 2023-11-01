@@ -19,6 +19,6 @@ public class AuthorDtoBuilder : IModelBuilder
         _builder.HasKey(a => a.Id);
         _builder.Property(a => a.FullName).IsRequired();
         _builder.Property(a => a.Bio);
-        _builder.HasMany(a => a.AuthoredBooks).WithOne(b => b.Author).HasForeignKey(b => b.AuthorId).IsRequired();
+        _builder.HasMany(a => a.AuthoredBooks).WithOne(b => b.Author).HasForeignKey(b => b.AuthorId);
     }
 }

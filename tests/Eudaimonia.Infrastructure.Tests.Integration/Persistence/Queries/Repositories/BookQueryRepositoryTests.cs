@@ -1,4 +1,5 @@
 ﻿using Eudaimonia.Application.Utils.Dtos;
+using Eudaimonia.Domain;
 using Eudaimonia.Domain.Exceptions;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
 
@@ -40,17 +41,31 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
 
         var publisher = new PublisherDto
         {
+            Id = Guid.NewGuid(),
             FullName = "HarperCollins",
             Bio = "HarperCollins Publishers LLC is one of the world's largest publishing companies.",
         };
 
+        var bookId = Guid.NewGuid();
+        var editionId = Guid.NewGuid();
+
         var book = new BookDto
         {
-            Id = Guid.NewGuid(),
+            Id = bookId,
+            OriginalTitle = "The Hobbit",
+            OriginalLanguage = "en",
+            AuthorId = author.Id,
+            DefaultEditionId = editionId,
+            Genres = new List<string> { "Fantasy" },
+        };
+
+        var edition = new EditionDto
+        {
+            Id = editionId,
             Title = "The Hobbit",
             Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
-            AuthorId = author.Id,
-            Edition = new EditionDto
+            Language = "en",
+            Specs = new EditionSpecsDto
             {
                 PageCount = 310,
                 FrontCover = new ImageDto
@@ -59,26 +74,16 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
                     Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
                 },
                 Format = "Hardcover",
-                PublisherId = publisher.Id,
-                PublicationYear = 1937
             },
-            ReviewSummary = new ReviewSummaryDto
-            {
-                ReviewCount = 0,
-                RatingCount = 0,
-                FiveStarRatingCount = 0,
-                FourStarRatingCount = 0,
-                ThreeStarRatingCount = 0,
-                TwoStarRatingCount = 0,
-                OneStarRatingCount = 0,
-                AverageRating = 0,
-            },
-            Genres = new List<string> { "Fantasy" },
+            BookId = bookId,
+            PublisherId = publisher.Id,
+            PublicationYear = 1937
         };
 
         await AddAsync(author);
         await AddAsync(publisher);
         await AddAsync(book);
+        await AddAsync(edition);
         await SaveChangesAsync();
 
         // Act
@@ -93,7 +98,8 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
     [Fact]
     public async Task GetAll_WhenNoBooksExist_ReturnsEmptyCollection()
     {
-        // Arrange Act
+        // Arrange
+        // Act
         var actual = await Sut.GetAsync();
 
         // Assert
@@ -113,49 +119,68 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
 
         var publisher = new PublisherDto
         {
+            Id = Guid.NewGuid(),
             FullName = "HarperCollins",
             Bio = "HarperCollins Publishers LLC is one of the world's largest publishing companies.",
         };
 
+        var book1Id = Guid.NewGuid();
+        var edition1Id = Guid.NewGuid();
+
+        var book2Id = Guid.NewGuid();
+        var edition2Id = Guid.NewGuid();
+
         var book1 = new BookDto
         {
-            Id = Guid.NewGuid(),
-            Title = "The Hobbit",
-            Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
+            Id = book1Id,
+            OriginalTitle = "The Hobbit",
+            OriginalLanguage = "en",
             AuthorId = author.Id,
-            Edition = new EditionDto
+            DefaultEditionId = edition1Id,
+            Genres = new List<string> { "Fantasy" },
+        };
+
+        var edition1 = new List<EditionDto>
+        {
+            new EditionDto
             {
-                PageCount = 310,
-                FrontCover = new ImageDto
+                Id = edition1Id,
+                Title = "The Hobbit",
+                Description = "Written for J.R.R. Tolkien’s own children, The Hobbit met with instant critical acclaim when it was first published in 1937.",
+                Language = "en",
+                Specs = new EditionSpecsDto
                 {
-                    Name = "Cover.jpg",
-                    Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
+                    PageCount = 310,
+                    FrontCover = new ImageDto
+                    {
+                        Name = "Cover.jpg",
+                        Url = "https://pictures.abebooks.com/inventory/31499487055.jpg"
+                    },
+                    Format = "Hardcover",
                 },
-                Format = "Hardcover",
+                BookId = book1Id,
                 PublisherId = publisher.Id,
                 PublicationYear = 1937
             },
-            ReviewSummary = new ReviewSummaryDto
-            {
-                ReviewCount = 0,
-                RatingCount = 0,
-                FiveStarRatingCount = 0,
-                FourStarRatingCount = 0,
-                ThreeStarRatingCount = 0,
-                TwoStarRatingCount = 0,
-                OneStarRatingCount = 0,
-                AverageRating = 0,
-            },
-            Genres = new List<string> { "Fantasy" },
         };
 
         var book2 = new BookDto
         {
-            Id = Guid.NewGuid(),
+            Id = book2Id,
+            OriginalTitle = "The Lord Of The Rings",
+            OriginalLanguage = "en",
+            AuthorId = author.Id,
+            DefaultEditionId = edition2Id,
+            Genres = new List<string> { "Fantasy" },
+        };
+
+        var edition2 = new EditionDto
+        {
+            Id = edition2Id,
             Title = "The Lord Of The Rings",
             Description = "Set in Middle-earth, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work.",
-            AuthorId = author.Id,
-            Edition = new EditionDto
+            Language = "en",
+            Specs = new EditionSpecsDto
             {
                 PageCount = 975,
                 FrontCover = new ImageDto
@@ -164,27 +189,18 @@ public class BookQueryRepositoryTests : QueryDbTestsBase
                     Url = "https://upload.wikimedia.org/wikipedia/en/e/e9/First_Single_Volume_Edition_of_The_Lord_of_the_Rings.gif"
                 },
                 Format = "Hardcover",
-                PublisherId = publisher.Id,
-                PublicationYear = 1968
             },
-            ReviewSummary = new ReviewSummaryDto
-            {
-                ReviewCount = 0,
-                RatingCount = 0,
-                FiveStarRatingCount = 0,
-                FourStarRatingCount = 0,
-                ThreeStarRatingCount = 0,
-                TwoStarRatingCount = 0,
-                OneStarRatingCount = 0,
-                AverageRating = 0,
-            },
-            Genres = new List<string> { "Fantasy" },
+            BookId = book2Id,
+            PublisherId = publisher.Id,
+            PublicationYear = 1968
         };
 
         await AddAsync(author);
         await AddAsync(publisher);
         await AddAsync(book1);
+        await AddAsync(edition1);
         await AddAsync(book2);
+        await AddAsync(edition2);
         await SaveChangesAsync();
 
         // Act

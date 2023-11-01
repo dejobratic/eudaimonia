@@ -6,5 +6,5 @@ public class PublisherDto
     public string FullName { get; set; } = null!;
     public string? Bio { get; set; }
 
-    public virtual List<BookDto> PublishedBooks { get; set; } = new();
+    public virtual List<EditionDto> PublishedEditions { get; set; } = new();
 }

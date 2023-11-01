@@ -7,34 +7,37 @@ namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence;
 public abstract class DbFixture<T> : IAsyncLifetime
     where T : DbContext
 {
-    private readonly PostgresContainer _container;
-
-    private T? _dbContext;
-    public T DbContext => _dbContext ??= CreateDbContext();
-
+    private readonly IDbContainer _dbContainer;
     protected IConfigurationRoot _configuration = null!;
+
+    private T _dbContext = null!;
+    public T DbContext => _dbContext ??= CreateDbContext();
 
     protected DbFixture()
     {
-        _container = new PostgresContainer();
+        _dbContainer = new PostgresContainer();
     }
 
     public async Task InitializeAsync()
     {
-        await _container.InitializeAsync();
+        await _dbContainer.InitializeAsync();
+
         _configuration ??= CreateConfiguration();
         _dbContext ??= CreateDbContext();
     }
 
     public async Task DisposeAsync()
-        => await _container.DisposeAsync();
+    {
+        await _dbContext!.DisposeAsync();
+        await _dbContainer.DisposeAsync();
+    }
 
     private IConfigurationRoot CreateConfiguration()
     {
         return new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
-                [DbOptions.PostgresConnectionString] = _container.GetConnectionString()
+                [DbOptions.PostgresConnectionString] = _dbContainer.GetConnectionString()
             })
             .Build();
     }

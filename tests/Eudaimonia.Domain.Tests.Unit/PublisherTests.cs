@@ -4,23 +4,25 @@ namespace Eudaimonia.Domain.Tests.Unit;
 
 public class PublisherTests
 {
-    private static readonly Text PublisherFullName = new("HarperCollins");
-    private static readonly Text PublisherBio = new("HarperCollins Publishers LLC is one of the world's largest publishing companies.");
+    private static readonly PublisherId Id = new();
+    private static readonly Text FullName = new("HarperCollins");
+    private static readonly Text Bio = new("HarperCollins Publishers LLC is one of the world's largest publishing companies.");
 
     [Fact]
     public void Constructor_WhenAllRequiredParametersAreProvided_CreatesInstance()
     {
-        var publisher = new Publisher(PublisherFullName, PublisherBio);
+        var publisher = new Publisher(Id, FullName, Bio);
 
-        Assert.NotNull(publisher.Id);
-        Assert.Equal(PublisherFullName, publisher.FullName);
-        Assert.Equal(PublisherBio, publisher.Bio);
+        Assert.NotNull(publisher);
+        Assert.Equal(Id, publisher.Id);
+        Assert.Equal(FullName, publisher.FullName);
+        Assert.Equal(Bio, publisher.Bio);
     }
 
     [Fact]
     public void Constructor_WhenFullNameIsNull_ThrowsException()
     {
-        static Publisher action() => new(null!, PublisherBio);
+        static Publisher action() => new(Id, null!, Bio);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Publisher with 1 error(s).", exception.Message);
@@ -30,10 +32,10 @@ public class PublisherTests
     [Fact]
     public void Constructor_WhenBioIsNull_CreatesInstance()
     {
-        var publisher = new Publisher(PublisherFullName, null);
+        var publisher = new Publisher(Id, FullName, null);
 
-        Assert.NotNull(publisher.Id);
-        Assert.Equal(PublisherFullName, publisher.FullName);
+        Assert.Equal(Id, publisher.Id);
+        Assert.Equal(FullName, publisher.FullName);
         Assert.Null(publisher.Bio);
     }
 }

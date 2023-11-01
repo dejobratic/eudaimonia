@@ -16,8 +16,8 @@ public sealed class AuthorId : UserId
 
 public sealed class Author : User<AuthorId>
 {
-    public Author(Text fullName, Text? bio)
-        : base(fullName, bio)
+    public Author(AuthorId id, Text fullName, Text? bio)
+        : base(id, fullName, bio)
     {
         ThrowIfInvalid();
     }

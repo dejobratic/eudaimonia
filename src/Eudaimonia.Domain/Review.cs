@@ -19,37 +19,32 @@ public class ReviewId : GuidId
 
 public class Review : Entity<ReviewId>
 {
-    public BookId BookId { get; }
-    public UserId ReviewerId { get; }
-    public Rating Rating { get; }
-    public Comment? Comment { get; }
+    public BookId BookId { get; } = null!;
+    public UserId ReviewerId { get; } = null!;
+    public Rating Rating { get; } = null!;
+    public Text? Comment { get; }
     public DateTime CreatedAt { get; }
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     private Review() : base()
     {
     } // Required by EF Core.
 
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
     public Review(
+        ReviewId id,
         BookId bookId,
         UserId reviewerId,
         Rating rating,
         Text? comment,
         DateTime createdAt)
-        : base(new ReviewId())
+        : base(id)
     {
         BookId = bookId;
         ReviewerId = reviewerId;
         Rating = rating;
+        Comment = comment;
         CreatedAt = createdAt;
 
         ThrowIfInvalid();
-
-        if (comment is not null)
-            Comment = new Comment(reviewerId, comment, createdAt);
     }
 
     protected override List<ValidationError> Validate()

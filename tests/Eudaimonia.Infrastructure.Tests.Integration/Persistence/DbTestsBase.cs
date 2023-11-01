@@ -21,6 +21,9 @@ public abstract class DbTestsBase<T>
     protected async Task AddAsync<TEntity>(TEntity entity) where TEntity : class
         => await DbContext.AddAsync(entity);
 
+    protected async Task DeleteAllAsync<TEntity>() where TEntity : class
+        => await DbContext.Set<TEntity>().ExecuteDeleteAsync();
+
     protected async Task SaveChangesAsync()
         => await DbContext.SaveChangesAsync();
 }

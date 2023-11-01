@@ -2,8 +2,8 @@
 
 public class Member : User<UserId>
 {
-    public Member(Text fullName, Text? bio)
-        : base(fullName, bio)
+    public Member(UserId id, Text fullName, Text? bio)
+        : base(id, fullName, bio)
     {
         ThrowIfInvalid();
     }

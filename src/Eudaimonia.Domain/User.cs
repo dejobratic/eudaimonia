@@ -23,8 +23,8 @@ public abstract class User<TId> : Entity<TId>
     public Text FullName { get; }
     public Text? Bio { get; }
 
-    protected User(Text fullName, Text? bio)
-        : base(new TId())
+    protected User(TId id, Text fullName, Text? bio)
+        : base(id)
     {
         FullName = fullName;
         Bio = bio;

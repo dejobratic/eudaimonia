@@ -32,5 +32,6 @@ public sealed class QueryDbContext : DbContext
         modelBuilder.Entity<AuthorDto>(b => new AuthorDtoBuilder(b).Build());
         modelBuilder.Entity<PublisherDto>(b => new PublisherDtoBuilder(b).Build());
         modelBuilder.Entity<BookDto>(b => new BookDtoBuilder(b).Build());
+        modelBuilder.Entity<EditionDto>(b => new EditionDtoBuilder(b).Build());
     }
 }
