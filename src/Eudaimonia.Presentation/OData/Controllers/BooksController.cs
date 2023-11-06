@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-namespace Eudaimonia.Api.Controllers;
+namespace Eudaimonia.Presentation.OData.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

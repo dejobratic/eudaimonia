@@ -10,6 +10,7 @@ services:
       dockerfile: src/Eudaimonia.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - PersistenceOptions__Provider=OData 
       - DatabaseOptions__Provider=Postgres
       - DatabaseOptions__PostgresOptions__ConnectionString=Host=postgres;Port=5432;Database=Eudaimonia;User ID=postgres;Password=postgres;
 
