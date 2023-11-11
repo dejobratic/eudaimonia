@@ -117,7 +117,9 @@ public class BookDtoRepositoryTests : QueryDbTestsBase
 
         // Assert
         book1.Author = null!;
+        book1.DefaultEdition = null!;
         book2.Author = null!;
+        book2.DefaultEdition = null!;
 
         var expected = new[] { book1, book2 };
 
