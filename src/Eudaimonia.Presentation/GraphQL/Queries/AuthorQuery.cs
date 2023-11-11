@@ -1,5 +1,5 @@
-﻿using Eudaimonia.Application.Features.Books.GetAuthors;
-using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
+using Eudaimonia.Application.Features.Authors.GetAuthors;
 using Eudaimonia.Application.Utils.Queries;
 using Eudaimonia.Presentation.GraphQL.Types;
 using GraphQL.Types;

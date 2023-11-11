@@ -13,7 +13,7 @@ public class NamespaceBasedControllerModelConvention : IControllerModelConventio
 
     public void Apply(ControllerModel controller)
     {
-        if (controller.ControllerType.Namespace is not null && !controller.ControllerType.Namespace.Contains(_namespaceToInclude))
+        if (controller.ControllerType.Namespace?.Contains(_namespaceToInclude) != true)
         {
             controller.ApiExplorer.IsVisible = false;
             controller.Actions.Clear();

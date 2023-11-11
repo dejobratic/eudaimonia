@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eudaimonia.Presentation.GraphQL
+namespace Eudaimonia.Presentation.GraphQL;
+
+public static class GraphQLConstants
 {
-    public class GraphQLConstants
-    {
-        public const string AuthorType = "Author";
-        public const string BookType = "Book";
-        public const string EditionType = "Edition";
-        public const string EditionSpecsType = "EditionSpecs";
-    }
+    public const string AuthorType = "Author";
+    public const string BookType = "Book";
+    public const string EditionType = "Edition";
+    public const string EditionSpecsType = "EditionSpecs";
 }

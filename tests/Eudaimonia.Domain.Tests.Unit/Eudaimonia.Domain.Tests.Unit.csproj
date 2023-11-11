@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\src\Eudaimonia.Domain\Eudaimonia.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Factories\" />
+  </ItemGroup>
+
 </Project>

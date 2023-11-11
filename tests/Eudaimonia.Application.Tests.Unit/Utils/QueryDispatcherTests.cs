@@ -10,19 +10,19 @@ public class QueryDispatcherTests
     private class TestQuery3 : IQuery { }
     private class TestQuery1Handler : IQueryHandler<TestQuery1, string>
     {
-        public Task<string> HandleAsync(TestQuery1 query)
+        public Task<string> HandleAsync(TestQuery1 query, CancellationToken cancellationToken = default)
             => Task.FromResult(nameof(TestQuery1));
     }
 
     private class TestQuery2Handler : IQueryHandler<TestQuery2, string>
     {
-        public Task<string> HandleAsync(TestQuery2 query)
+        public Task<string> HandleAsync(TestQuery2 query, CancellationToken cancellationToken = default)
             => Task.FromResult(nameof(TestQuery2));
     }
 
     private class TestQuery2Handler2 : IQueryHandler<TestQuery2, string>
     {
-        public Task<string> HandleAsync(TestQuery2 query)
+        public Task<string> HandleAsync(TestQuery2 query, CancellationToken cancellationToken = default)
             => Task.FromResult(nameof(TestQuery2));
     }
 

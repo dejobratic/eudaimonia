@@ -1,5 +1,5 @@
-﻿using Eudaimonia.Application.Utils.Commands;
-using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
+using Eudaimonia.Application.Utils.Commands;
 
 namespace Eudaimonia.Application.Features.Books.AddBook;
 

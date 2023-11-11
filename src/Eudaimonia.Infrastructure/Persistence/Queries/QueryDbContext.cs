@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
 using Eudaimonia.Infrastructure.Persistence.Queries.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

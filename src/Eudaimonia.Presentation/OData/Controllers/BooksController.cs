@@ -1,8 +1,8 @@
-﻿using Eudaimonia.Application.Features.Books.AddBook;
+﻿using Eudaimonia.Application.Dtos;
+using Eudaimonia.Application.Features.Books.AddBook;
 using Eudaimonia.Application.Features.Books.GetBookById;
 using Eudaimonia.Application.Features.Books.GetBooks;
 using Eudaimonia.Application.Utils.Commands;
-using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -31,6 +31,7 @@ public class BooksController : ODataController
     {
         var query = new GetBookByIdQuery { Id = id };
         var book = await _queryDispatcher.DispatchAsync<BookDto>(query);
+        
 
         return Ok(book);
     }

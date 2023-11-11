@@ -9,12 +9,12 @@ public class CommandDispatcher : ICommandDispatcher
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<CommandResult> DispatchAsync(ICommand command)
+    public async Task<CommandResult> DispatchAsync(ICommand command, CancellationToken cancellationToken = default)
     {
         var (handler, handlerType) = ResolveCommandHandler(command);
 
-        var handleMethod = handlerType.GetMethod("HandleAsync");
-        return await (Task<CommandResult>)handleMethod!.Invoke(handler, new object[] { command })!;
+        var handleMethod = handlerType.GetMethod(nameof(ICommandHandler<ICommand>.HandleAsync));
+        return await (Task<CommandResult>)handleMethod!.Invoke(handler, new object[] { command, cancellationToken })!;
     }
 
     private (object, Type) ResolveCommandHandler(ICommand command)

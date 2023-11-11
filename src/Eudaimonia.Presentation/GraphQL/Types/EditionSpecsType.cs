@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
 using GraphQL.Types;
 
 namespace Eudaimonia.Presentation.GraphQL.Types;

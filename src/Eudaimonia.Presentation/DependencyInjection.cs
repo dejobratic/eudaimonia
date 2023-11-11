@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
 using Eudaimonia.Presentation.Exceptions;
 using Eudaimonia.Presentation.GraphQL.Schemas;
 using GraphQL;
@@ -13,6 +13,9 @@ namespace Eudaimonia.Presentation;
 
 public static class DependencyInjection
 {
+    private const string ODataControllerNamespace = "Eudaimonia.Presentation.OData.Controllers";
+    private const string GraphQLControllerNamespace = "Eudaimonia.Presentation.GraphQL.Controllers";
+
     public static WebApplication ConfigurePresentation(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
@@ -51,13 +54,13 @@ public static class DependencyInjection
         {
             case PresentationOptions.GraphQL:
                 services.AddGraphQLDependencies();
-                services.AddControllersFromNamespace(PresentationOptions.GraphQLControllerNamespace);
+                services.AddControllersFromNamespace(GraphQLControllerNamespace);
                 break;
 
             case PresentationOptions.OData:
                 services.AddEndpointsApiExplorer();
                 services.AddSwaggerGen();
-                services.AddControllersFromNamespace(PresentationOptions.ODataControllerNamespace).AddODataDependencies();
+                services.AddControllersFromNamespace(ODataControllerNamespace).AddODataDependencies();
                 break;
 
             default:

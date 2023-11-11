@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

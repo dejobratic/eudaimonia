@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -123,7 +122,7 @@ namespace Eudaimonia.Infrastructure.Persistence.Commands.Migrations
                 column: "PublisherId");
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

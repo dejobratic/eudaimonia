@@ -9,12 +9,12 @@ public class QueryDispatcher : IQueryDispatcher
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<TResult> DispatchAsync<TResult>(IQuery query)
+    public async Task<TResult> DispatchAsync<TResult>(IQuery query, CancellationToken cancellationToken = default)
     {
         var (handler, handlerType) = ResolveQueryHandler<TResult>(query);
 
-        var handleMethod = handlerType.GetMethod("HandleAsync");
-        return await (Task<TResult>)handleMethod!.Invoke(handler, new object[] { query })!;
+        var handleMethod = handlerType.GetMethod(nameof(IQueryHandler<IQuery, TResult>.HandleAsync));
+        return await (Task<TResult>)handleMethod!.Invoke(handler, new object[] { query, cancellationToken })!;
     }
 
     private (object, Type) ResolveQueryHandler<TResult>(IQuery query)

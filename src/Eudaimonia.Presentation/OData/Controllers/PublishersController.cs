@@ -1,7 +1,7 @@
-﻿using Eudaimonia.Application.Features.Books.AddPublisher;
-using Eudaimonia.Application.Features.Books.GetPublishers;
+﻿using Eudaimonia.Application.Dtos;
+using Eudaimonia.Application.Features.Publishers.GetPublishers;
+using Eudaimonia.Application.Features.Publishers.AddPublisher;
 using Eudaimonia.Application.Utils.Commands;
-using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;

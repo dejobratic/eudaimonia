@@ -1,7 +1,9 @@
 ﻿using Eudaimonia.Application.Utils.Commands;
 using Eudaimonia.Application.Utils.Queries;
-using Eudaimonia.Application.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using Eudaimonia.Domain.Factories;
+using Eudaimonia.Domain.Kernel;
+using Eudaimonia.Application.Utils;
 
 namespace Eudaimonia.Application;
 
@@ -12,7 +14,9 @@ public static class DependencyInjection
     {
         services.AddAll(typeof(ICommandHandler<>), ServiceLifetime.Transient);
         services.AddAll(typeof(IQueryHandler<,>), ServiceLifetime.Transient);
-        services.AddAll(typeof(IFactory<,>), ServiceLifetime.Transient);
+        services.AddAll(typeof(IEntityFactory), ServiceLifetime.Transient);
+
+        services.AddTransient<IIdGenerator<Guid>, GuidGenerator>();
 
         services.AddTransient<ICommandDispatcher, CommandDispatcher>();
         services.AddTransient<IQueryDispatcher, QueryDispatcher>();

@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Utils.Dtos;
+﻿using Eudaimonia.Application.Dtos;
 using Eudaimonia.Domain;
 
 namespace Eudaimonia.Application.Utils.Extensions;

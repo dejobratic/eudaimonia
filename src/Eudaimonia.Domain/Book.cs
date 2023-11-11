@@ -65,6 +65,11 @@ public sealed class Book : Entity<BookId>
         ThrowIfInvalid();
     }
 
+    public void AddEdition(Edition edition)
+    {
+        _editions.Add(edition);
+    }
+
     protected override List<ValidationError> Validate()
     {
         var errors = base.Validate();

@@ -1,7 +1,8 @@
-﻿using Eudaimonia.Application.Features.Books.AddAuthor;
-using Eudaimonia.Application.Features.Books.GetAuthors;
+﻿using Eudaimonia.Application.Dtos;
+using Eudaimonia.Application.Features.Authors.AddAuthor;
+using Eudaimonia.Application.Features.Authors.DeleteAuthor;
+using Eudaimonia.Application.Features.Authors.GetAuthors;
 using Eudaimonia.Application.Utils.Commands;
-using Eudaimonia.Application.Utils.Dtos;
 using Eudaimonia.Application.Utils.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -39,5 +40,14 @@ public class AuthorsController : ODataController
     {
         var result = await _commandDispatcher.DispatchAsync(command);
         return Ok(result.Data);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAuthorAsync(Guid id)
+    {
+        var command = new DeleteAuthorCommand { Id = id };
+        await _commandDispatcher.DispatchAsync(command);
+        
+        return Ok();
     }
 }

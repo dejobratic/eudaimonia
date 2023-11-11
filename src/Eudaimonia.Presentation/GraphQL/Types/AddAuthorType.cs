@@ -1,4 +1,4 @@
-﻿using Eudaimonia.Application.Features.Books.AddAuthor;
+﻿using Eudaimonia.Application.Features.Authors.AddAuthor;
 using GraphQL.Types;
 
 namespace Eudaimonia.Presentation.GraphQL.Types;

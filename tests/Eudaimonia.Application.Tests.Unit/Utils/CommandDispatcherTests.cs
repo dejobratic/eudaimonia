@@ -11,19 +11,19 @@ public class CommandDispatcherTests
 
     private class TestCommand1Handler : ICommandHandler<TestCommand1>
     {
-        public Task<CommandResult> HandleAsync(TestCommand1 command)
+        public Task<CommandResult> HandleAsync(TestCommand1 command, CancellationToken cancellationToken = default)
             => Task.FromResult(new CommandResult(nameof(TestCommand1)));
     }
 
     private class TestCommand2Handler : ICommandHandler<TestCommand2>
     {
-        public Task<CommandResult> HandleAsync(TestCommand2 command)
+        public Task<CommandResult> HandleAsync(TestCommand2 command, CancellationToken cancellationToken = default)
             => Task.FromResult(new CommandResult(nameof(TestCommand2)));
     }
 
     private class TestCommand2Handler2 : ICommandHandler<TestCommand2>
     {
-        public Task<CommandResult> HandleAsync(TestCommand2 command)
+        public Task<CommandResult> HandleAsync(TestCommand2 command, CancellationToken cancellationToken = default)
             => Task.FromResult(new CommandResult(nameof(TestCommand2)));
     }
 
