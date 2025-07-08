@@ -12,9 +12,4 @@ public class GraphQLUserContext : Dictionary<string, object?>
         : base()
     {
     }
-
-    protected GraphQLUserContext(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

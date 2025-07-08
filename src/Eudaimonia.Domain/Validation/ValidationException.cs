@@ -12,9 +12,4 @@ public class ValidationException : Exception
     {
         Errors = errors;
     }
-
-    protected ValidationException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 }

@@ -18,9 +18,9 @@ public class TextTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Constructor_WhenProvidedInvalidValue_ThrowsException(string value)
+    public void Constructor_WhenProvidedInvalidValue_ThrowsException(string? value)
     {
-        Text action() => new(value);
+        Text action() => new(value!);
 
         var exception = Assert.Throws<ValidationException>(action);
         Assert.Equal("Validation failed for Text with 1 error(s).", exception.Message);

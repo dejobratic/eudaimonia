@@ -9,9 +9,4 @@ public class EntityNotFoundException : Exception
         : base($"{entityName} with id {entityId} not found.")
     {
     }
-
-    protected EntityNotFoundException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-    }
 }

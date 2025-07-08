@@ -9,11 +9,5 @@ namespace Eudaimonia.Presentation.Exceptions
             : base($"Configuration value '{value ?? "null"}' for {name} is not supported.")
         {
         }
-
-        protected UnsupportedConfigurationException(
-            SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
     }
 }
