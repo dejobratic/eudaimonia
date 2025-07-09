@@ -10,7 +10,7 @@ public class CommandDbFixture : DbFixture<CommandDbContext>
         var options = new DbContextOptionsBuilder<CommandDbContext>()
             .Options;
 
-        var dbContext = new CommandDbContext(options, _configuration);
+        var dbContext = new CommandDbContext(options, Configuration);
         dbContext.Database.Migrate();
 
         return dbContext;
