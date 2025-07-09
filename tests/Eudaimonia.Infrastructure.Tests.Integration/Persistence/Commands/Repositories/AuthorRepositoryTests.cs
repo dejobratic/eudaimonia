@@ -4,14 +4,9 @@ using Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Builders;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Repositories;
 
-public class AuthorRepositoryTests : CommandDbTestsBase
+public class AuthorRepositoryTests(CommandDbFixture fixture) : CommandDbTestsBase(fixture)
 {
     private AuthorRepository Sut => new(DbContext);
-
-    public AuthorRepositoryTests(CommandDbFixture fixture)
-        : base(fixture)
-    {
-    }
 
     [Fact]
     public async Task AddAuthorAsync_ShouldAddAuthor()

@@ -1,49 +1,31 @@
 ﻿using Eudaimonia.Domain.Kernel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Eudaimonia.Domain.Tests.Unit.Kernel;
 
 public class ValueObjectTest
 {
-    [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "Members are used for equality comparison.")]
-    [SuppressMessage("Critical Code Smell", "S4487:Unread \"private\" fields should be removed", Justification = "Members are used for equality comparison.")]
-    private class ValueObject : ValueObject<ValueObject>
+    private class ValueObject(int intField, bool boolProperty, string stringProperty)
+        : ValueObject<ValueObject>
     {
-        private readonly int _intField;
+        private readonly int _intField = intField;
 
-        private bool BoolProperty { get; }
+        private bool BoolProperty { get; } = boolProperty;
 
-        public string StringProperty { get; }
-
-        public ValueObject(int intField, bool boolProperty, string stringProperty)
-        {
-            _intField = intField;
-            BoolProperty = boolProperty;
-            StringProperty = stringProperty;
-        }
+        public string StringProperty { get; } = stringProperty;
     }
 
-    private class DerrivedValueObject : ValueObject
+    private class DerivedValueObject(int intField, bool boolProperty, string stringProperty)
+        : ValueObject(intField, boolProperty, stringProperty)
     {
         public char CharField;
-
-        public DerrivedValueObject(int intField, bool boolProperty, string stringProperty)
-            : base(intField, boolProperty, stringProperty)
-        {
-        }
     }
 
-    private class ComplexValueObject : ValueObject<ComplexValueObject>
+    private class ComplexValueObject(object obj, ValueObject child)
+        : ValueObject<ComplexValueObject>
     {
-        public object Object { get; }
+        public object Object { get; } = obj;
 
-        public ValueObject Child { get; }
-
-        public ComplexValueObject(object obj, ValueObject child)
-        {
-            Object = obj;
-            Child = child;
-        }
+        public ValueObject Child { get; } = child;
     }
 
     [Fact]
@@ -118,28 +100,28 @@ public class ValueObjectTest
     }
 
     [Fact]
-    public void Derrived_ValueObjects_are_equal_if_all_their_fields_are_equal()
+    public void Derived_ValueObjects_are_equal_if_all_their_fields_are_equal()
     {
-        var a = new DerrivedValueObject(1, true, "a") { CharField = 'c' };
-        var b = new DerrivedValueObject(1, true, "a") { CharField = 'c' };
+        var a = new DerivedValueObject(1, true, "a") { CharField = 'c' };
+        var b = new DerivedValueObject(1, true, "a") { CharField = 'c' };
 
         AssertAreEqual(a, b);
     }
 
     [Fact]
-    public void Derrived_ValueObjects_are_not_equal_if_all_their_fields_are_not_equal()
+    public void Derived_ValueObjects_are_not_equal_if_all_their_fields_are_not_equal()
     {
-        var a = new DerrivedValueObject(1, true, "a") { CharField = 'c' };
-        var b = new DerrivedValueObject(1, true, "a") { CharField = 'e' };
+        var a = new DerivedValueObject(1, true, "a") { CharField = 'c' };
+        var b = new DerivedValueObject(1, true, "a") { CharField = 'e' };
 
         AssertAreNotEqual(a, b);
     }
 
     [Fact]
-    public void Derrived_ValueObjects_are_not_equal_if_all_their_base_fields_are_not_equal()
+    public void Derived_ValueObjects_are_not_equal_if_all_their_base_fields_are_not_equal()
     {
-        var a = new DerrivedValueObject(1, true, "a") { CharField = 'c' };
-        var b = new DerrivedValueObject(2, true, "a") { CharField = 'c' };
+        var a = new DerivedValueObject(1, true, "a") { CharField = 'c' };
+        var b = new DerivedValueObject(2, true, "a") { CharField = 'c' };
 
         AssertAreNotEqual(a, b);
     }
@@ -148,7 +130,7 @@ public class ValueObjectTest
     public void Equality_WhenComparingDerivedAndBaseValueObject_AreNotEqual()
     {
         ValueObject a = new(1, true, "a");
-        DerrivedValueObject b = new(2, true, "a") { CharField = 'c' };
+        DerivedValueObject b = new(2, true, "a") { CharField = 'c' };
 
         AssertAreNotEqual(a, b);
     }

@@ -9,17 +9,17 @@ public class BookDtoBuilder
     private string _originalLanguage = "en";
     private Guid _authorId = Guid.NewGuid();
     private Guid _defaultEditionId = Guid.NewGuid();
-    private List<string> _genres = new() { "Fantasy", "Adventure" };
+    private List<string> _genres = ["Fantasy", "Adventure"];
 
     public BookDtoBuilder TheHobbit
         => WithOriginalTitle("The Hobbit")
             .WithOriginalLanguage("en") 
-            .WithGenres(new List<string> { "Fantasy", "Adventure" });
+            .WithGenres(["Fantasy", "Adventure"]);
 
     public BookDtoBuilder TheLordOfTheRings
         => WithOriginalTitle("The Lord of the Rings")
             .WithOriginalLanguage("en")
-            .WithGenres(new List<string> { "Fantasy", "Adventure" });
+            .WithGenres(["Fantasy", "Adventure"]);
 
     public BookDtoBuilder WithId(Guid id)
     {

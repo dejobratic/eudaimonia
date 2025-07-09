@@ -73,10 +73,10 @@ public class CommandDispatcherTests
         var command = new TestCommand3();
 
         // Act
-        Task<CommandResult> action() => _sut.DispatchAsync(command);
+        Task<CommandResult> Action() => _sut.DispatchAsync(command);
 
         // Assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>((Func<Task<CommandResult>>)action);
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>((Func<Task<CommandResult>>)Action);
         Assert.Equal($"No command handler found for command type TestCommand3.", exception.Message);
     }
 }

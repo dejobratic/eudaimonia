@@ -71,9 +71,9 @@ public class EnumerationTest
     [Fact]
     public void Constructor_WhenNameIsNull_ThrowsException()
     {
-        static StringConstant action() => StringConstant.Invalid;
+        static StringConstant Action() => StringConstant.Invalid;
 
-        var exception = Assert.Throws<ArgumentNullException>((Func<StringConstant>)action);
+        var exception = Assert.Throws<ArgumentNullException>((Func<StringConstant>)Action);
         Assert.Equal("Value cannot be null. (Parameter 'name')", exception.Message);
     }
 
@@ -124,9 +124,9 @@ public class EnumerationTest
     [Fact]
     public void GetAll_WithPropertyInstances_ReturnsAll()
     {
-        var items = MathConstant.GetAll<MathConstant>();
+        var items = MathConstant.GetAll<MathConstant>().ToArray();
 
-        Assert.Equal(2, items.Count());
+        Assert.Equal(2, items.Length);
         Assert.Contains(MathConstant.Pi, items);
         Assert.Contains(MathConstant.E, items);
     }
@@ -150,27 +150,27 @@ public class EnumerationTest
     [Fact]
     public void FromValue_WhenNonexistentMemberValueIsProvided_ThrowsException()
     {
-        static Size action() => Size.FromValue<Size>(0);
+        static Size Action() => Size.FromValue<Size>(0);
 
-        var exception = Assert.Throws<ArgumentException>(action);
+        var exception = Assert.Throws<ArgumentException>(Action);
         Assert.Equal("'0' is not a valid name/value in Size enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromValue_WhenNonexistentPropertyValueIsProvided_ThrowsException()
     {
-        static MathConstant action() => MathConstant.FromValue<MathConstant>(2);
+        static MathConstant Action() => MathConstant.FromValue<MathConstant>(2);
 
-        var exception = Assert.Throws<ArgumentException>(action);
+        var exception = Assert.Throws<ArgumentException>(Action);
         Assert.Equal("'2' is not a valid name/value in MathConstant enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromName_WhenNullNameIsProvided_ThrowsException()
     {
-        static Size action() => Size.FromName<Size>(null!);
+        static Size Action() => Size.FromName<Size>(null!);
 
-        var exception = Assert.Throws<ArgumentNullException>(action);
+        var exception = Assert.Throws<ArgumentNullException>(Action);
         Assert.Equal("Value cannot be null. (Parameter 'name')", exception.Message);
     }
 
@@ -193,18 +193,18 @@ public class EnumerationTest
     [Fact]
     public void FromName_WhenNonexistentMemberNameIsProvided_ThrowsException()
     {
-        static Size action() => Size.FromName<Size>("ExtraSmall");
+        static Size Action() => Size.FromName<Size>("ExtraSmall");
 
-        var exception = Assert.Throws<ArgumentException>(action);
+        var exception = Assert.Throws<ArgumentException>(Action);
         Assert.Equal("'ExtraSmall' is not a valid name/value in Size enumeration.", exception.Message);
     }
 
     [Fact]
     public void FromName_WhenNonexistentPropertyNameIsProvided_ThrowsException()
     {
-        static MathConstant action() => MathConstant.FromName<MathConstant>("i");
+        static MathConstant Action() => MathConstant.FromName<MathConstant>("i");
 
-        var exception = Assert.Throws<ArgumentException>(action);
+        var exception = Assert.Throws<ArgumentException>(Action);
         Assert.Equal("'i' is not a valid name/value in MathConstant enumeration.", exception.Message);
     }
 }

@@ -88,9 +88,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenOriginalTitleIsNull_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithOriginalTitle(originalTitle: null).Build();
+        static Book Action() => new BookBuilder().WithOriginalTitle(originalTitle: null).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("OriginalTitle", "OriginalTitle must be specified.") }, exception.Errors);
     }
@@ -98,9 +98,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenOriginalLanguageIsNull_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithOriginalLanguage(originalLanguage: null).Build();
+        static Book Action() => new BookBuilder().WithOriginalLanguage(originalLanguage: null).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("OriginalLanguage", "OriginalLanguage must be specified.") }, exception.Errors);
     }
@@ -108,9 +108,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenAuthorIdIsNull_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithAuthorId(authorId: null).Build();
+        static Book Action() => new BookBuilder().WithAuthorId(authorId: null).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("AuthorId", "AuthorId must be specified.") }, exception.Errors);
     }
@@ -118,9 +118,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenEditionIsNull_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithEdition(edition: null).Build();
+        static Book Action() => new BookBuilder().WithEdition(edition: null).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Editions", "At least one Edition must be specified.") }, exception.Errors);
     }
@@ -128,9 +128,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenGenreIsNull_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithGenres(genres: null).Build();
+        static Book Action() => new BookBuilder().WithGenres(genres: null).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Genres", "At least one Genre must be specified.") }, exception.Errors);
     }
@@ -138,9 +138,9 @@ public class BookTests
     [Fact]
     public void Constructor_WhenAtLeastOneGenreIsNotProvided_ThrowsException()
     {
-        static Book action() => new BookBuilder().WithGenres(genres: Array.Empty<Genre>()).Build();
+        static Book Action() => new BookBuilder().WithGenres(genres: Array.Empty<Genre>()).Build();
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Book with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Genres", "At least one Genre must be specified.") }, exception.Errors);
     }
@@ -148,7 +148,7 @@ public class BookTests
     [Fact]
     public void Constructor_WhenWhenMultipleSameGenresAreProvided_CreatesInstanceWithUniqueGenres()
     {
-        var book = new BookBuilder().WithGenres(genres: new[] { Genre.Fantasy, Genre.Fantasy }).Build();
+        var book = new BookBuilder().WithGenres(genres: [Genre.Fantasy, Genre.Fantasy]).Build();
 
         Assert.NotNull(book);
         Assert.Equal(BookDefaults.Id, book.Id);

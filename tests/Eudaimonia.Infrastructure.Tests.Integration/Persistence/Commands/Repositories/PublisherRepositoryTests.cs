@@ -4,14 +4,9 @@ using Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Builders;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Repositories;
 
-public class PublisherRepositoryTests : CommandDbTestsBase
+public class PublisherRepositoryTests(CommandDbFixture fixture) : CommandDbTestsBase(fixture)
 {
     private PublisherRepository Sut => new(DbContext);
-
-    public PublisherRepositoryTests(CommandDbFixture fixture)
-        : base(fixture)
-    {
-    }
 
     [Fact]
     public async Task AddPublisherAsync_ShouldAddPublisher()

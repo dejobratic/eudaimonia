@@ -27,9 +27,9 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenBookIdIsNull_ThrowsException()
     {
-        static Review action() => new(Id, null!, ReviewerId, Rating, Comment, CreatedAt);
+        static Review Action() => new(Id, null!, ReviewerId, Rating, Comment, CreatedAt);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("BookId", "BookId must be specified.") }, exception.Errors);
     }
@@ -37,9 +37,9 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenReviewerIdIsNull_ThrowsException()
     {
-        static Review action() => new(Id, BookId, null!, Rating, Comment, CreatedAt);
+        static Review Action() => new(Id, BookId, null!, Rating, Comment, CreatedAt);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("ReviewerId", "ReviewerId must be specified.") }, exception.Errors);
     }
@@ -47,9 +47,9 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenRatingIsNull_ThrowsException()
     {
-        static Review action() => new(Id, BookId, ReviewerId, null!, Comment, CreatedAt);
+        static Review Action() => new(Id, BookId, ReviewerId, null!, Comment, CreatedAt);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Rating", "Rating must be specified.") }, exception.Errors);
     }
@@ -57,9 +57,9 @@ public class ReviewTests
     [Fact]
     public void Constructor_WhenCreatedAtIsDefault_ThrowsException()
     {
-        static Review action() => new(Id, BookId, ReviewerId, Rating, Comment, default);
+        static Review Action() => new(Id, BookId, ReviewerId, Rating, Comment, default);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Review with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("CreatedAt", "CreatedAt must be specified.") }, exception.Errors);
     }

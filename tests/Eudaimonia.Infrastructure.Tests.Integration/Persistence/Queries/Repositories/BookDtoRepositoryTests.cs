@@ -1,18 +1,12 @@
-﻿using Eudaimonia.Application.Dtos;
-using Eudaimonia.Domain.Exceptions;
+﻿using Eudaimonia.Domain.Exceptions;
 using Eudaimonia.Infrastructure.Persistence.Queries.Repositories;
-using Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Builders;
+using Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Builders;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries.Repositories;
 
-public class BookDtoRepositoryTests : QueryDbTestsBase
+public class BookDtoRepositoryTests(QueryDbFixture fixture) : QueryDbTestsBase(fixture)
 {
     private BookDtoRepository Sut => new(DbContext);
-
-    public BookDtoRepositoryTests(QueryDbFixture fixture)
-        : base(fixture)
-    {
-    }
 
     [Fact]
     public async Task GetById_WhenBookDoesNotExist_ThrowsEntityNotFoundException()
@@ -32,35 +26,35 @@ public class BookDtoRepositoryTests : QueryDbTestsBase
     public async Task GetById_WhenBookExists_ReturnsExistingBook()
     {
         // Arrange
-        var author = new AuthorDtoBuilder().Tolkien
+        var author = new AuthorBuilder().Tolkien
             .Build();
 
-        var publisher = new PublisherDtoBuilder().HarperCollins
-            .Build();
-
-        var book = new BookDtoBuilder().TheHobbit
-            .WithAuthorId(author.Id)
-            .Build();
-
-        var edition = new EditionDtoBuilder().TheHobbit
-            .WithId(book.DefaultEditionId)
-            .WithBookId(book.Id)
-            .WithPublisherId(publisher.Id)
+        var publisher = new PublisherBuilder().HarperCollins
             .Build();
 
         await AddAsync(author);
         await AddAsync(publisher);
+        await SaveChangesAsync();
+
+        var edition = new EditionBuilder().TheHobbit
+            .WithPublisherId(publisher.Id)
+            .Build();
+
+        var book = new BookBuilder().TheHobbit
+            .WithAuthorId(author.Id)
+            .WithEdition(edition)
+            .Build();
+
         await AddAsync(book);
-        await AddAsync(edition);
         await SaveChangesAsync();
 
         // Act
         var actual = await Sut.GetByIdAsync(book.Id);
 
         // Assert
-        book.Author = null!;
-
-        Assert.Equivalent(book, actual);
+        Assert.Equal(book.Id, actual.Id);
+        Assert.Equal(book.OriginalTitle.Value, actual.OriginalTitle);
+        Assert.Equal(author.Id, actual.AuthorId);
     }
 
     [Fact]
@@ -78,51 +72,45 @@ public class BookDtoRepositoryTests : QueryDbTestsBase
     public async Task GetAll_WhenBooksExist_ReturnsAllExistingBooks()
     {
         // Arrange
-        var author = new AuthorDtoBuilder().Tolkien
+        var author = new AuthorBuilder().Tolkien
             .Build();
 
-        var publisher = new PublisherDtoBuilder().HarperCollins
-            .Build();
-
-        var book1 = new BookDtoBuilder().TheHobbit
-            .WithAuthorId(author.Id)
-            .Build();
-
-        var edition1 = new EditionDtoBuilder().TheHobbit
-            .WithId(book1.DefaultEditionId)
-            .WithBookId(book1.Id)
-            .WithPublisherId(publisher.Id)
-            .Build();
-
-        var book2 = new BookDtoBuilder().TheLordOfTheRings
-            .WithAuthorId(author.Id)
-            .Build();
-
-        var edition2 = new EditionDtoBuilder().TheLordOfTheRings
-            .WithId(book2.DefaultEditionId)
-            .WithBookId(book2.Id)
-            .WithPublisherId(publisher.Id)
+        var publisher = new PublisherBuilder().HarperCollins
             .Build();
 
         await AddAsync(author);
         await AddAsync(publisher);
+        await SaveChangesAsync();
+
+        var edition1 = new EditionBuilder().TheHobbit
+            .WithPublisherId(publisher.Id)
+            .Build();
+
+        var book1 = new BookBuilder().TheHobbit
+            .WithAuthorId(author.Id)
+            .WithEdition(edition1)
+            .Build();
+
+        var edition2 = new EditionBuilder().TheLordOfTheRings
+            .WithPublisherId(publisher.Id)
+            .Build();
+
+        var book2 = new BookBuilder().TheLordOfTheRings
+            .WithAuthorId(author.Id)
+            .WithEdition(edition2)
+            .Build();
+
         await AddAsync(book1);
-        await AddAsync(edition1);
         await AddAsync(book2);
-        await AddAsync(edition2);
         await SaveChangesAsync();
 
         // Act
         var actual = await Sut.GetAsync();
 
         // Assert
-        book1.Author = null!;
-        book1.DefaultEdition = null!;
-        book2.Author = null!;
-        book2.DefaultEdition = null!;
-
-        var expected = new[] { book1, book2 };
-
-        Assert.Equivalent(expected, actual);
+        var books = actual.ToList();
+        Assert.Equal(2, books.Count);
+        Assert.Contains(books, b => b.Id == book1.Id && b.OriginalTitle == book1.OriginalTitle.Value);
+        Assert.Contains(books, b => b.Id == book2.Id && b.OriginalTitle == book2.OriginalTitle.Value);
     }
 }

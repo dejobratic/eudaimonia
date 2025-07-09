@@ -4,14 +4,9 @@ using Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Builders;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands.Repositories;
 
-public class BookRepositoryTests : CommandDbTestsBase
+public class BookRepositoryTests(CommandDbFixture fixture) : CommandDbTestsBase(fixture)
 {
     private BookRepository Sut => new(DbContext);
-
-    public BookRepositoryTests(CommandDbFixture fixture)
-        : base(fixture)
-    {
-    }
 
     [Fact]
     public async Task AddBookAsync_ShouldAddBook()

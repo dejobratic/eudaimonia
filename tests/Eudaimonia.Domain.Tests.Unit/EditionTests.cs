@@ -30,9 +30,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenTitleIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, null!, Description, Language, Specs, PublisherId, PublicationYear);
+        static Edition Action() => new(Id, null!, Description, Language, Specs, PublisherId, PublicationYear);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Title", "Title must be specified.") }, exception.Errors);
     }
@@ -40,9 +40,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenDescriptionIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, Title, null!, Language, Specs, PublisherId, PublicationYear);
+        static Edition Action() => new(Id, Title, null!, Language, Specs, PublisherId, PublicationYear);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Description", "Description must be specified.") }, exception.Errors);
     }
@@ -50,9 +50,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenLanguageIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, Title, Description, null!, Specs, PublisherId, PublicationYear);
+        static Edition Action() => new(Id, Title, Description, null!, Specs, PublisherId, PublicationYear);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Language", "Language must be specified.") }, exception.Errors);
     }
@@ -60,9 +60,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenSpecsIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, Title, Description, Language, null!, PublisherId, PublicationYear);
+        static Edition Action() => new(Id, Title, Description, Language, null!, PublisherId, PublicationYear);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Specs", "Specs must be specified.") }, exception.Errors);
     }
@@ -70,9 +70,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenPublisherIdIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, Title, Description, Language, Specs, null!, PublicationYear);
+        static Edition Action() => new(Id, Title, Description, Language, Specs, null!, PublicationYear);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("PublisherId", "PublisherId must be specified.") }, exception.Errors);
     }
@@ -80,9 +80,9 @@ public class EditionTests
     [Fact]
     public void Constructor_WhenPublicationYearIsNull_ThrowsException()
     {
-        static Edition action() => new(Id, Title, Description, Language, Specs, PublisherId, null!);
+        static Edition Action() => new(Id, Title, Description, Language, Specs, PublisherId, null!);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Edition with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("PublicationYear", "PublicationYear must be specified.") }, exception.Errors);
     }

@@ -4,30 +4,24 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
 {
     public class EntityTests
     {
-        private class Entity : Entity<int>
+        private class Entity(int key) : Entity<int>(key)
         {
-            public string Property { get; }
-
-            public Entity(int key, string property) : base(key)
-            {
-                Property = property;
-            }
         }
 
         [Fact]
         public void Constructor_WithDefaultValueId_ThrowsException()
         {
-            static Entity action() => new(0, "a");
+            static Entity Action() => new(0);
 
-            var exception = Assert.Throws<ArgumentException>(action);
+            var exception = Assert.Throws<ArgumentException>(Action);
             Assert.Equal("A default value cannot be used as Entity Id. (Parameter 'id')", exception.Message);
         }
 
         [Fact]
         public void Equality_WhenEntitiesHaveSameKeys_AreEqual()
         {
-            var a = new Entity(1, "a");
-            var b = new Entity(1, "b");
+            var a = new Entity(1);
+            var b = new Entity(1);
 
             AssertAreEqual(a, b);
         }
@@ -35,8 +29,8 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
         [Fact]
         public void Equality_WhenEntitiesHaveDifferentKeys_AreNotEqual()
         {
-            var a = new Entity(1, "a");
-            var b = new Entity(2, "a");
+            var a = new Entity(1);
+            var b = new Entity(2);
 
             AssertAreNotEqual(a, b);
         }
@@ -53,7 +47,7 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
         [Fact]
         public void Equality_WhenEntityIsNull_AreNotEqual()
         {
-            var a = new Entity(1, "a");
+            var a = new Entity(1);
 
             AssertAreNotEqual(a, null);
         }
@@ -61,8 +55,8 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
         [Fact]
         public void GetHashCode_WhenEntitiesHaveSameHashCode_AreEqual()
         {
-            var a = new Entity(1, "a");
-            var b = new Entity(1, "b");
+            var a = new Entity(1);
+            var b = new Entity(1);
 
             Assert.Equal(a.GetHashCode(), b.GetHashCode());
         }
@@ -70,8 +64,8 @@ namespace Eudaimonia.Domain.Tests.Unit.Kernel
         [Fact]
         public void GetHashCode_WhenEntitiesHaveDifferentHashCode_AreNotEqual()
         {
-            var a = new Entity(1, "a");
-            var b = new Entity(2, "a");
+            var a = new Entity(1);
+            var b = new Entity(2);
 
             Assert.NotEqual(a.GetHashCode(), b.GetHashCode());
         }

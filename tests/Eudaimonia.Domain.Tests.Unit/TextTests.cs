@@ -20,9 +20,9 @@ public class TextTests
     [InlineData("")]
     public void Constructor_WhenProvidedInvalidValue_ThrowsException(string? value)
     {
-        Text action() => new(value!);
+        Text Action() => new(value!);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Text with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Value", "Value cannot be null or empty.") }, exception.Errors);
     }

@@ -72,10 +72,10 @@ public class QueryDispatcherTests
         var query = new TestQuery3();
 
         // Act
-        Task<string> action() => _sut.DispatchAsync<string>(query);
+        Task<string> Action() => _sut.DispatchAsync<string>(query);
 
         // Assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(action);
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(Action);
         Assert.Equal($"No query handler found for query type TestQuery3.", exception.Message);
     }
 }

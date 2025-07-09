@@ -24,9 +24,9 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenComenterIdIsNull_ThrowsException()
     {
-        static Comment action() => new(Id, null!, Text, CreatedAt);
+        static Comment Action() => new(Id, null!, Text, CreatedAt);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("CommenterId", "CommenterId must be specified.") }, exception.Errors);
     }
@@ -34,9 +34,9 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenTextIsNull_ThrowsException()
     {
-        static Comment action() => new(Id, CommenterId, null!, CreatedAt);
+        static Comment Action() => new(Id, CommenterId, null!, CreatedAt);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Text", "Text must be specified.") }, exception.Errors);
     }
@@ -44,9 +44,9 @@ public class CommentTests
     [Fact]
     public void Constructor_WhenCreatedAtIsDefault_ThrowsException()
     {
-        static Comment action() => new(Id, CommenterId, Text, default);
+        static Comment Action() => new(Id, CommenterId, Text, default);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Comment with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("CreatedAt", "CreatedAt must be specified.") }, exception.Errors);
     }

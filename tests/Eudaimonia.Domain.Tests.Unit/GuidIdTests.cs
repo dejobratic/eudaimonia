@@ -44,9 +44,9 @@ public class GuidIdTests
     [Fact]
     public void Constuctor_WhenProvidingInvalidStringGuidValue_ThrowsException()
     {
-        static EntityId action() => new("invalid");
+        static EntityId Action() => new("invalid");
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for EntityId with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Value", "Value must be a valid non-empty Guid or Guid string.") }, exception.Errors);
     }
@@ -73,9 +73,9 @@ public class GuidIdTests
     [Fact]
     public void Constuctor_WhenProvidingEmptyGuidValue_ThrowsException()
     {
-        static EntityId action() => new("00000000-0000-0000-0000-000000000000");
+        static EntityId Action() => new("00000000-0000-0000-0000-000000000000");
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for EntityId with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("Value", "Value must be a valid non-empty Guid or Guid string.") }, exception.Errors);
     }

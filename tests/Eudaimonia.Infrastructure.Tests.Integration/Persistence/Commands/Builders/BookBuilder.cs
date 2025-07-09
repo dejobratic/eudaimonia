@@ -9,19 +9,19 @@ public class BookBuilder
     private Language _originalLanguage = new("en");
     private AuthorId _authorId = new();
     private Edition _edition = new EditionBuilder().TheHobbit.Build();
-    private IEnumerable<Genre> _genres = new[] { Genre.Fantasy, Genre.Adventure };
+    private IEnumerable<Genre> _genres = [Genre.Fantasy, Genre.Adventure];
 
     public BookBuilder TheHobbit
         => WithOriginalTitle("The Hobbit")
             .WithOriginalLanguage("en")
             .WithEdition(new EditionBuilder().TheHobbit.Build())
-            .WithGenres(new[] { Genre.Fantasy, Genre.Adventure });
+            .WithGenres([Genre.Fantasy, Genre.Adventure]);
 
     public BookBuilder TheLordOfTheRings
         => WithOriginalTitle("The Lord of the Rings")
             .WithOriginalLanguage("en")
             .WithEdition(new EditionBuilder().TheLordOfTheRings.Build())
-            .WithGenres(new[] { Genre.Fantasy, Genre.Adventure });
+            .WithGenres([Genre.Fantasy, Genre.Adventure]);
 
     public BookBuilder WithId(BookId id)
     {

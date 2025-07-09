@@ -6,34 +6,34 @@ public class ReviewSummaryTests
 {
     private static class ReviewSummaryDefaults
     {
-        public static readonly uint ReviewCount = 66_616;
-        public static readonly uint RatingCount = 3_771_251;
-        public static readonly uint FiveStarRatingCount = 2_017_972;
-        public static readonly uint FourStarRatingCount = 1_092_338;
-        public static readonly uint ThreeStarRatingCount = 456_857;
-        public static readonly uint TwoStarRatingCount = 123_410;
-        public static readonly uint OneStarRatingCount = 80_674;
+        public const uint ReviewCount = 66_616;
+        public const uint RatingCount = 3_771_251;
+        public const uint FiveStarRatingCount = 2_017_972;
+        public const uint FourStarRatingCount = 1_092_338;
+        public const uint ThreeStarRatingCount = 456_857;
+        public const uint TwoStarRatingCount = 123_410;
+        public const uint OneStarRatingCount = 80_674;
     }
 
     private class ReviewSummaryBuilder
     {
-        private readonly uint _reviewCount = ReviewSummaryDefaults.ReviewCount;
-        private readonly uint _ratingCount = ReviewSummaryDefaults.RatingCount;
-        private readonly uint _fiveStarRatingCount = ReviewSummaryDefaults.FiveStarRatingCount;
-        private readonly uint _fourStarRatingCount = ReviewSummaryDefaults.FourStarRatingCount;
-        private readonly uint _threeStarRatingCount = ReviewSummaryDefaults.ThreeStarRatingCount;
-        private readonly uint _twoStarRatingCount = ReviewSummaryDefaults.TwoStarRatingCount;
-        private readonly uint _oneStarRatingCount = ReviewSummaryDefaults.OneStarRatingCount;
+        private const uint ReviewCount = ReviewSummaryDefaults.ReviewCount;
+        private const uint RatingCount = ReviewSummaryDefaults.RatingCount;
+        private const uint FiveStarRatingCount = ReviewSummaryDefaults.FiveStarRatingCount;
+        private const uint FourStarRatingCount = ReviewSummaryDefaults.FourStarRatingCount;
+        private const uint ThreeStarRatingCount = ReviewSummaryDefaults.ThreeStarRatingCount;
+        private const uint TwoStarRatingCount = ReviewSummaryDefaults.TwoStarRatingCount;
+        private const uint OneStarRatingCount = ReviewSummaryDefaults.OneStarRatingCount;
 
         public ReviewSummary Build()
             => new(
-            _reviewCount,
-            _ratingCount,
-            _fiveStarRatingCount,
-            _fourStarRatingCount,
-            _threeStarRatingCount,
-            _twoStarRatingCount,
-            _oneStarRatingCount);
+            ReviewCount,
+            RatingCount,
+            FiveStarRatingCount,
+            FourStarRatingCount,
+            ThreeStarRatingCount,
+            TwoStarRatingCount,
+            OneStarRatingCount);
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class ReviewSummaryTests
         uint twoStarRatingCount,
         uint oneStarRatingCount)
     {
-        ReviewSummary action() => new(
+        ReviewSummary Action() => new(
             reviewCount,
             ratingCount,
             fiveStarRatingCount,
@@ -93,7 +93,7 @@ public class ReviewSummaryTests
             twoStarRatingCount,
             oneStarRatingCount);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for ReviewSummary with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("RatingCount", "RatingCount must be the same as the sum of star ratings.") }, exception.Errors);
     }

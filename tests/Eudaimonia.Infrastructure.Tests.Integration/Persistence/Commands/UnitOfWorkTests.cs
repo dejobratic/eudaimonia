@@ -3,14 +3,9 @@ using Eudaimonia.Infrastructure.Persistence.Commands;
 
 namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Commands;
 
-public class UnitOfWorkTests : CommandDbTestsBase
+public class UnitOfWorkTests(CommandDbFixture fixture) : CommandDbTestsBase(fixture)
 {
     private UnitOfWork Sut => new(DbContext);
-
-    public UnitOfWorkTests(CommandDbFixture fixture)
-        : base(fixture)
-    {
-    }
 
     [Fact]
     public async Task CommitAsync_ShouldCommitChanges()

@@ -39,9 +39,9 @@ public class ValidatableTests
     [Fact]
     public void Constructor_WhenValidatableEntityIsInvalid_Throws()
     {
-        static ValidatableEntity action() => new(-1, null!);
+        static ValidatableEntity Action() => new(-1, null!);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for ValidatableEntity with 2 error(s).", exception.Message);
         Assert.Equivalent(new[]
         {

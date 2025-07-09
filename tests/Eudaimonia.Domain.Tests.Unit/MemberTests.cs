@@ -22,9 +22,9 @@ public class MemberTests
     [Fact]
     public void Constructor_WhenFullNameIsNull_ThrowsException()
     {
-        static Member action() => new(Id, null!, Bio);
+        static Member Action() => new(Id, null!, Bio);
 
-        var exception = Assert.Throws<ValidationException>(action);
+        var exception = Assert.Throws<ValidationException>(Action);
         Assert.Equal("Validation failed for Member with 1 error(s).", exception.Message);
         Assert.Equivalent(new[] { new ValidationError("FullName", "FullName must be specified.") }, exception.Errors);
     }
