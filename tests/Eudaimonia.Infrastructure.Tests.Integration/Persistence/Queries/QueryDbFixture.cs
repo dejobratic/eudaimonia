@@ -6,6 +6,9 @@ namespace Eudaimonia.Infrastructure.Tests.Integration.Persistence.Queries;
 
 public class QueryDbFixture : DbFixture<QueryDbContext>
 {
+    private CommandDbContext? _commandDbContext;
+    public CommandDbContext CommandDbContext => _commandDbContext ??= CreateCommandDbContext();
+
     protected override QueryDbContext CreateDbContext()
     {
         MigrateDatabase();
@@ -17,15 +20,28 @@ public class QueryDbFixture : DbFixture<QueryDbContext>
         var options = new DbContextOptionsBuilder<QueryDbContext>()
             .Options;
 
-        return new QueryDbContext(options, _configuration);
+        return new QueryDbContext(options, Configuration);
     }
 
-    private void MigrateDatabase()
+    private CommandDbContext CreateCommandDbContext()
     {
         var options = new DbContextOptionsBuilder<CommandDbContext>()
             .Options;
 
-        using var dbContext =  new CommandDbContext(options, _configuration);
+        return new CommandDbContext(options, Configuration);
+    }
+
+    private void MigrateDatabase()
+    {
+        using var dbContext = CreateCommandDbContext(); 
         dbContext.Database.Migrate();
+    }
+
+    public override async Task DisposeAsync()
+    {
+        if (_commandDbContext != null)
+            await _commandDbContext.DisposeAsync();
+        
+        await base.DisposeAsync();
     }
 }
